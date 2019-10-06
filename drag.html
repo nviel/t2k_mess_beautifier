@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Page Title</title>
+    <link rel="stylesheet" href="drag.css"/>
+</head>
+
+<body>
+<div id="drop-area">
+  <form class="my-form">
+    <p>Upload multiple files with the file dialog or by dragging and dropping images onto the dashed region</p>
+    <input type="file" id="fileElem" multiple accept="image/*" onchange="handleFiles(this.files)">
+    <label class="button" for="fileElem">Select some files</label>
+  </form>
+</div>
+
+<div id="content"></div>
+
+
+<script type="text/javascript">
+
+let dropArea = document.getElementById('drop-area');
+['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+  dropArea.addEventListener(eventName, preventDefaults, false)
+})
+
+function preventDefaults (e) {
+  e.preventDefault()
+  e.stopPropagation()
+}
+
+;['dragenter', 'dragover'].forEach(eventName => {
+  dropArea.addEventListener(eventName, highlight, false)
+})
+
+;['dragleave', 'drop'].forEach(eventName => {
+  dropArea.addEventListener(eventName, unhighlight, false)
+})
+
+function highlight(e) {
+  dropArea.classList.add('highlight')
+}
+
+function unhighlight(e) {
+  dropArea.classList.remove('highlight')
+}
+
+dropArea.addEventListener('drop', handleDrop, false)
+
+function handleDrop(e) {
+  let dt = e.dataTransfer
+  let files = dt.files
+
+  handleFiles(files)
+}
+
+function handleFiles(files) {
+  files = [...files]
+  files.forEach(afficheFile)
+}
+
+function afficheFile(file){
+  var reader = new FileReader();
+  reader.addEventListener('load', function(){afficheXml(reader.result)})
+  reader.readAsText(file);
+}
+
+function afficheXml(mess_xml_str){
+  parser = new DOMParser();
+  mess_xml = parser.parseFromString(mess_xml_str, "text/xml");
+  mess_node = mess_xml.firstChild;
+  mess_type = mess_node.nodeName;
+  if (mess_type == 'NCA_FAL1'){
+    mess_obj = xmlToJson(mess_node);
+    affiche_FAL1(mess_obj);
+  }
+
+}
+
+// Changes XML to JSON
+function xmlToJson(xml) {
+    
+  // Create the return object
+  var obj = {};
+
+  if (xml.nodeType == 1) { // element
+    // do attributes
+    if (xml.attributes.length > 0) {
+      for (var j = 0; j < xml.attributes.length; j++) {
+        var attribute = xml.attributes.item(j);
+        obj[attribute.nodeName] = attribute.nodeValue;
+      }
+    }
+  } else if (xml.nodeType == 3) { // text
+    obj = xml.nodeValue;
+  }
+
+  // do children
+  if (xml.hasChildNodes()) {
+    for(var i = 0; i < xml.childNodes.length; i++) {
+      var item = xml.childNodes.item(i);
+      var nodeName = item.nodeName;
+      if (typeof(obj[nodeName]) == "undefined") {
+        obj[nodeName] = xmlToJson(item);
+      } else {
+      if (typeof(obj[nodeName].push) == "undefined") {
+          var old = obj[nodeName];
+          obj[nodeName] = [];
+          obj[nodeName].push(old);
+      }
+      obj[nodeName].push(xmlToJson(item));
+      }
+    }
+  }
+  return obj;
+};
+
+// FIXME: isoler la génération du html seul.
+function affiche_FAL1(mess){
+    FAL1_e_str = `
+    <h2>FAL1</h2>
+    Numéro de message: ${mess.Header.LARefId}<br/>
+    Date d'envoi: ${mess.Header.SentAt}<br/>
+    Port émetteur: ${mess.Header.From}<br/><br/>
+    Nom du navire: ${mess.Body.FormInformation.ShipInformation.ShipName}(OMI:${mess.Body.VesselIdentification.IMONumber}) pavillon:${mess.Body.FormInformation.ShipInformation.FlagStateOfShip}<br/>
+    Port de l'escale: ${mess.Body.ShipCallInformation.PortOfCall}, Numéro d'escale: ${mess.Body.ShipCallInformation.ShipCallId}<br/>
+    Port de provenance: ${mess.Body.FormInformation.VoyageInformation.LastPort}  Port suivant: ${mess.Body.FormInformation.VoyageInformation.NextPort}<br/>
+    Date de départ prévu: ${mess.Body.FormInformation.VoyageInformation.ETDFromPortOfCall}<br/>
+    <br/>
+    Certificat d'enregistrement (port: ${mess.Body.FormInformation.CertificateOfRegistry.Locode})<br/>
+    Nom de l'agent: ${mess.Body.FormInformation.CertificateOfRegistry.ShippingContactDetails.NameOfAgent}<br/>
+    Télephone: ${mess.Body.FormInformation.CertificateOfRegistry.ShippingContactDetails.Phone}<br/>
+    Email: ${mess.Body.FormInformation.CertificateOfRegistry.ShippingContactDetails.Email}<br/>
+    <br/>
+    Tonnage brut: ${mess.Body.FormInformation.OtherInformations.GrossTonnage}<br/>
+    Tonnage net: ${mess.Body.FormInformation.OtherInformations.NetTonnage}<br/>
+    Position dans le port d'escale: ${mess.Body.FormInformation.OtherInformations.PositionInPortOfCall}<br/>
+    Nombre de membres d'équipage: ${mess.Body.FormInformation.OtherInformations.NumberOfCrew}<br/>
+    Nombre de passagers: ${mess.Body.FormInformation.OtherInformations.NumberOfPassengers}<br/>
+    `;
+
+    content_e = document.getElementById("content");
+    content_e.innerHTML = FAL1_e_str;
+}
+
+
+</script>
+</body>
+</html>

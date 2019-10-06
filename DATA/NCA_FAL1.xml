@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<NCA_FAL1>
+    <Header Version="5.2"
+           LARefId="YTLON201900000000000000000000077579"
+           SentAt="2019-10-01T11:14:16"
+           To="YTLONPAF"
+           From="YTLONPOR"/>
+    <Body>
+        <VesselIdentification IMONumber="9403384"/>
+        <ShipCallInformation ShipCallId="YTLON2019001022" PortOfCall="YTLON"/>
+        <FormInformation EntryOrExit="1">
+            <ShipInformation ShipName="KIARA" FlagStateOfShip="AG"/>
+            <VoyageInformation LastPort="ZZUKN"
+                            NextPort="MGMJN"
+                            ETDFromPortOfCall="2019-10-01T10:00:00"/>
+            <CertificateOfRegistry Locode="ZZUKN">
+                <ShippingContactDetails NameOfAgent="DAOUECHE"
+                                    Phone="+33269614078"
+                                    Email="ngl.service-operations@cma-cgm.com"/>
+            </CertificateOfRegistry>
+            <OtherInformations GrossTonnage="6479.000"
+                            NetTonnage="1.000"
+                            PositionInPortOfCall="QUAI N°2"
+                            NumberOfCrew="13"
+                            NumberOfPassengers="0"/>
+        </FormInformation>
+    </Body>
+</NCA_FAL1>
