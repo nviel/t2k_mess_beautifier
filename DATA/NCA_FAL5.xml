@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="ISO-8859-1" standalone="yes"?>
+<NCA_FAL5>
+    <Header Version="5.2" LARefId="FRCFR201900000000000000000000070501" SentAt="2019-09-20T12:34:29Z" To="TRA2K" From="FRCFRPOR" />
+    <Body>
+        <VesselIdentification IMONumber="9313709" />
+        <ShipCallInformation ShipCallId="FRCFR2019001581" PortOfCall="FRCFR" />
+        <FormInformation EntryOrExit="0">
+            <ShipInformation ShipName="WILSON AVILES" FlagStateOfShip="LU" />
+            <VoyageInformation LastPort="ESBCN" ETAToPortOfCall="2019-09-20T10:00:00Z" ATAToPortOfCall="2019-09-20T11:00:00Z" />
+            <CrewList>
+                <CrewMember LastName="VIEL" FirstName="Nicolas" DutyOfCrew="testeur" Nationality="FR" DateOfBirth="1977-07-31" PlaceOfBirth="Nantes" CountryOfBirth="FR" NatureOfIdentityDocument="Passport" NumberOfIdentityDocument="123456789" VisaOrResidencePermitNumber="visa truc bidule" />
+                <CrewMember LastName="VIEL" FirstName="Nicolas" DutyOfCrew="testeur" Nationality="FR" DateOfBirth="1977-07-31" PlaceOfBirth="Nantes" CountryOfBirth="FR" NatureOfIdentityDocument="Passport" NumberOfIdentityDocument="123456789" VisaOrResidencePermitNumber="visa truc bidule" />
+                <CrewMember LastName="VIEL" FirstName="Nicolas" DutyOfCrew="testeur" Nationality="FR" DateOfBirth="1977-07-31" PlaceOfBirth="Nantes" CountryOfBirth="FR" NatureOfIdentityDocument="Passport" NumberOfIdentityDocument="123456789" VisaOrResidencePermitNumber="visa truc bidule" />
+                <CrewMember LastName="VIEL" FirstName="Nicolas" DutyOfCrew="testeur" Nationality="FR" DateOfBirth="1977-07-31" PlaceOfBirth="Nantes" CountryOfBirth="FR" NatureOfIdentityDocument="Passport" NumberOfIdentityDocument="123456789" VisaOrResidencePermitNumber="visa truc bidule" />
+                <CrewMember LastName="VIEL" FirstName="Nicolas" DutyOfCrew="testeur" Nationality="FR" DateOfBirth="1977-07-31" PlaceOfBirth="Nantes" CountryOfBirth="FR" NatureOfIdentityDocument="Passport" NumberOfIdentityDocument="123456789" VisaOrResidencePermitNumber="visa truc bidule" />
+            </CrewList>
+        </FormInformation>
+    </Body>
+</NCA_FAL5>

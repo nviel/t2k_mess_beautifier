@@ -2,20 +2,21 @@
 <html>
 <head>
     <meta charset="utf-8" />
-    <title>Page Title</title>
+    <title>T2k Message beautyfier</title>
     <link rel="stylesheet" href="drag.css"/>
 </head>
 
-<body>
+<body >
 <div id="drop-area">
   <form class="my-form">
-    <p>Upload multiple files with the file dialog or by dragging and dropping images onto the dashed region</p>
-    <input type="file" id="fileElem" multiple accept="image/*" onchange="handleFiles(this.files)">
-    <label class="button" for="fileElem">Select some files</label>
+    <input type="file" id="fileElem" multiple accept="text/xml" onchange="handleFiles(this.files)">
+    <p><label class="button" for="fileElem">Sélectionnez un fichier</label>
+    Afficher un fichier en le sélectionnant avec le navigateur de fichier ou en le glissant dans la page.</p>
   </form>
+  <div id="content"></div>
 </div>
 
-<div id="content"></div>
+
 
 
 <script type="text/javascript">
@@ -71,9 +72,13 @@ function afficheXml(mess_xml_str){
   mess_xml = parser.parseFromString(mess_xml_str, "text/xml");
   mess_node = mess_xml.firstChild;
   mess_type = mess_node.nodeName;
+  mess_obj = xmlToJson(mess_node);
   if (mess_type == 'NCA_FAL1'){
-    mess_obj = xmlToJson(mess_node);
     affiche_FAL1(mess_obj);
+  }else if (mess_type == 'NCA_FAL5'){
+    affiche_FAL5(mess_obj);
+  }else if (mess_type == 'NCA_FAL6'){
+    affiche_FAL6(mess_obj);
   }
 
 }
@@ -116,32 +121,268 @@ function xmlToJson(xml) {
   return obj;
 };
 
-// FIXME: isoler la génération du html seul.
-function affiche_FAL1(mess){
-    FAL1_e_str = `
-    <h2>FAL1</h2>
+function prepare_mess(mess, form){
+  // améliore le contenu du message pour une meilleur lisibilité (ex: locode -> nom port)
+  if (mess.Body.FormInformation.entryOrExit=="0"){
+    mess.Body.FormInformation.entryOrExit="arrival"
+  }else{
+    mess.Body.FormInformation.entryOrExit="departure"
+  }
+  return mess;
+}
+
+function get_view_FAL1(mess){
+  //retourne le code HTML à afficher
+    return `
+    <div class="tooltip">
+    <h2>IMO FAL Form 1 (general declaration)</h2>
+    <span class="tooltiptext">
+      Numéro de message: ${mess.Header.LARefId}<br/>
+      Date d'envoi: ${mess.Header.SentAt}<br/>
+      Port émetteur: ${mess.Header.From}
+    </span>
+    </div><br/>
+    <h3>${mess.Body.FormInformation.entryOrExit}</h3>
+    <table>
+    <tr>
+      <td colspan="2">
+        1.1 Name and type of ship<br/>
+        <b>${mess.Body.FormInformation.ShipInformation.ShipName}</b>
+      </td>
+      <td>
+        1.2 IMO number<br/>
+        <b>${mess.Body.VesselIdentification.IMONumber}</b>
+      </td>
+    </tr>
+    <tr>
+      <td colspan="2">
+        1.3 Callsign<br/>
+        <b>${mess.Body.FormInformation.ShipInformation.CallSign||' '}</b>
+      </td>
+      <td>
+        1.4 Voyage number<br/>
+        <b>${mess.Body.FormInformation.VoyageNumber||" "}</b>
+      </td>
+    </tr>
+    <tr>
+      <td colspan="2">
+        2. Port of ${mess.Body.FormInformation.entryOrExit}<br/>
+        <b>${mess.Body.ShipCallInformation.PortOfCall}</b>
+      </td>
+      <td>
+        3. Date and time of ${mess.Body.FormInformation.entryOrExit}<br/>
+        <b>${mess.Body.FormInformation.VoyageInformation.ETDFromPortOfCall||''}${mess.Body.FormInformation.VoyageInformation.ETAFromPortOfCall||''}</b>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        4. Flag State of ship<br/>
+        <b>${mess.Body.FormInformation.ShipInformation.FlagStateOfShip||' '}</b>
+      </td>
+      <td>
+        5. Name of master<br/>
+        <b>${mess.Body.FormInformation.ShipInformation.NameOfMaster||" "}</b>
+      </td>
+      <td>
+        6. Last/Next port of call<br/>
+        <b>${mess.Body.FormInformation.VoyageInformation.LastPort||" "} / ${mess.Body.FormInformation.VoyageInformation.NextPort||" "}</b>
+      </td>
+    </tr>
+    <tr>
+      <td colspan="2">
+        7. Certificate of registry (Port; date; number)<br/>
+        <b>${mess.Body.FormInformation.CertificateOfRegistry.Locode||''};
+        ${mess.Body.FormInformation.CertificateOfRegistry.LocationName||''};
+        ${mess.Body.FormInformation.CertificateOfRegistry.Date||''};
+        ${mess.Body.FormInformation.CertificateOfRegistry.Number||''}</b>
+      </td>
+      <td rowspan="3">
+        8. Name and contact details of ship’s agent<br/>
+        Name: <b>${mess.Body.FormInformation.CertificateOfRegistry.ShippingContactDetails.NameOfAgent||''}</b><br/>
+        Phone: <b>${mess.Body.FormInformation.CertificateOfRegistry.ShippingContactDetails.Phone||''}</b><br/>
+        Fax: <b>${mess.Body.FormInformation.CertificateOfRegistry.ShippingContactDetails.Fax||''}</b><br/>
+        Email: <b>${mess.Body.FormInformation.CertificateOfRegistry.ShippingContactDetails.Email||''}</b><br/>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        9. Gross tonnage<br/>
+        <b>${mess.Body.FormInformation.OtherInformations.GrossTonnage||' '}</b>
+      </td>
+      <td>
+        10. Net tonnage<br/>
+        <b>${mess.Body.FormInformation.OtherInformations.NetTonnage||" "}</b>
+      </td>
+    </tr>
+    <tr>
+      <td colspan="2">
+        11. Position of the ship in the port (berth or station)<br/>
+        <b>${mess.Body.FormInformation.OtherInformations.PositionInPortOfCall||' '}</b>
+      </td>
+    </tr>
+    <tr>
+      <td colspan="3">
+        12.  Brief particulars of voyage (previous and subsequent ports of call; underline where remaining cargo will be discharged)<br/>
+        <b>${mess.Body.FormInformation.OtherInformations.BriefParticularsOfVoyage||' '}</b>
+      </td>
+    </tr>
+    <tr>
+      <td colspan="3">
+        13.  Brief description of the cargo<br/>
+        <b>${mess.Body.FormInformation.OtherInformations.BriefDescriptionOfOnBoardCargo||' '}</b>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        14.  Number of crew <br/>
+        <b>${mess.Body.FormInformation.OtherInformations.NumberOfCrew||' '}</b>
+      </td>
+      <td>
+        15.  Number of passengers<br/>
+        <b>${mess.Body.FormInformation.OtherInformations.NumberOfPassengers||' '}</b>
+      </td>
+    </tr>
+    </table>
+    Numéro d'escale: ${mess.Body.ShipCallInformation.ShipCallId}<br/>
+    `;
+}
+function get_view_FAL5(mess){
+  //retourne le code HTML à afficher
+    let crew_rows = '';
+    for (let i=0; i < mess.Body.FormInformation.CrewList.CrewMember.length; i++){
+      let member = mess.Body.FormInformation.CrewList.CrewMember[i];
+      crew_rows += `
+      <tr>
+      <td>${member.LastName}</td>
+      <td>${member.FirstName}</td>
+      <td>${member.DutyOfCrew}</td>
+      <td>${member.Nationality}</td>
+      <td>${member.DateOfBirth}</td>
+      <td>${member.PlaceOfBirth}</td>
+      <td>${member.CountryOfBirth}</td>
+      <td>${member.NatureOfIdentityDocument}</td>
+      <td>${member.NumberOfIdentityDocument}</td>
+      <td>${member.VisaOrResidencePermitNumber}</td>
+      </tr>`
+    }
+
+    return `
+    <h2>IMO FAL Form 5 (Crew list)</h2>
     Numéro de message: ${mess.Header.LARefId}<br/>
     Date d'envoi: ${mess.Header.SentAt}<br/>
     Port émetteur: ${mess.Header.From}<br/><br/>
-    Nom du navire: ${mess.Body.FormInformation.ShipInformation.ShipName}(OMI:${mess.Body.VesselIdentification.IMONumber}) pavillon:${mess.Body.FormInformation.ShipInformation.FlagStateOfShip}<br/>
+    Nom du navire: ${mess.Body.FormInformation.ShipInformation.ShipName} (OMI:${mess.Body.VesselIdentification.IMONumber}) pavillon:${mess.Body.FormInformation.ShipInformation.FlagStateOfShip}<br/>
     Port de l'escale: ${mess.Body.ShipCallInformation.PortOfCall}, Numéro d'escale: ${mess.Body.ShipCallInformation.ShipCallId}<br/>
+    Mouvement de: ${mess.Body.FormInformation.entryOrExit}<br/>
     Port de provenance: ${mess.Body.FormInformation.VoyageInformation.LastPort}  Port suivant: ${mess.Body.FormInformation.VoyageInformation.NextPort}<br/>
-    Date de départ prévu: ${mess.Body.FormInformation.VoyageInformation.ETDFromPortOfCall}<br/>
+    Date d'arrivée prévue: ${mess.Body.FormInformation.VoyageInformation.ETAToPortOfCall}<br/>
+    Date d'arrivée réelle: ${mess.Body.FormInformation.VoyageInformation.ATAToPortOfCall}<br/>
+    Date de départ prévue: ${mess.Body.FormInformation.VoyageInformation.ETDFromPortOfCall}<br/>
+    Date de départ réelle: ${mess.Body.FormInformation.VoyageInformation.ATDFromPortOfCall}<br/>
     <br/>
-    Certificat d'enregistrement (port: ${mess.Body.FormInformation.CertificateOfRegistry.Locode})<br/>
-    Nom de l'agent: ${mess.Body.FormInformation.CertificateOfRegistry.ShippingContactDetails.NameOfAgent}<br/>
-    Télephone: ${mess.Body.FormInformation.CertificateOfRegistry.ShippingContactDetails.Phone}<br/>
-    Email: ${mess.Body.FormInformation.CertificateOfRegistry.ShippingContactDetails.Email}<br/>
-    <br/>
-    Tonnage brut: ${mess.Body.FormInformation.OtherInformations.GrossTonnage}<br/>
-    Tonnage net: ${mess.Body.FormInformation.OtherInformations.NetTonnage}<br/>
-    Position dans le port d'escale: ${mess.Body.FormInformation.OtherInformations.PositionInPortOfCall}<br/>
-    Nombre de membres d'équipage: ${mess.Body.FormInformation.OtherInformations.NumberOfCrew}<br/>
-    Nombre de passagers: ${mess.Body.FormInformation.OtherInformations.NumberOfPassengers}<br/>
+    <table class="CrewList">
+    <thead><tr>
+      <td>Nom</td>
+      <td>Prénom</td>
+      <td>Rôle</td>
+      <td>Nationalité</td>
+      <td>Date de naissance</td>
+      <td>Lieu de naissance</td>
+      <td>Pays de naissance</td>
+      <td>Nature de la pièce d'identité</td>
+      <td>N° de la pièce d'identité</td>
+      <td>N° de visa ou permis de résidence</td>
+    </tr></thead>
+    <tbody>
+      ${crew_rows}
+    </tbody>
+    </table>
     `;
+}
+function get_view_FAL6(mess){
+  //retourne le code HTML à afficher
+    let passenger_rows = '';
+    for (let i=0; i < mess.Body.FormInformation.PassengerList.Passenger.length; i++){
+      let passenger = mess.Body.FormInformation.PassengerList.Passenger[i];
+      passenger_rows += `
+      <tr>
+      <td>${passenger.LastName}</td>
+      <td>${passenger.FirstName}</td>
+      <td>${passenger.Nationality}</td>
+      <td>${passenger.DateOfBirth}</td>
+      <td>${passenger.PlaceOfBirth}</td>
+      <td>${passenger.CountryOfBirth}</td>
+      <td>${passenger.NatureOfIdentityDocument}</td>
+      <td>${passenger.NumberOfIdentityDocument}</td>
+      <td>${passenger.PortOfEmbarkation}</td>
+      <td>${passenger.PortOfDisembarkation}</td>
+      <td>${passenger.Transit}</td>
+      </tr>`
+    }
 
-    content_e = document.getElementById("content");
-    content_e.innerHTML = FAL1_e_str;
+    return `
+    <h2>IMO FAL Form 6 (PAX list)</h2>
+    Numéro de message: ${mess.Header.LARefId}<br/>
+    Date d'envoi: ${mess.Header.SentAt}<br/>
+    Port émetteur: ${mess.Header.From}<br/><br/>
+    Nom du navire: ${mess.Body.FormInformation.ShipInformation.ShipName} (OMI:${mess.Body.VesselIdentification.IMONumber}) pavillon:${mess.Body.FormInformation.ShipInformation.FlagStateOfShip}<br/>
+    Port de l'escale: ${mess.Body.ShipCallInformation.PortOfCall}, Numéro d'escale: ${mess.Body.ShipCallInformation.ShipCallId}<br/>
+    Mouvement de: ${mess.Body.FormInformation.entryOrExit}<br/>
+    Port de provenance: ${mess.Body.FormInformation.VoyageInformation.LastPort}  Port suivant: ${mess.Body.FormInformation.VoyageInformation.NextPort}<br/>
+    Date d'arrivée prévue: ${mess.Body.FormInformation.VoyageInformation.ETAToPortOfCall}<br/>
+    Date d'arrivée réelle: ${mess.Body.FormInformation.VoyageInformation.ATAToPortOfCall}<br/>
+    Date de départ prévue: ${mess.Body.FormInformation.VoyageInformation.ETDFromPortOfCall}<br/>
+    Date de départ réelle: ${mess.Body.FormInformation.VoyageInformation.ATDFromPortOfCall}<br/>
+    <br/>
+    <table class="PassengerList">
+    <thead><tr>
+      <td>Nom</td>
+      <td>Prénom</td>
+      <td>Nationalité</td>
+      <td>Date de naissance</td>
+      <td>Lieu de naissance</td>
+      <td>Pays de naissance</td>
+      <td>Nature de la pièce d'identité</td>
+      <td>N° de la pièce d'identité</td>
+      <td>Port d'embarquement</td>
+      <td>Port de débarquement</td>
+      <td>En transit</td>
+
+    </tr></thead>
+    <tbody>
+      ${passenger_rows}
+    </tbody>
+    </table>
+    `;
+}
+
+function get_view_FAL7(mess){
+  //retourne le code HTML à afficher
+    return `
+    <h2>FAL7</h2>
+    Pas encore implémenté! Si vous souhaitez, vous pouvez contribuer au projet sur <a href="https://github.com/nviel/t2k_mess_beautifier">GitHub<a>
+    `;
+}
+
+function affiche_FAL1(mess){
+  mess = prepare_mess(mess, 'FAL1');
+  FAL1_e_str = get_view_FAL1(mess);
+  content_e = document.getElementById("content");
+  content_e.innerHTML = FAL1_e_str;
+}
+
+function affiche_FAL5(mess){
+  mess = prepare_mess(mess, 'FAL5');
+  FAL_e_str = get_view_FAL5(mess);
+  content_e = document.getElementById("content");
+  content_e.innerHTML = FAL_e_str;
+}
+
+function affiche_FAL6(mess){
+  mess = prepare_mess(mess, 'FAL6');
+  FAL_e_str = get_view_FAL6(mess);
+  content_e = document.getElementById("content");
+  content_e.innerHTML = FAL_e_str;
 }
 
 

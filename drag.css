@@ -1,14 +1,20 @@
+body {
+    padding: 0px;
+    margin: 0px;
+}
+
 #drop-area {
     border: 2px dashed #ccc;
-    border-radius: 20px;
-    width: 480px;
+    /*border-radius: 20px;*/
+    min-width: 100vw;
+    min-height: 100vh;
     font-family: sans-serif;
-    margin: 100px auto;
+    margin: 0px auto;
     padding: 20px;
 }
 
 #drop-area.highlight {
-    border-color: purple;
+    background-color: rgba(142, 166, 231, 0.534);
 }
 
 p {
@@ -17,17 +23,6 @@ p {
 
 .my-form {
     margin-bottom: 10px;
-}
-
-#gallery {
-    margin-top: 10px;
-}
-
-#gallery img {
-    width: 150px;
-    margin-bottom: 10px;
-    margin-right: 10px;
-    vertical-align: middle;
 }
 
 .button {
@@ -45,4 +40,43 @@ p {
 
 #fileElem {
     display: none;
+}
+
+td {
+    border: solid 1px;
+}
+
+
+/* Tooltip container */
+
+.tooltip {
+    position: relative;
+    display: inline-block;
+    border-bottom: 1px dotted black;
+    /* If you want dots under the hoverable text */
+}
+
+
+/* Tooltip text */
+
+.tooltip .tooltiptext {
+    visibility: hidden;
+    /*width: 500px;*/
+    background-color: rgb(49, 89, 136);
+    color: #fff;
+    text-align: left;
+    padding: 5px 5px;
+    border-radius: 6px;
+    /* Position the tooltip text - see examples below! */
+    position: absolute;
+    z-index: 1;
+    top: -5px;
+    left: 105%;
+}
+
+
+/* Show the tooltip text when you mouse over the tooltip container */
+
+.tooltip:hover .tooltiptext {
+    visibility: visible;
 }

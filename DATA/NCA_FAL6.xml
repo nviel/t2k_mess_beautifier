@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="ISO-8859-1" standalone="yes"?>
+<NCA_FAL6>
+    <Header Version="5.2" LARefId="FRCFR201900000000000000000000070631" SentAt="2019-09-30T14:22:57Z" To="TRA2K" From="FRCFRPOR" />
+    <Body>
+        <VesselIdentification IMONumber="9313709" />
+        <ShipCallInformation ShipCallId="FRCFR2019001581" PortOfCall="FRCFR" />
+        <FormInformation EntryOrExit="0">
+            <ShipInformation ShipName="WILSON AVILES" FlagStateOfShip="LU" />
+            <VoyageInformation ETAToPortOfCall="2019-09-20T10:00:00Z" ATAToPortOfCall="2019-09-20T11:00:00Z" />
+            <PassengerList>
+                <Passenger LastName="VIEL" FirstName="nicolas" Nationality="DZ" DateOfBirth="1977-07-31" PlaceOfBirth="nantes" CountryOfBirth="AX" NatureOfIdentityDocument="MusterBook" NumberOfIdentityDocument="kjhgkjhgkjh" PortOfEmbarkation="FRBES" PortOfDisembarkation="FRBES" Transit="Y" VisaOrResidencePermitNumber="0" />
+                <Passenger 
+                LastName="VIEL ZULIANI" 
+                FirstName="nathalie" 
+                Nationality="ZA" 
+                DateOfBirth="1981-06-08" 
+                PlaceOfBirth="sablé sur sarthe" 
+                CountryOfBirth="DE" 
+                NatureOfIdentityDocument="Other" 
+                NumberOfIdentityDocument="5665466" 
+                PortOfEmbarkation="FRNTE" 
+                PortOfDisembarkation="FRNTE" 
+                Transit="Y" />
+            </PassengerList>
+        </FormInformation>
+    </Body>
+</NCA_FAL6>
