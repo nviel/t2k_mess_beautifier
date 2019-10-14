@@ -47,6 +47,11 @@ function unhighlight(e) {
   dropArea.classList.remove('highlight')
 }
 
+dropArea.addEventListener('paste', (event) => {
+    let paste = (event.clipboardData || window.clipboardData).getData('text');
+    afficheXml(paste);
+});
+
 dropArea.addEventListener('drop', handleDrop, false)
 
 function handleDrop(e) {
