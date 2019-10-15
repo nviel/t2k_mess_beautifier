@@ -34,58 +34,80 @@ function getViewFAL6(mess) {
       </div><br/>
       <h3>${mess.Body.FormInformation.entryOrExit}</h3>
   
-      <table>
+      <table class="infoTable">
       <tr>
-        <td >
+        <td>
           1.1 Name and type of ship<br/>
-          <b>${mess.Body.FormInformation.ShipInformation.ShipName}</b>
         </td>
         <td>
           1.2 IMO number<br/>
-          <b>${mess.Body.VesselIdentification.IMONumber}</b>
+        </td>
+      </tr>
+      <tr>
+        <td >
+          ${mess.Body.FormInformation.ShipInformation.ShipName}
+        </td>
+        <td>
+          ${mess.Body.VesselIdentification.IMONumber}
         </td>
       </tr>
       <tr>
         <td >
           1.3 Callsign<br/>
-          <b>${mess.Body.FormInformation.ShipInformation.CallSign||' '}</b>
         </td>
         <td>
           1.4 Voyage number<br/>
-          <b>${mess.Body.FormInformation.VoyageNumber||" "}</b>
+        </td>
+      </tr>
+      <tr>
+        <td >
+          ${mess.Body.FormInformation.ShipInformation.CallSign||' '}
+        </td>
+        <td>
+          ${mess.Body.FormInformation.VoyageNumber||" "}
         </td>
       </tr>
       <tr>
         <td >
           2. Port of ${mess.Body.FormInformation.entryOrExit}<br/>
-          <b>${mess.Body.ShipCallInformation.PortOfCall}</b>
         </td>
         <td>
           3. Date and time of ${mess.Body.FormInformation.entryOrExit}<br/>
-          <b>${mess.Body.FormInformation.VoyageInformation.ETDFromPortOfCall||''}${mess.Body.FormInformation.VoyageInformation.ETAToPortOfCall||''}</b>
+        </td>
+      </tr>
+      <tr>
+        <td >
+          ${mess.Body.ShipCallInformation.PortOfCall}
+        </td>
+        <td>
+          ${mess.Body.FormInformation.VoyageInformation.ETDFromPortOfCall||''}${mess.Body.FormInformation.VoyageInformation.ETAToPortOfCall||''}
         </td>
       </tr>
       <tr>
         <td>
           4. Flag State of ship<br/>
-          <b>${mess.Body.FormInformation.ShipInformation.FlagStateOfShip||' '}</b>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          ${mess.Body.FormInformation.ShipInformation.FlagStateOfShip||' '}
         </td>
       </tr>
       </table>
       <br/>
-      <table class="PassengerList">
+      <table class="PassengerList listTable">
       <thead><tr>
-        <td>5.  Family name</td>
-        <td>given names</td>
-        <td>6.  Nationality</td>
-        <td>7.  Date of birth</td>
-        <td>7.  Place of birth</td>
-        <td>7.  Country of birth</td>
-        <td>8.  Type of identity or travel document</td>
-        <td>9.  Serial number of identity or travel document</td>
-        <td>10.  Port of embarkation</td>
-        <td>11.  Port of disembarkation</td>
-        <td>12.  Transit passenger or not</td>
+        <th>5.  Family name</th>
+        <th>given names</th>
+        <th>6.  Nationality</th>
+        <th>7.  Date of birth</th>
+        <th>7.  Place of birth</th>
+        <th>7.  Country of birth</th>
+        <th>8.  Type of identity or travel document</th>
+        <th>9.  Serial number of identity or travel document</th>
+        <th>10.  Port of embarkation</th>
+        <th>11.  Port of disembarkation</th>
+        <th>12.  Transit passenger or not</th>
   
       </tr></thead>
       <tbody>
