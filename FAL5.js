@@ -33,60 +33,84 @@ function getViewFAL5(mess) {
       </div><br/>
       <h3>${mess.Body.FormInformation.entryOrExit}</h3>
   
-      <table>
+      <table class="blueTable">
+      <tr>
+        <th >
+          1.1 Name and type of ship<br/>
+        </th>
+        <th>
+          1.2 IMO number<br/>
+        </th>
+      </tr>
       <tr>
         <td >
-          1.1 Name and type of ship<br/>
           <b>${mess.Body.FormInformation.ShipInformation.ShipName}</b>
         </td>
         <td>
-          1.2 IMO number<br/>
           <b>${mess.Body.VesselIdentification.IMONumber}</b>
         </td>
       </tr>
       <tr>
-        <td >
+        <th>
           1.3 Callsign<br/>
-          <b>${mess.Body.FormInformation.ShipInformation.CallSign||' '}</b>
-        </td>
-        <td>
+        </th>
+        <th>
           1.4 Voyage number<br/>
-          <b>${mess.Body.FormInformation.VoyageNumber||" "}</b>
-        </td>
+        </th>
       </tr>
       <tr>
         <td >
+          <b>${mess.Body.FormInformation.ShipInformation.CallSign||'&nbsp;'}</b>
+        </td>
+        <td>
+          <b>${mess.Body.FormInformation.VoyageNumber||"&nbsp;"}</b>
+        </td>
+      </tr>
+      <tr>
+        <th>
           2. Port of ${mess.Body.FormInformation.entryOrExit}<br/>
+        </th>
+        <th>
+          3. Date and time of ${mess.Body.FormInformation.entryOrExit}<br/>
+        </th>
+      </tr>
+      <tr>
+        <td >
           <b>${mess.Body.ShipCallInformation.PortOfCall}</b>
         </td>
         <td>
-          3. Date and time of ${mess.Body.FormInformation.entryOrExit}<br/>
           <b>${mess.Body.FormInformation.VoyageInformation.ETDFromPortOfCall||''}${mess.Body.FormInformation.VoyageInformation.ETAToPortOfCall||''}</b>
         </td>
       </tr>
       <tr>
-        <td>
+        <th>
           4. Flag State of ship<br/>
+        </th>
+        <th>
+          5. Last port of call<br/>
+        </th>
+      </tr>
+      <tr>
+        <td>
           <b>${mess.Body.FormInformation.ShipInformation.FlagStateOfShip||' '}</b>
         </td>
         <td>
-          5. Last port of call<br/>
           <b>${mess.Body.FormInformation.VoyageInformation.LastPort||" "}</b>
         </td>
       </tr>
       </table>
-      <table class="CrewList">
+      <table class="CrewList blueTable">
       <thead><tr>
-        <td>7.  Family name</td>
-        <td>given names</td>
-        <td>8.  Rank or rating</td>
-        <td>9.  Nationality</td>
-        <td>10.  Date of birth</td>
-        <td>Place of birth</td>
-        <td>Country of birth</td>
-        <td>11. Nature of identity document </td>
-        <td>number of identity document </td>
-        <td>Visa or residence permit number</td>
+        <th>7.  Family name</th>
+        <th>given names</th>
+        <th>8.  Rank or rating</th>
+        <th>9.  Nationality</th>
+        <th>10.  Date of birth</th>
+        <th>Place of birth</th>
+        <th>Country of birth</th>
+        <th>11. Nature of identity document </th>
+        <th>number of identity document </th>
+        <th>Visa or residence permit number</th>
       </tr></thead>
       <tbody>
         ${crew_rows}
