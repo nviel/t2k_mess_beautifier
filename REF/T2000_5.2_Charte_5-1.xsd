@@ -1,0 +1,3999 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+	<xsd:annotation>
+		<xsd:documentation>
+							********************************************
+							* XML Schema pour les messages Trafic 2000 *
+							********************************************
+							
+							Date  			Version	    Auteur		Commentaires
+							----      	  	-------     ------      ------------
+							21/04/2004		1.0			LMI			Création
+							01/10/2004		2.7			SGO			MAJ pour V1.3
+							06/12/2004		2.8			SGO			MAJ pour V1.4
+							24/02/2005		2.8			SGO			Ajout Wetrep	
+							28/02/2007		2.8			YCH			MAJ pour V1.92
+							10/09/2007		2.8			YLB			Ajout Ping
+							19/01/2007		2.8			PSA			Ajout Observation (11/09/2007 ajout YLB)
+							06/03/2008		2.8			YLB			MAJ version intégration Ingrid
+							18/06/2008		2.8			YLB			Mise en conformité du NCA_SitRepCirc avec le document 'Structure des messages'
+							20/06/2008		2.8			YLB			Mise en conformité du NCA_SitRepCirc (SITREP AdditionalInformation) avec le document 'Structure des messages'
+							07/10/2009		2.8			GMO			Les champs du bloc méteo deviennenlistt facultatifs (MeteoSitrepCircType et MeteoNCAType)
+							17/06/2010		3.0			FMO			Modifications lot Thetis
+							20/07/2010		3.0			YLB			Ajout NCA_Voyage, NCA_Voyage_Req, NCA_Voyage_Res 
+							02/11/2010		3.0			YLB			Le bloc CargoManifest est obligatoire dans le message ManifestMD
+							01/12/2010		3.0			DBE			Correction du type de IMOClass dans VoyageDGDetailsType
+							09/12/2010		3.0			FMO			Ajout temporaire du champ MSRefId dans le Header du message NCA_ShipInf
+							17/12/2010		3.0			YLB			Ajout du bloc combustible dans le bloc DBNotification du message SPN2NCA_Observation (création du type CombustibleNCAType)
+							21/01/2011		3.0			FMO			Mise à required du ShipCallId pour les messages portuaires
+							12/05/2011		3.0			FMO			Ajout du TimeoutValue dans le Header du message NCA_Voyage_Req
+							18/05/2011		3.0			FMO			Ajout d'un minValue="0" pour QueryResults de NCA_Voyage_Res
+							19/05/2011		3.0			FMO			Ajout d'un TotalPersonOnBoard pour VoyageInformation de NCA_Voyage_Res
+							22/07/2011		3.0			FMO			Modifications du message NCA_Anchor (lot Mouillage)
+							17/10/2011		3.0			FMO			Ajout message Sitrep
+							12/12/2011		3.0			FMO			Suppression TimeoutValue dans le Header du message NCA_Voyage_Req
+							12/12/2011		3.0			FMO			Suppression TotalPersonOnBoard pour VoyageInformation de NCA_Voyage_Res
+							05/03/2012		3.0			FMO			Correction ano 10788 : modifications du message NCA_Anchor
+							19/04/2012		3.0			FMO			Modification du type Bunkers (Quantity passe en xsd:string)
+							17/09/2012		3.0			BBA			Ajout des messages Infraction, AnomaliePortuaire et NavireBanni
+							20/11/2012		3.1			BBA			Création XSD v3.1 : modification de messages pour Spationav v2
+							04/11/2013		4.0			BBA			Création XSD v4.0 : modification de messages portuaires
+							19/03/2014		3.0			FMO			Mise à optional des attributs des blocs Bunkers (tous messages) et WeatherOnScene (Sitrep)
+							06/05/2014		3.0			FMO			Correction ano 13171 : modification NCA_Departure, mise à optionnel de ContactDetails
+							09/10/2014		4.0			FMO			Correction ano 13969 : NCA_ManifesteMD, mise à obligatoire de LoCode de ContactDetails
+							21/11/2014		5.0			BBA			Création XSD v5.0 : Lot FAL, modification des messages portuaires
+							26/01/2015		5.0			BBA			Finalisation de la XSD 5.0 (Prise en compte des remarques)
+							27/01/2015		5.0			BBA			Renommage MovementInformationNCAMouvPorType, Corrections de Typo
+							03/04/2015		5.0			FMO			Cohérence avec Charte portuaire : InmarsatCallNumberList, InmarsatCallNumber et EMail pour NCA_ISPS
+							13/04/2015		5.0			BBA			Modification de type pour les FAL5, FAL6, ISPS et DMS
+							22/04/2015		5.0			BBA			Modification de PositionOfShipInPort en PositionInPortOfCall pour le FAL1
+							28/04/2015		5.0			BBA			Modification du type ExternalAnchorage du NCA_MOUIL_RADE
+							04/06/2015		5.0			BBA			Passage de DateTime à Date pour conformité charte + corrections typo ( ISPS : DateFrom et SpecialOrAdditionalSecurityMeasures)
+							10/03/2017		5.1			KKO			Création XSD v5.1 : Modification du message NCA_Sitrep, ajout des messages NCA_VoyForm_Req, NCA_ListeVoyage_Res et NCA_Form_Res
+							07/09/2017		5.1			EPE			Modification XSD v5.1 : Ajout du ShipCallId dans le message NCA_Form_Res et prise en compte de remarques
+							03/10/2017		5.1			BBA			Modification XSD v5.1 : prise en compte de remarques et modifications de certains elements en attribut
+							07/11/2017		5.1			RLS			Modification XSD v5.1 : correction de l'attribut L.3375 "VisitedInfectionArea" remplacé par "VisitedInfectedArea"
+							05/01/2018		5.2			RLS			Création XSD v5.2 : Mises à jour liées au Lot SsnV4.0
+																	Doc réf : XMLMessagingRefGuide-04_01_trackchanges.doc
+							05/02/2018		5.2			RLS			Extension de Date à ZsDate et DateTime à ZsDateTime, pour renforcer le contrôle des dates 
+							(Correction de la mantis 20056 (les années à 5 chiffres sont refusées))	
+							05/02/2018		5.2			RLS			Correction valeurs limites longitude et latitude									
+							
+		</xsd:documentation>
+	</xsd:annotation>
+	<xsd:element name="LCA_Libre" type="LCA_LibreType"/>
+	<xsd:element name="NCA_72h" type="NCA_72hType"/>
+	<xsd:element name="NCA_Alert" type="NCA_AlertType"/>
+	<xsd:element name="NCA_Anchor" type="NCA_AnchorType"/>
+	<xsd:element name="NCA_Ano_Portuaire" type="NCA_AnoPortuaireType"/>
+	<xsd:element name="NCA_Arrival" type="NCA_ArrivalType"/>
+	<xsd:element name="NCA_Departure" type="NCA_DepartureType"/>
+	<xsd:element name="NCA_DMS" type="NCA_DMSType"/>
+	<xsd:element name="NCA_Event" type="NCA_EventType"/>
+	<xsd:element name="NCA_FAL1" type="NCA_FAL1Type"/>
+	<xsd:element name="NCA_FAL5" type="NCA_FAL5Type"/>
+	<xsd:element name="NCA_FAL6" type="NCA_FAL6Type"/>
+	<xsd:element name="NCA_FAL7MD" type="NCA_FAL7MDType"/>
+	<xsd:element name="NCA_Form_Res" type="NCA_Form_ResType"/>
+	<xsd:element name="NCA_Infraction" type="NCA_InfractionType"/>
+	<xsd:element name="NCA_ISPS" type="NCA_ISPSType"/>
+	<xsd:element name="NCA_ListeVoyage_Res" type="NCA_ListeVoyage_ResType"/>
+	<xsd:element name="NCA_Mouil_Rade" type="NCA_MouilRadeType"/>
+	<xsd:element name="NCA_Mouv_Por" type="NCA_MouvPorType"/>
+	<xsd:element name="NCA_NavEvtRep" type="NCA_NavEvtRepType"/>
+	<xsd:element name="NCA_Navire_Banni" type="NCA_NavireBanniType"/>
+	<xsd:element name="NCA_Note" type="NCA_NoteType"/>
+	<xsd:element name="NCA_OpCirc" type="NCA_OpCircType"/>
+	<xsd:element name="NCA_OpPol" type="NCA_OpPolType"/>
+	<xsd:element name="NCA_OpSar" type="NCA_OpSarType"/>
+	<xsd:element name="NCA_Ping" type="NCA_PingType"/>
+	<xsd:element name="NCA_Polrep" type="NCA_PolrepType"/>
+	<xsd:element name="NCA_Port" type="NCA_PortType"/>
+	<xsd:element name="NCA_Receipt" type="NCA_ReceiptType"/>
+	<xsd:element name="NCA_Ship" type="NCA_ShipType"/>
+	<xsd:element name="NCA_ShipAIS" type="NCA_ShipAISType"/>
+	<xsd:element name="NCA_ShipID" type="NCA_ShipIDCardType"/>
+	<xsd:element name="NCA_ShipID_Req" type="NCA_ShipIDCardReqType"/>
+	<xsd:element name="NCA_ShipID_Res" type="NCA_ShipIDCardResType"/>
+	<xsd:element name="NCA_ShipInf" type="NCA_ShipInfType"/>
+	<xsd:element name="NCA_Sitrep" type="NCA_SitrepType"/>
+	<xsd:element name="NCA_SitRepCirc" type="NCA_SitrepCircType"/>
+	<xsd:element name="NCA_SitRepSar" type="NCA_SitrepSarType"/>
+	<xsd:element name="NCA_Suppr_Not" type="NCA_SupprNotType"/>
+	<xsd:element name="NCA_Surnav" type="NCA_SurnavType"/>
+	<xsd:element name="NCA_Vessel_List" type="NCA_VesselListType"/>
+	<xsd:element name="NCA_Voyage" type="NCA_VoyageType"/>
+	<xsd:element name="NCA_Voyage_Req" type="NCA_Voyage_ReqType"/>
+	<xsd:element name="NCA_Voyage_Res" type="NCA_VoyageResType"/>
+    <xsd:element name="NCA_VoyForm_Req" type="NCA_VoyForm_ReqType"/>
+	
+	<xsd:element name="NCA_Waste" type="NCA_WasteType"/>
+	<xsd:element name="NCA_Wetrep" type="NCA_WetrepType"/>
+	<xsd:element name="SPN2NCA_Observation" type="SPN2NCA_ObservationType"/>
+	
+	
+	<xsd:complexType name="NCA_HeaderType">
+		<xsd:attribute name="Version" type="xsd:string" use="required" fixed="5.2"/>
+		<xsd:attribute name="TestId" type="TestIdType" use="optional"/>
+		<xsd:attribute name="LARefId" type="RefIdType" use="required"/>
+		<xsd:attribute name="SentAt" type="zsdateTime" use="required"/>
+		<xsd:attribute name="From" type="FromType" use="required"/>
+		<xsd:attribute name="To" type="ToType" use="required"/>
+	</xsd:complexType>
+	<xsd:complexType name="VoyageInformationNCAType">
+		<xsd:annotation>
+			<xsd:documentation/>
+		</xsd:annotation>
+		<xsd:sequence/>
+		<xsd:attribute name="PortOfCall" type="LocodeType" use="required"/>
+		<xsd:attribute name="NextPortOfCall" type="LocodeType" use="required"/>
+		<xsd:attribute name="ETA" type="zsdateTime"/>
+		<xsd:attribute name="TotalPassenger" type="xsd:integer"/>
+		<xsd:attribute name="CrewNumber" type="xsd:integer"/>
+		<xsd:attribute name="TotalClandestine" type="xsd:integer"/>
+		<xsd:attribute name="ReportingDateAndTime" type="zsdateTime" use="required"/>
+		<xsd:attribute name="COG" type="COGType" use="required"/>
+		<xsd:attribute name="SOG" type="SOGType" use="required"/>
+		<xsd:attribute name="NavigationStatus" type="xsd:string" use="required"/>
+		<xsd:attribute name="Draught" type="DraughtType" use="required"/>
+		<xsd:attribute name="Lane" type="xsd:string" use="required"/>
+		<xsd:attribute name="TrackNumber" type="xsd:integer"/>
+		<xsd:attribute name="Observations" type="ZeroToTwoHundredFiftyFiveCharType"/>
+		<xsd:attribute name="Towing" type="TowingType"/>
+		<xsd:attribute name="TowLength" type="xsd:integer"/>
+		<xsd:attribute name="TowCategory" type="xsd:string"/>
+	</xsd:complexType>
+	<xsd:complexType name="DGNCAType">
+		<xsd:annotation>
+			<xsd:documentation/>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="DGDetails" type="DGDetailsNCAType" minOccurs="0" maxOccurs="99"/>
+		</xsd:sequence>
+		<xsd:attribute name="AnyDG" type="BooleanType" use="required"/>
+	</xsd:complexType>
+	<xsd:complexType name="NotificationDetailsType">
+		<xsd:annotation>
+			<xsd:documentation/>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:group ref="CargoManifestNCAType"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:group name="CargoManifestNCAType">
+		<xsd:annotation>
+			<xsd:documentation/>
+		</xsd:annotation>
+		<xsd:choice>
+			<xsd:element name="URLDetails" type="URLDetailsNCAType" minOccurs="0"/>
+			<xsd:element name="ContactDetails" type="ContactDetailsNCAType" minOccurs="0"/>
+		</xsd:choice>
+	</xsd:group>
+	<xsd:complexType name="ContactDetailsNCAType">
+		<xsd:annotation>
+			<xsd:documentation/>
+		</xsd:annotation>
+		<xsd:sequence/>
+		<xsd:attribute name="LastName" type="ZeroToFiftyCharType"/>
+		<xsd:attribute name="FirstName" type="ZeroToFiftyCharType"/>
+		<xsd:attribute name="LoCode" type="LocodeType"/>
+		<xsd:attribute name="Phone" type="OneToTwentyCharType"/>
+		<xsd:attribute name="Fax" type="OneToTwentyCharType"/>
+		<xsd:attribute name="EMail" type="ZeroToFiftyCharType"/>
+	</xsd:complexType>
+	<xsd:complexType name="CargoOfInterestNCAType">
+		<xsd:annotation>
+			<xsd:documentation/>
+		</xsd:annotation>
+		<xsd:sequence/>
+		<xsd:attribute name="CargoOfInterestCategory" type="OneToTwentyCharType" use="required"/>
+		<xsd:attribute name="Quantity" type="xsd:string" use="required"/>
+		<xsd:attribute name="UnitOfMeasurement" type="xsd:string" use="required"/>
+	</xsd:complexType>
+	<xsd:complexType name="CargoInformationNCAType">
+		<xsd:annotation>
+			<xsd:documentation/>
+		</xsd:annotation>
+		<xsd:sequence/>
+		<xsd:attribute name="TotalQuantity" type="xsd:integer"/>
+		<xsd:attribute name="UnitOfMeasurement" type="xsd:string"/>
+		<xsd:attribute name="Ballast" type="xsd:string"/>
+	</xsd:complexType>
+	<xsd:complexType name="CargoInformationNCAAnchorSurnavType">
+		<xsd:annotation>
+			<xsd:documentation/>
+		</xsd:annotation>
+		<xsd:complexContent>
+			<xsd:extension base="CargoInformationNCAType">
+				<xsd:sequence>
+					<xsd:element name="DG" type="DGNCAType"/>
+					<xsd:element name="CargoManifest" type="NotificationDetailsType" minOccurs="0"/>
+					<xsd:element name="CargoOfInterest" type="CargoOfInterestNCAType" minOccurs="0" maxOccurs="99"/>
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<xsd:complexType name="DGNCAShipInfType">
+		<xsd:annotation>
+			<xsd:documentation/>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="DGDetails" type="DGDetailsNCAType" minOccurs="0" maxOccurs="99"/>
+		</xsd:sequence>
+		<xsd:attribute name="AnyDG" type="BooleanType"/>
+	</xsd:complexType>
+	<xsd:complexType name="SearchCriteriaNCAType">
+		<xsd:annotation>
+			<xsd:documentation/>
+		</xsd:annotation>
+		<xsd:sequence/>
+		<xsd:attribute name="IMONumber" type="IMONumberType"/>
+		<xsd:attribute name="MMSINumber" type="MMSINumberType"/>
+	</xsd:complexType>
+	<xsd:complexType name="DiffusionDestinataireNCAType">
+		<xsd:annotation>
+			<xsd:documentation/>
+		</xsd:annotation>
+		<xsd:sequence/>
+		<xsd:attribute name="Name" type="OneToFiftyCharType" use="required"/>
+	</xsd:complexType>
+	<xsd:complexType name="BunkersType">
+		<xsd:attribute name="Chars" type="xsd:string"/>
+		<xsd:attribute name="Quantity" type="xsd:string"/>
+		<xsd:attribute name="UnitOfMeasurement" type="xsd:string"/>
+	</xsd:complexType>
+	<xsd:complexType name="ContactDetailsMsgPortuaireNCAType">
+		<xsd:annotation>
+			<xsd:documentation/>
+		</xsd:annotation>
+		<xsd:sequence/>
+		<xsd:attribute name="LastName" type="OneToFiftyCharType"/>
+		<xsd:attribute name="FirstName" type="OneToFiftyCharType"/>
+		<xsd:attribute name="Location" type="LocodeType"/>
+		<xsd:attribute name="Phone" type="OneToTwentyCharType" use="required"/>
+		<xsd:attribute name="Fax" type="OneToTwentyCharType"/>
+		<xsd:attribute name="Email" type="OneToFiftyCharType"/>
+	</xsd:complexType>
+	
+	<xsd:annotation>
+		<xsd:documentation>
+							Définition des types de Messages Portuaires
+							*******************************************
+		</xsd:documentation>
+	</xsd:annotation>
+	
+	<xsd:complexType name="NCA_MsgPortuaireBodyType">
+		<xsd:annotation>
+			<xsd:documentation/>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="VesselIdentification" type="VesselIdentificationMsgPortuaireNCAType"/>
+			<xsd:element name="ShipCallInformation" type="ShipCallInformationMsgPortuaireNCAType"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="VesselIdentificationMsgPortuaireNCAType">
+		<xsd:annotation>
+			<xsd:documentation/>
+		</xsd:annotation>
+		<xsd:sequence/>
+		<xsd:attribute name="IMONumber" type="IMONumberType" use="required"/>
+		<xsd:attribute name="MMSINumber" type="MMSINumberType"/>
+	</xsd:complexType>
+	<xsd:complexType name="ShipCallInformationMsgPortuaireNCAType">
+		<xsd:annotation>
+			<xsd:documentation/>
+		</xsd:annotation>
+		<xsd:sequence/>
+		<xsd:attribute name="ShipCallId" type="ShipCallIdType" use="required"/>
+		<xsd:attribute name="PortOfCall" type="LocodeType" use="required"/>
+	</xsd:complexType>	
+	<xsd:complexType name="TotalQuantityType">
+		<xsd:annotation>
+			<xsd:documentation/>
+		</xsd:annotation>
+		<xsd:sequence/>
+		<xsd:attribute name="Quantity" type="DecimalTwoFractionDigitType" use="required"/>
+		<xsd:attribute name="UnitOfMeasurement" type="xsd:string" use="required"/>
+		<xsd:attribute name="Details" type="ZeroToFiftyCharType"/>
+	</xsd:complexType>
+	<xsd:complexType name="QuantityGrossNCAFAL7MDType">
+		<xsd:annotation>
+			<xsd:documentation/>
+		</xsd:annotation>
+		<xsd:sequence />
+		<xsd:attribute name="UnitOfMeasurement" type="xsd:string" use="required"/>
+		<xsd:attribute name="GrossQuantity" type="DecimalThreeFractionDigitType" use="required"/>
+	</xsd:complexType>
+	<xsd:complexType name="QuantityNetNCAFAL7MDType">
+		<xsd:annotation>
+			<xsd:documentation/>
+		</xsd:annotation>
+		<xsd:sequence />
+		<xsd:attribute name="UnitOfMeasurement" type="xsd:string" use="required"/>
+		<xsd:attribute name="NetQuantity" type="DecimalThreeFractionDigitType" use="required"/>
+	</xsd:complexType>
+	<xsd:complexType name="QuantityNCAWasteType">
+		<xsd:annotation>
+			<xsd:documentation/>
+		</xsd:annotation>
+		<xsd:sequence />
+		<xsd:attribute name="Quantity" type="OneToEighteenCharType" use="required"/>
+	</xsd:complexType>
+	<xsd:complexType name="ShippingContactDetailsNCAFALType">
+		<xsd:annotation>
+			<xsd:documentation/>
+		</xsd:annotation>
+		<xsd:sequence />
+		<xsd:attribute name="NameOfAgent" type="OneToFiftyCharType"/>
+		<xsd:attribute name="Phone" type="OneToTwentyCharType"/>
+		<xsd:attribute name="Fax" type="OneToTwentyCharType"/>
+		<xsd:attribute name="Email" type="ZeroToFiftyCharType"/>
+	</xsd:complexType>
+		
+	<xsd:complexType name="NCA_72hType">
+		<xsd:sequence>
+			<xsd:element name="Header" type="NCA_HeaderType"/>
+			<xsd:element name="Body" type="NCA_72hBodyType"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="NCA_72hBodyType">
+		<xsd:annotation>
+			<xsd:documentation/>
+		</xsd:annotation>
+		<xsd:complexContent>
+			<xsd:extension base="NCA_MsgPortuaireBodyType">
+			<xsd:sequence>
+				<xsd:element name="VoyageInformation" type="VoyageInformationNCA72hType"/>
+				<xsd:element name="NotificationDetails" type="NotificationDetailsNCA72hType"/>
+			</xsd:sequence>	
+		</xsd:extension>	
+		</xsd:complexContent>
+	</xsd:complexType>
+	<xsd:complexType name="VoyageInformationNCA72hType">
+		<xsd:annotation>
+			<xsd:documentation/>
+		</xsd:annotation>
+		<xsd:sequence/>
+		<xsd:attribute name="LastPort" type="LocodeType"/>
+		<xsd:attribute name="ETDFromLastPort" type="zsdateTime"/>
+		<xsd:attribute name="ETAToPortOfCall" type="zsdateTime" use="required"/>
+		<xsd:attribute name="ETDFromPortOfCall" type="zsdateTime" use="required"/>
+		<xsd:attribute name="PossibleAnchorage" type="YesNoType"/>		
+	</xsd:complexType>
+	<xsd:complexType name="NotificationDetailsNCA72hType">
+		<xsd:annotation>
+			<xsd:documentation/>
+		</xsd:annotation>
+		<xsd:sequence/>
+		<xsd:attribute name="PlannedOperations" type="ZeroToTwoHundredFiftySixCharType"/>
+		<xsd:attribute name="PlannedWorks" type="ZeroToTwoHundredFiftySixCharType"/>
+		<xsd:attribute name="ShipConfiguration" type="xsd:string"/>
+		<xsd:attribute name="CargoVolumeNature" type="ZeroToTwoHundredFiftySixCharType"/>
+		<xsd:attribute name="ConditionCargoBallastTanks" type="xsd:string"/>
+		<xsd:attribute name="DateOfLastInspection" type="zsdate"/>
+	</xsd:complexType>
+	
+	<xsd:complexType name="NCA_PortType">
+		<xsd:sequence>
+			<xsd:element name="Header" type="NCA_HeaderType"/>
+			<xsd:element name="Body" type="NCA_PortBodyType"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="NCA_PortBodyType">
+		<xsd:annotation>
+			<xsd:documentation/>
+		</xsd:annotation>
+		<xsd:complexContent>
+			<xsd:extension base="NCA_MsgPortuaireBodyType">
+				<xsd:sequence>
+					<xsd:element name="VoyageInformation" type="VoyageInformationNCAPortType"/>
+					<xsd:element name="OtherInformations" type="OtherInformationsNCAPortType" minOccurs="0"/>
+				</xsd:sequence>	
+			</xsd:extension>	
+		</xsd:complexContent>
+	</xsd:complexType>
+	<xsd:complexType name="VoyageInformationNCAPortType">
+		<xsd:annotation>
+			<xsd:documentation/>
+		</xsd:annotation>
+		<xsd:sequence/>
+		<xsd:attribute name="LastPort" type="LocodeType"/>
+		<xsd:attribute name="ETDFromLastPort" type="zsdateTime"/>
+		<xsd:attribute name="ETAToPortOfCall" type="zsdateTime"/>
+		<xsd:attribute name="ETDFromPortOfCall" type="zsdateTime"/>
+		<xsd:attribute name="TotalPersonsOnBoard" type="OneToFiveIntType" use="required"/>
+		<xsd:attribute name="PossibleAnchorage" type="YesNoType"/>
+		<xsd:attribute name="PositionInPortOfCall" type="ZeroToFiftyCharType"/>
+	</xsd:complexType>
+	<xsd:complexType name="OtherInformationsNCAPortType">
+		<xsd:annotation>
+			<xsd:documentation/>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="TotalQuantity" type="TotalQuantityType"  minOccurs="0"/>
+		</xsd:sequence>
+		<xsd:attribute name="Draught" type="OneToThreeIntType"/>
+	</xsd:complexType>
+	
+	<xsd:complexType name="NCA_ArrivalType">
+		<xsd:sequence>
+			<xsd:element name="Header" type="NCA_HeaderType"/>
+			<xsd:element name="Body" type="NCA_ArrivalBodyType"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="NCA_ArrivalBodyType">
+		<xsd:annotation>
+			<xsd:documentation/>
+		</xsd:annotation>
+		<xsd:complexContent>
+			<xsd:extension base="NCA_MsgPortuaireBodyType">
+				<xsd:sequence>
+					<xsd:element name="VoyageInformation" type="VoyageInformationNCAArrivalType"/>
+				</xsd:sequence>
+			</xsd:extension>	
+		</xsd:complexContent>
+	</xsd:complexType>
+	<xsd:complexType name="VoyageInformationNCAArrivalType">
+		<xsd:annotation>
+			<xsd:documentation/>
+		</xsd:annotation>
+		<xsd:sequence/>
+		<xsd:attribute name="OffShore" type="YesNoType"/>
+		<xsd:attribute name="ATAToPortOfCall" type="zsdateTime" use="required"/>
+		<xsd:attribute name="Anchorage" type="YesNoType"/>
+		<xsd:attribute name="PositionInPortOfCall" type="ZeroToFiftyCharType"/>
+	</xsd:complexType>
+	
+	<xsd:complexType name="NCA_DepartureType">
+		<xsd:sequence>
+			<xsd:element name="Header" type="NCA_HeaderType"/>
+			<xsd:element name="Body" type="NCA_DepartureBodyType"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="NCA_DepartureBodyType">
+		<xsd:annotation>
+			<xsd:documentation/>
+		</xsd:annotation>
+		<xsd:complexContent>
+			<xsd:extension base="NCA_MsgPortuaireBodyType">
+				<xsd:sequence>
+					<xsd:element name="VoyageInformation" type="VoyageInformationNCADepartureType"/>
+					<xsd:element name="OtherInformations" type="OtherInformationsNCADepartureType" minOccurs="0"/>
+				</xsd:sequence>	
+			</xsd:extension>	
+		</xsd:complexContent>
+	</xsd:complexType>
+	<xsd:complexType name="VoyageInformationNCADepartureType">
+		<xsd:annotation>
+			<xsd:documentation/>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="ContactDetails" type="ContactDetailsMsgPortuaireNCAType"  minOccurs="0"/>
+		</xsd:sequence>
+		<xsd:attribute name="OffShore" type="YesNoType"/>
+		<xsd:attribute name="ATDFromPortOfCall" type="zsdateTime" use="required"/>
+		<xsd:attribute name="NextPort" type="LocodeType" use="required"/>
+		<xsd:attribute name="ETAToNextPort" type="zsdateTime"/>
+		<xsd:attribute name="TotalPersonsOnBoard" type="OneToFiveIntType" use="required"/>
+		<xsd:attribute name="AnyDG" type="YesNoType" use="required"/>
+	</xsd:complexType>
+	<xsd:complexType name="OtherInformationsNCADepartureType">
+		<xsd:annotation>
+			<xsd:documentation/>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="TotalQuantity" type="TotalQuantityType"  minOccurs="0"/>
+		</xsd:sequence>
+		<xsd:attribute name="Draught" type="OneToThreeIntType"/>
+	</xsd:complexType>
+	
+	<xsd:complexType name="NCA_AlertType">
+		<xsd:sequence>
+			<xsd:element name="Header" type="NCA_HeaderType"/>
+			<xsd:element name="Body" type="NCA_AlertBodyType"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="NCA_AlertBodyType">
+		<xsd:annotation>
+			<xsd:documentation/>
+		</xsd:annotation>
+		<xsd:complexContent>
+			<xsd:extension base="NCA_MsgPortuaireBodyType">
+				<xsd:sequence>
+					<xsd:element name="NonComplianceInformation" type="NonComplianceInformationNCAAlertType"/>
+					<xsd:element name="InspectionInformation" type="InspectionInformationNCAAlertType" minOccurs="0"/>
+				</xsd:sequence>	
+			</xsd:extension>	
+		</xsd:complexContent>
+	</xsd:complexType>
+	<xsd:complexType name="NonComplianceInformationNCAAlertType">
+		<xsd:annotation>
+			<xsd:documentation/>
+		</xsd:annotation>
+		<xsd:sequence/>
+		<xsd:attribute name="WasteDeliveryDuePort" type="LocodeType" use="required"/>
+		<xsd:attribute name="ETD" type="zsdateTime" use="required"/>
+		<xsd:attribute name="InspectionReason" type="OneToTwoHundredFiftySixCharType" use="required"/>
+	</xsd:complexType>
+	<xsd:complexType name="InspectionInformationNCAAlertType">
+		<xsd:annotation>
+			<xsd:documentation/>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="InspectionAuthorities" type="InspectionAuthoritiesType"/>
+		</xsd:sequence>
+		<xsd:attribute name="Deficiencies" type="OneToTwoHundredFiftySixCharType" use="required"/>
+		<xsd:attribute name="ActionTaken" type="OneToTwoHundredFiftySixCharType" use="required"/>
+	</xsd:complexType>
+	<xsd:complexType name="InspectionAuthoritiesType">
+		<xsd:annotation>
+			<xsd:documentation/>
+		</xsd:annotation>
+		<xsd:sequence/>
+		<xsd:attribute name="Name" type="OneToEightyCharType" use="required"/>
+		<xsd:attribute name="Phone" type="OneToTwentyCharType" use="required"/>
+		<xsd:attribute name="Fax" type="OneToTwentyCharType"/>
+		<xsd:attribute name="Email" type="ZeroToFiftyCharType"/>
+	</xsd:complexType>
+		
+	<xsd:complexType name="NCA_FAL7MDType">
+		<xsd:sequence>
+			<xsd:element name="Header" type="NCA_HeaderType"/>
+			<xsd:element name="Body" type="NCA_FAL7MDBodyType"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="NCA_FAL7MDBodyType">
+		<xsd:annotation>
+			<xsd:documentation/>
+		</xsd:annotation>
+		<xsd:complexContent>
+			<xsd:extension base="NCA_MsgPortuaireBodyType">
+				<xsd:sequence>
+					<xsd:element name="FormInformation" type="FormInformationNCAFAL7MDType"/>
+					<xsd:element name="HazmatInformation" type="HazmatInformationNCAFAL7MDType" minOccurs="0"/>
+					<xsd:element name="HazmatDetails" type="HazmatDetailsNCAFAL7MDType" minOccurs="0"/>
+				</xsd:sequence>		
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<xsd:complexType name="FormInformationNCAFAL7MDType">
+		<xsd:annotation>
+			<xsd:documentation/>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="ShippingContactDetails" type="ShippingContactDetailsNCAFALType" minOccurs="0"/>
+		</xsd:sequence>
+		<xsd:attribute name="EntryOrExit" type="BooleanType" use="required"/>
+		<xsd:attribute name="VoyageNumber" type="ZeroToTwoHundredFiftySixCharType"/>
+	</xsd:complexType>
+	<xsd:complexType name="HazmatInformationNCAFAL7MDType">
+		<xsd:annotation>
+			<xsd:documentation/>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="DPGContactDetails" type="ContactDetailsMsgPortuaireNCAType"/>
+		</xsd:sequence>
+		<xsd:attribute name="ConfirmDPGListOnBoard" type="YesNoType"/>
+		<xsd:attribute name="INFShipClass" type="xsd:string"/>
+	</xsd:complexType>
+	<xsd:complexType name="HazmatDetailsNCAFAL7MDType">
+		<xsd:annotation>
+			<xsd:documentation/>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="Consignment" type="ConsignmentNCAFAL7MDType" minOccurs="0" maxOccurs="unbounded"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="ConsignmentNCAFAL7MDType">
+		<xsd:annotation>
+			<xsd:documentation/>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="DPGItem" type="DPGItemNCAFAL7MDType" maxOccurs="unbounded"/>
+		</xsd:sequence>
+		<xsd:attribute name="TransportDocumentId" type="OneToThirtyFiveCharType"/>
+		<xsd:attribute name="PortOfLoading" type="LocodeType"/>
+		<xsd:attribute name="PortOfDischarge" type="LocodeType"/>
+	</xsd:complexType>
+	<xsd:complexType name="DPGItemNCAFAL7MDType">
+		<xsd:annotation>
+			<xsd:documentation/>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="EMS" type="EMSNCAFAL7MDType" minOccurs="0" maxOccurs="5"/>
+			<xsd:element name="SubsidiaryRisks" type="SubsidiaryRisksNCAFAL7MDType" minOccurs="0" maxOccurs="5"/>
+			<xsd:element name="TotalQuantityGross" type="QuantityGrossNCAFAL7MDType" minOccurs="0"/>
+			<xsd:element name="TotalQuantityNet" type="QuantityNetNCAFAL7MDType" minOccurs="0"/>
+			<xsd:element name="TransportEquipmentUnit" type="TransportEquipmentUnitNCAFAL7MDType" minOccurs="0" maxOccurs="unbounded"/>
+			<xsd:element name="NonTransportEquipmentUnit" type="NonTransportEquipmentUnitNCAFAL7MDType" minOccurs="0" maxOccurs="unbounded"/>
+		</xsd:sequence>
+		<xsd:attribute name="DGClassification" type="xsd:string" use="required"/>
+		<xsd:attribute name="TextualReference" type="OneToThreeHundredFiftyCharType" use="required"/>
+		<xsd:attribute name="IMOHazardClass" type="OneToSevenCharType"/>
+		<xsd:attribute name="UNNumber" type="FourCharType"/>
+		<xsd:attribute name="PackingGroup" type="xsd:string"/>
+		<xsd:attribute name="FlashPoint" type="xsd:decimal"/>
+		<xsd:attribute name="MarpolCode" type="xsd:string"/>
+		<xsd:attribute name="PackageType" type="xsd:string"/>
+		<xsd:attribute name="TotalNrOfPackages" type="xsd:integer"/>
+		<xsd:attribute name="AdditionalInformation" type="OneToTwoHundredFiftySixCharType"/>
+	</xsd:complexType>
+	<xsd:complexType name="EMSNCAFAL7MDType">
+		<xsd:annotation>
+			<xsd:documentation/>
+		</xsd:annotation>
+		<xsd:sequence />
+		<xsd:attribute name="EMSNumber" type="OneToFiftyCharType" use="required"/>
+	</xsd:complexType>
+	<xsd:complexType name="SubsidiaryRisksNCAFAL7MDType">
+		<xsd:annotation>
+			<xsd:documentation/>
+		</xsd:annotation>
+		<xsd:sequence />
+		<xsd:attribute name="SubsidiaryRisk" type="OneToSeventeenCharType" use="required"/>
+	</xsd:complexType>
+	<xsd:complexType name="TransportEquipmentUnitNCAFAL7MDType">
+		<xsd:annotation>
+			<xsd:documentation/>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="QuantityGross" type="QuantityGrossNCAFAL7MDType" minOccurs="0"/>
+			<xsd:element name="QuantityNet" type="QuantityNetNCAFAL7MDType" minOccurs="0"/>
+		</xsd:sequence>
+		<xsd:attribute name="TransUnitId" type="OneToSeventeenCharType" use="required"/>
+		<xsd:attribute name="LocationOnBoard" type="OneToTwentyFiveCharType" use="required"/>
+		<xsd:attribute name="NoOfPackages" type="xsd:integer"/>
+	</xsd:complexType>
+	<xsd:complexType name="NonTransportEquipmentUnitNCAFAL7MDType">
+		<xsd:annotation>
+			<xsd:documentation/>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="QuantityGross" type="QuantityGrossNCAFAL7MDType" minOccurs="0"/>
+			<xsd:element name="QuantityNet" type="QuantityNetNCAFAL7MDType" minOccurs="0"/>
+		</xsd:sequence>
+		<xsd:attribute name="LocationOnBoard" type="OneToTwentyFiveCharType" use="required"/>
+		<xsd:attribute name="NoOfPackages" type="xsd:integer"/>
+	</xsd:complexType>
+	
+	<xsd:complexType name="NCA_FAL1Type">
+		<xsd:sequence>
+			<xsd:element name="Header" type="NCA_HeaderType"/>
+			<xsd:element name="Body" type="NCA_FAL1BodyType"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="NCA_FAL1BodyType">
+		<xsd:annotation>
+			<xsd:documentation/>
+		</xsd:annotation>
+		<xsd:complexContent>
+			<xsd:extension base="NCA_MsgPortuaireBodyType">
+				<xsd:sequence>
+					<xsd:element name="FormInformation" type="FormInformationNCAFAL1Type"/>
+				</xsd:sequence>	
+			</xsd:extension>	
+		</xsd:complexContent>
+	</xsd:complexType>
+	<xsd:complexType name="FormInformationNCAFAL1Type">
+		<xsd:annotation>
+			<xsd:documentation/>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="ShipInformation" type="ShipInformationNCAFAL1Type" minOccurs="0"/>
+			<xsd:element name="VoyageInformation" type="VoyageInformationNCAFAL1Type" minOccurs="0"/>
+			<xsd:element name="CertificateOfRegistry" type="CertificateOfRegistryNCAFAL1Type" minOccurs="0"/>
+			<xsd:element name="OtherInformations" type="OtherInformationsNCAFAL1Type" minOccurs="0"/>
+		</xsd:sequence>
+		<xsd:attribute name="EntryOrExit" type="BooleanType" use="required"/>
+		<xsd:attribute name="VoyageNumber" type="ZeroToTwoHundredFiftySixCharType"/>
+	</xsd:complexType>
+	<xsd:complexType name="ShipInformationNCAFAL1Type">
+		<xsd:annotation>
+			<xsd:documentation/>
+		</xsd:annotation>
+		<xsd:sequence />
+		<xsd:attribute name="ShipName" type="ShipNameType"/>
+		<xsd:attribute name="ShipType" type="xsd:string"/>
+		<xsd:attribute name="CallSign" type="FourToSevenCharType"/>
+		<xsd:attribute name="FlagStateOfShip" type="FlagType"/>
+		<xsd:attribute name="NameOfMaster" type="OneToTwentyCharType"/>
+	</xsd:complexType>
+	<xsd:complexType name="VoyageInformationNCAFAL1Type">
+		<xsd:annotation>
+			<xsd:documentation/>
+		</xsd:annotation>
+		<xsd:sequence />
+		<xsd:attribute name="LastPort" type="LocodeType"/>
+		<xsd:attribute name="NextPort" type="LocodeType"/>
+		<xsd:attribute name="ETAToPortOfCall" type="zsdateTime"/>
+		<xsd:attribute name="ATAToPortOfCall" type="zsdateTime"/>
+		<xsd:attribute name="ETDFromPortOfCall" type="zsdateTime"/>
+		<xsd:attribute name="ATDFromPortOfCall" type="zsdateTime"/>
+	</xsd:complexType>
+	<xsd:complexType name="CertificateOfRegistryNCAFAL1Type">
+		<xsd:annotation>
+			<xsd:documentation/>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="ShippingContactDetails" type="ShippingContactDetailsNCAFALType" minOccurs="0"/>
+		</xsd:sequence>
+		<xsd:attribute name="Locode" type="LocodeType"/>
+		<xsd:attribute name="LocationName" type="ZeroToTwoHundredFiftySixCharType"/>
+		<xsd:attribute name="Date" type="zsdate"/>
+		<xsd:attribute name="Number" type="OneToThirtyFiveCharType"/>
+	</xsd:complexType>
+	<xsd:complexType name="OtherInformationsNCAFAL1Type">
+		<xsd:annotation>
+			<xsd:documentation/>
+		</xsd:annotation>
+		<xsd:sequence />
+		<xsd:attribute name="GrossTonnage" type="DecimalThreeFractionDigitType"/>
+		<xsd:attribute name="NetTonnage" type="DecimalThreeFractionDigitType"/>
+		<xsd:attribute name="PositionInPortOfCall" type="ZeroToFiftyCharType"/>
+		<xsd:attribute name="BriefParticularsOfVoyage" type="OneToTwoHundredFiftySixCharType"/>
+		<xsd:attribute name="BriefDescriptionOfOnBoardCargo" type="OneToTwoHundredFiftySixCharType"/>
+		<xsd:attribute name="NumberOfCrew" type="OneToFiveIntType"/>
+		<xsd:attribute name="NumberOfPassengers" type="OneToFiveIntType"/>
+		<xsd:attribute name="GeneralRemarks" type="OneToTwoHundredFiftySixCharType"/>
+		<xsd:attribute name="ShipsRequirementsInTermsOfWasteAndResidueReceptionFacilities" type="OneToTwoHundredFiftySixCharType"/>
+	</xsd:complexType>
+	
+	<xsd:complexType name="NCA_FAL5Type">
+		<xsd:sequence>
+			<xsd:element name="Header" type="NCA_HeaderType"/>
+			<xsd:element name="Body" type="NCA_FAL5BodyType"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="NCA_FAL5BodyType">
+		<xsd:annotation>
+			<xsd:documentation/>
+		</xsd:annotation>
+		<xsd:complexContent>
+			<xsd:extension base="NCA_MsgPortuaireBodyType">
+				<xsd:sequence>
+					<xsd:element name="FormInformation" type="FormInformationNCAFAL5Type"/>
+				</xsd:sequence>	
+			</xsd:extension>	
+		</xsd:complexContent>
+	</xsd:complexType>
+	<xsd:complexType name="FormInformationNCAFAL5Type">
+		<xsd:annotation>
+			<xsd:documentation/>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="ShipInformation" type="ShipInformationNCAFAL5Type" minOccurs="0"/>
+			<xsd:element name="VoyageInformation" type="VoyageInformationNCAFAL5Type" minOccurs="0"/>
+			<xsd:element name="CrewList" type="CrewListNCAFAL5Type"/>
+		</xsd:sequence>
+		<xsd:attribute name="EntryOrExit" type="BooleanType" use="required"/>
+		<xsd:attribute name="VoyageNumber" type="ZeroToTwoHundredFiftySixCharType"/>
+	</xsd:complexType>
+	<xsd:complexType name="ShipInformationNCAFAL5Type">
+		<xsd:annotation>
+			<xsd:documentation/>
+		</xsd:annotation>
+		<xsd:sequence />
+		<xsd:attribute name="ShipName" type="ShipNameType"/>
+		<xsd:attribute name="CallSign" type="FourToSevenCharType"/>
+		<xsd:attribute name="FlagStateOfShip" type="FlagType"/>
+	</xsd:complexType>
+	<xsd:complexType name="VoyageInformationNCAFAL5Type">
+		<xsd:annotation>
+			<xsd:documentation/>
+		</xsd:annotation>
+		<xsd:sequence />
+		<xsd:attribute name="LastPort" type="LocodeType"/>
+		<xsd:attribute name="ETAToPortOfCall" type="zsdateTime"/>
+		<xsd:attribute name="ATAToPortOfCall" type="zsdateTime"/>
+		<xsd:attribute name="ETDFromPortOfCall" type="zsdateTime"/>
+		<xsd:attribute name="ATDFromPortOfCall" type="zsdateTime"/>
+	</xsd:complexType>
+	<xsd:complexType name="CrewListNCAFAL5Type">
+		<xsd:annotation>
+			<xsd:documentation/>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="CrewMember" type="CrewMemberNCAFAL5Type" maxOccurs="unbounded"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="CrewMemberNCAFAL5Type">
+		<xsd:annotation>
+			<xsd:documentation/>
+		</xsd:annotation>
+		<xsd:sequence />
+		<xsd:attribute name="LastName" type="OneToSeventyCharType" use="required"/>
+		<xsd:attribute name="FirstName" type="OneToSeventyCharType" use="required"/>
+		<xsd:attribute name="DutyOfCrew" type="OneToSeventyCharType" use="required"/>
+		<xsd:attribute name="Nationality" type="NationalityEnumType" use="required"/>
+		<xsd:attribute name="DateOfBirth" type="zsdate" use="required"/>
+		<xsd:attribute name="PlaceOfBirth" type="OneToThirtyFiveCharType" use="required"/>
+		<xsd:attribute name="CountryOfBirth" type="CountryOfBirthEnumType"/>
+		<xsd:attribute name="NatureOfIdentityDocument" type="NatureOfIdentityDocumentEnumType" use="required"/>
+		<xsd:attribute name="NumberOfIdentityDocument" type="OneToThirtyFiveCharType" use="required"/>
+		<xsd:attribute name="VisaOrResidencePermitNumber" type="OneToThirtyFiveCharType"/>
+	</xsd:complexType>
+	
+	<xsd:complexType name="NCA_FAL6Type">
+		<xsd:sequence>
+			<xsd:element name="Header" type="NCA_HeaderType"/>
+			<xsd:element name="Body" type="NCA_FAL6BodyType"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="NCA_FAL6BodyType">
+		<xsd:annotation>
+			<xsd:documentation/>
+		</xsd:annotation>
+		<xsd:complexContent>
+			<xsd:extension base="NCA_MsgPortuaireBodyType">
+				<xsd:sequence>
+					<xsd:element name="FormInformation" type="FormInformationNCAFAL6Type"/>
+				</xsd:sequence>	
+			</xsd:extension>	
+		</xsd:complexContent>
+	</xsd:complexType>
+	<xsd:complexType name="FormInformationNCAFAL6Type">
+		<xsd:annotation>
+			<xsd:documentation/>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="ShipInformation" type="ShipInformationNCAFAL6Type" minOccurs="0"/>
+			<xsd:element name="VoyageInformation" type="VoyageInformationNCAFAL6Type" minOccurs="0"/>
+			<xsd:element name="PassengerList" type="PassengerListNCAFAL6Type" minOccurs="0"/>
+		</xsd:sequence>
+		<xsd:attribute name="EntryOrExit" type="BooleanType" use="required"/>
+		<xsd:attribute name="VoyageNumber" type="ZeroToTwoHundredFiftySixCharType"/>
+	</xsd:complexType>
+	<xsd:complexType name="ShipInformationNCAFAL6Type">
+		<xsd:annotation>
+			<xsd:documentation/>
+		</xsd:annotation>
+		<xsd:sequence />
+		<xsd:attribute name="ShipName" type="ShipNameType"/>
+		<xsd:attribute name="CallSign" type="FourToSevenCharType"/>
+		<xsd:attribute name="FlagStateOfShip" type="FlagType"/>
+	</xsd:complexType>
+	<xsd:complexType name="VoyageInformationNCAFAL6Type">
+		<xsd:annotation>
+			<xsd:documentation/>
+		</xsd:annotation>
+		<xsd:sequence />
+		<xsd:attribute name="ETAToPortOfCall" type="zsdateTime"/>
+		<xsd:attribute name="ATAToPortOfCall" type="zsdateTime"/>
+		<xsd:attribute name="ETDFromPortOfCall" type="zsdateTime"/>
+		<xsd:attribute name="ATDFromPortOfCall" type="zsdateTime"/>
+	</xsd:complexType>
+	<xsd:complexType name="PassengerListNCAFAL6Type">
+		<xsd:annotation>
+			<xsd:documentation/>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="Passenger" type="PassengerNCAFAL6Type" maxOccurs="unbounded"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="PassengerNCAFAL6Type">
+		<xsd:annotation>
+			<xsd:documentation/>
+		</xsd:annotation>
+		<xsd:sequence />
+		<xsd:attribute name="LastName" type="OneToSeventyCharType" use="required"/>
+		<xsd:attribute name="FirstName" type="OneToSeventyCharType" use="required"/>
+		<xsd:attribute name="Nationality" type="NationalityEnumType" use="required"/>
+		<xsd:attribute name="DateOfBirth" type="zsdate" use="required"/>
+		<xsd:attribute name="PlaceOfBirth" type="OneToThirtyFiveCharType" use="required"/>
+		<xsd:attribute name="CountryOfBirth" type="CountryOfBirthEnumType"/>
+		<xsd:attribute name="NatureOfIdentityDocument" type="NatureOfIdentityDocumentEnumType" use="required"/>
+		<xsd:attribute name="NumberOfIdentityDocument" type="OneToThirtyFiveCharType" use="required"/>
+		<xsd:attribute name="PortOfEmbarkation" type="LocodeType" use="required"/>
+		<xsd:attribute name="PortOfDisembarkation" type="LocodeType" use="required"/>
+		<xsd:attribute name="Transit" type="YesNoType" use="required"/>
+		<xsd:attribute name="VisaOrResidencePermitNumber" type="OneToThirtyFiveCharType"/>
+	</xsd:complexType>
+	
+	<xsd:complexType name="NCA_WasteType">
+		<xsd:sequence>
+			<xsd:element name="Header" type="NCA_HeaderType"/>
+			<xsd:element name="Body" type="NCA_WasteBodyType"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="NCA_WasteBodyType">
+		<xsd:annotation>
+			<xsd:documentation/>
+		</xsd:annotation>
+		<xsd:complexContent>
+			<xsd:extension base="NCA_MsgPortuaireBodyType">
+				<xsd:sequence>
+					<xsd:element name="WasteInformation" type="WasteInformationNCAWasteType" minOccurs="0"/>
+				</xsd:sequence>	
+			</xsd:extension>	
+		</xsd:complexContent>
+	</xsd:complexType>
+	<xsd:complexType name="WasteInformationNCAWasteType">
+		<xsd:annotation>
+			<xsd:documentation/>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="WasteSummary" type="WasteSummaryNCAWasteType" minOccurs="0"/>
+			<xsd:element name="WasteDetails" type="WasteDetailsNCAWasteType"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="WasteSummaryNCAWasteType">
+		<xsd:annotation>
+			<xsd:documentation/>
+		</xsd:annotation>
+		<xsd:sequence />
+		<xsd:attribute name="LastPortDelivered" type="LocodeType"/>
+		<xsd:attribute name="LastPortDeliveredDate" type="zsdate"/>
+		<xsd:attribute name="WasteDeliveryStatus" type="xsd:string" use="required"/>
+	</xsd:complexType>
+	<xsd:complexType name="WasteDetailsNCAWasteType">
+		<xsd:annotation>
+			<xsd:documentation/>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="WasteItem" type="WasteItemNCAWasteType" minOccurs="0" maxOccurs="unbounded"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="WasteItemNCAWasteType">
+		<xsd:annotation>
+			<xsd:documentation/>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="WasteType" type="WasteTypeNCAWasteType"/>
+			<xsd:element name="ToBeDelivered" type="QuantityNCAWasteType"/>
+			<xsd:element name="MaxStorage" type="QuantityNCAWasteType" minOccurs="0"/>
+			<xsd:element name="RetainedOnBoard" type="QuantityNCAWasteType" minOccurs="0"/>
+			<xsd:element name="EstimateGenerated" type="QuantityNCAWasteType" minOccurs="0"/>
+			<xsd:element name="DeliveredAtLastPort" type="QuantityNCAWasteType"/>
+		</xsd:sequence>
+		<xsd:attribute name="PortDeliveryRemainingWaste" type="LocodeType"/>
+	</xsd:complexType>
+	<xsd:complexType name="WasteTypeNCAWasteType">
+		<xsd:annotation>
+			<xsd:documentation/>
+		</xsd:annotation>
+		<xsd:sequence />
+		<xsd:attribute name="WasteCode" type="xsd:string" use="required"/>
+		<xsd:attribute name="WasteDescription" type="OneToTwoHundredFiftySixCharType"/>
+	</xsd:complexType>
+	
+	<xsd:complexType name="NCA_ISPSType">
+		<xsd:sequence>
+			<xsd:element name="Header" type="NCA_HeaderType"/>
+			<xsd:element name="Body" type="NCA_ISPSBodyType"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="NCA_ISPSBodyType">
+		<xsd:annotation>
+			<xsd:documentation/>
+		</xsd:annotation>
+		<xsd:complexContent>
+			<xsd:extension base="NCA_MsgPortuaireBodyType">
+				<xsd:sequence>
+					<xsd:element name="FormInformation" type="FormInformationNCAISPSType" minOccurs="0"/>
+				</xsd:sequence>	
+			</xsd:extension>	
+		</xsd:complexContent>
+	</xsd:complexType>
+	<xsd:complexType name="FormInformationNCAISPSType">
+		<xsd:annotation>
+			<xsd:documentation/>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="ShipParticulars" type="ShipParticularsNCAISPSType" minOccurs="0"/>
+			<xsd:element name="ReportingPerson" type="ReportingPersonNCAISPSType" minOccurs="0"/>
+			<xsd:element name="VoyageInformation" type="VoyageInformationNCAISPSType"/>
+			<xsd:element name="SecurityInformation" type="SecurityInformationNCAISPSType" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="ShipParticularsNCAISPSType">
+		<xsd:annotation>
+			<xsd:documentation/>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="InmarsatCallNumberList" type="InmarsatCallNumberListNCAISPSType" minOccurs="0" maxOccurs="5"/>
+		</xsd:sequence>
+		<xsd:attribute name="ShipName" type="ShipNameType"/>
+		<xsd:attribute name="ShipType" type="xsd:string"/>
+		<xsd:attribute name="CallSign" type="FourToSevenCharType"/>
+		<xsd:attribute name="FlagStateOfShip" type="FlagType"/>
+		<xsd:attribute name="GrossTonnage" type="DecimalThreeFractionDigitType"/>
+		<xsd:attribute name="PortOfRegistry" type="LocodeType"/>
+		<xsd:attribute name="NameOfCompany" type="OneToSeventyCharType"/>
+		<xsd:attribute name="IMOCompanyNumber" type="IMONumberType"/>
+	</xsd:complexType>
+	<xsd:complexType name="InmarsatCallNumberListNCAISPSType">
+		<xsd:annotation>
+			<xsd:documentation/>
+		</xsd:annotation>
+		<xsd:sequence />
+		<xsd:attribute name="InmarsatCallNumber" type="OneToFiftyCharType" use="required"/>
+	</xsd:complexType>
+	<xsd:complexType name="ReportingPersonNCAISPSType">
+		<xsd:annotation>
+			<xsd:documentation/>
+		</xsd:annotation>
+		<xsd:sequence />
+		<xsd:attribute name="Title" type="OneToTwoHundredFiftySixCharType"/>
+	</xsd:complexType>
+	<xsd:complexType name="VoyageInformationNCAISPSType">
+		<xsd:annotation>
+			<xsd:documentation/>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="PurposeOfCall" type="PurposeOfCallNCAISPSType" minOccurs="0" maxOccurs="9"/>
+		</xsd:sequence>
+		<xsd:attribute name="PortFacility" type="OneToFourCharType"/>
+	</xsd:complexType>
+	<xsd:complexType name="PurposeOfCallNCAISPSType">
+		<xsd:annotation>
+			<xsd:documentation/>
+		</xsd:annotation>
+		<xsd:sequence />
+		<xsd:attribute name="CallPurposeCode" type="xsd:string" use="required"/>
+	</xsd:complexType>
+	<xsd:complexType name="SecurityInformationNCAISPSType">
+		<xsd:annotation>
+			<xsd:documentation/>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="SecuritySummary" type="SecuritySummaryNCAISPSType" minOccurs="0"/>
+			<xsd:element name="SecurityDetails" type="SecurityDetailsNCAISPSType"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="SecuritySummaryNCAISPSType">
+		<xsd:annotation>
+			<xsd:documentation/>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="AgentInPortAtArrival" type="AgentInPortAtArrivalNCAISPSType" minOccurs="0"/>
+		</xsd:sequence>
+		<xsd:attribute name="CurrentSecurityLevel" type="xsd:string" use="required"/>
+	</xsd:complexType>
+	<xsd:complexType name="AgentInPortAtArrivalNCAISPSType">
+		<xsd:annotation>
+			<xsd:documentation/>
+		</xsd:annotation>
+		<xsd:sequence/>
+		<xsd:attribute name="AgentName" type="OneToFiftyCharType" use="required"/>
+		<xsd:attribute name="Phone" type="OneToTwentyCharType"/>
+		<xsd:attribute name="Fax" type="OneToTwentyCharType"/>
+		<xsd:attribute name="EMail" type="ZeroToFiftyCharType"/>
+	</xsd:complexType>
+	<xsd:complexType name="SecurityDetailsNCAISPSType">
+		<xsd:annotation>
+			<xsd:documentation/>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="CSO" type="CSONCAISPSType"/>
+			<xsd:element name="ISSC" type="ISSCNCAISPSType" minOccurs="0"/>
+			<xsd:element name="PreviousCallAtPortFacility" type="PreviousCallAtPortFacilityNCAISPSType" minOccurs="0" maxOccurs="unbounded"/>
+			<xsd:element name="ShipToShipActivity" type="ShipToShipActivityNCAISPSType" minOccurs="0" maxOccurs="unbounded"/>
+		</xsd:sequence>
+		<xsd:attribute name="ValidISSC" type="YesNoType" use="required"/>
+		<xsd:attribute name="ReasonForNoValidISSC" type="OneToTwoHundredFiftySixCharType"/>
+		<xsd:attribute name="ApprovedSecurityPlan" type="YesNoType" use="required"/>
+		<xsd:attribute name="SecurityRelatedMatterToReport" type="ZeroToTwoHundredFiftySixCharType"/>
+	</xsd:complexType>
+	<xsd:complexType name="CSONCAISPSType">
+		<xsd:annotation>
+			<xsd:documentation/>
+		</xsd:annotation>
+		<xsd:sequence/>
+		<xsd:attribute name="FirstName" type="ZeroToFiftyCharType"/>
+		<xsd:attribute name="LastName" type="ZeroToFiftyCharType" use="required"/>
+		<xsd:attribute name="Phone" type="OneToTwentyCharType"/>
+		<xsd:attribute name="Fax" type="OneToTwentyCharType"/>
+		<xsd:attribute name="EMail" type="ZeroToFiftyCharType"/>
+	</xsd:complexType>
+	<xsd:complexType name="ISSCNCAISPSType">
+		<xsd:annotation>
+			<xsd:documentation/>
+		</xsd:annotation>
+		<xsd:sequence/>
+		<xsd:attribute name="ISSCType" type="xsd:string" use="required"/>
+		<xsd:attribute name="IssuerType" type="xsd:string"/>
+		<xsd:attribute name="Issuer" type="OneToTwoHundredFiftySixCharType" use="required"/>
+		<xsd:attribute name="ExpiryDate" type="zsdate" use="required"/>
+	</xsd:complexType>
+	<xsd:complexType name="PreviousCallAtPortFacilityNCAISPSType">
+		<xsd:annotation>
+			<xsd:documentation/>
+		</xsd:annotation>
+		<xsd:sequence/>
+		<xsd:attribute name="Port" type="LocodeType" use="required"/>
+		<xsd:attribute name="DateOfArrival" type="zsdate" use="required"/>
+		<xsd:attribute name="DateOfDeparture" type="zsdate" use="required"/>
+		<xsd:attribute name="PortFacility" type="OneToFourCharType"/>
+		<xsd:attribute name="SecurityLevel" type="xsd:string" use="required"/>
+		<xsd:attribute name="SpecialOrAdditionalSecurityMeasures" type="ZeroToTwoHundredFiftySixCharType"/>
+	</xsd:complexType>
+	<xsd:complexType name="ShipToShipActivityNCAISPSType">
+		<xsd:annotation>
+			<xsd:documentation/>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="Location" type="LocationCAISPSType"/>
+		</xsd:sequence>
+		<xsd:attribute name="DateFrom" type="zsdate" use="required"/>
+		<xsd:attribute name="DateTo" type="zsdate" use="required"/>
+		<xsd:attribute name="Activity" type="xsd:string" use="required"/>
+		<xsd:attribute name="SecurityMeasures" type="ZeroToTwoHundredFiftySixCharType"/>
+	</xsd:complexType>
+	<xsd:complexType name="LocationCAISPSType">
+		<xsd:annotation>
+			<xsd:documentation/>
+		</xsd:annotation>
+		<xsd:sequence/>
+		<xsd:attribute name="Locode" type="LocodeType"/>
+		<xsd:attribute name="Latitude" type="LatitudeType"/>
+		<xsd:attribute name="Longitude" type="LongitudeType"/>
+		<xsd:attribute name="LocationName" type="ZeroToTwoHundredFiftySixCharType"/>
+	</xsd:complexType>
+	
+	<xsd:complexType name="NCA_DMSType">
+		<xsd:sequence>
+			<xsd:element name="Header" type="NCA_HeaderType"/>
+			<xsd:element name="Body" type="NCA_DMSBodyType"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="NCA_DMSBodyType">
+		<xsd:annotation>
+			<xsd:documentation/>
+		</xsd:annotation>
+		<xsd:complexContent>
+			<xsd:extension base="NCA_MsgPortuaireBodyType">
+				<xsd:sequence>
+					<xsd:element name="FormInformation" type="FormInformationNCADMSType" minOccurs="0"/>
+				</xsd:sequence>		
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<xsd:complexType name="FormInformationNCADMSType">
+		<xsd:annotation>
+			<xsd:documentation/>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="GlobalInformations" type="GlobalInformationsNCADMSType" minOccurs="0"/>
+			<xsd:element name="HealthQuestions" type="HealthQuestionsNCADMSType" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="GlobalInformationsNCADMSType">
+		<xsd:annotation>
+			<xsd:documentation/>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="ValidSanitationControlExemptionOrControlCertificate" type="ValidSanitationControlExemptionOrControlCertificateNCADMSType" minOccurs="0"/>
+			<xsd:element name="LastShipCalls" type="LastShipCallsNCADMSType" minOccurs="0"/>
+		</xsd:sequence>
+		<xsd:attribute name="ReInspectionRequired" type="YesNoType"/>
+		<xsd:attribute name="VisitedInfectedArea" type="YesNoType"/>
+		<xsd:attribute name="PortOfCallInInfectedArea" type="LocodeType"/>
+		<xsd:attribute name="DateOfCallInInfectedArea" type="zsdate"/>
+	</xsd:complexType>
+	<xsd:complexType name="ValidSanitationControlExemptionOrControlCertificateNCADMSType">
+		<xsd:annotation>
+			<xsd:documentation/>
+		</xsd:annotation>
+		<xsd:sequence/>
+		<xsd:attribute name="PlaceOfIssue" type="ZeroToFiftyCharType"/>
+		<xsd:attribute name="DateOfIssue" type="zsdate"/>
+	</xsd:complexType>
+	<xsd:complexType name="LastShipCallsNCADMSType">
+		<xsd:annotation>
+			<xsd:documentation/>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="ShipCall" type="ShipCallNCADMSType" minOccurs="0" maxOccurs="unbounded"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="ShipCallNCADMSType">
+		<xsd:annotation>
+			<xsd:documentation/>
+		</xsd:annotation>
+		<xsd:sequence/>
+		<xsd:attribute name="Locode" type="LocodeType"/>
+		<xsd:attribute name="ATD" type="zsdate"/>
+	</xsd:complexType>
+	<xsd:complexType name="HealthQuestionsNCADMSType">
+		<xsd:annotation>
+			<xsd:documentation />
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="AnyPersonDied" type="AnyPersonDiedNCADMSType" minOccurs="0"/>
+			<xsd:element name="DiseaseOnBoard" type="BlocBooleanNCADMSType" minOccurs="0"/>
+			<xsd:element name="IllPersonsGreaterThanExpected" type="IllPersonsGreaterThanExpectedNCADMSType" minOccurs="0"/>
+			<xsd:element name="IllPersonsNow" type="BlocBooleanNCADMSType" minOccurs="0"/>
+			<xsd:element name="MedicalConsulted" type="BlocBooleanNCADMSType" minOccurs="0"/>
+			<xsd:element name="InfectionConditionOnBoard" type="BlocBooleanNCADMSType" minOccurs="0"/>
+			<xsd:element name="SanitaryMeasure" type="SanitaryMeasureNCADMSType" minOccurs="0"/>
+			<xsd:element name="SickAnimal" type="BlocBooleanNCADMSType" minOccurs="0"/>
+			<xsd:element name="StowawaysDiscovered" type="StowawaysDiscoveredNCADMSType" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="BlocBooleanNCADMSType">
+		<xsd:annotation>
+			<xsd:documentation/>
+		</xsd:annotation>
+		<xsd:sequence/>
+	</xsd:complexType>
+	<xsd:complexType name="AnyPersonDiedNCADMSType">
+		<xsd:annotation>
+			<xsd:documentation/>
+		</xsd:annotation>
+		<xsd:sequence/>
+		<xsd:attribute name="NumberOfDeaths" type="ZeroTo9999IntType"/>
+	</xsd:complexType>
+	<xsd:complexType name="IllPersonsGreaterThanExpectedNCADMSType">
+		<xsd:annotation>
+			<xsd:documentation/>
+		</xsd:annotation>
+		<xsd:sequence/>
+		<xsd:attribute name="NumberOfIllPerson" type="ZeroTo9999IntType"/>
+	</xsd:complexType>
+	<xsd:complexType name="SanitaryMeasureNCADMSType">
+		<xsd:annotation>
+			<xsd:documentation/>
+		</xsd:annotation>
+		<xsd:sequence/>
+		<xsd:attribute name="Type" type="ZeroToHundredCharType"/>
+		<xsd:attribute name="Place" type="ZeroToFiftyCharType"/>
+		<xsd:attribute name="Date" type="zsdate"/>
+	</xsd:complexType>
+	<xsd:complexType name="StowawaysDiscoveredNCADMSType">
+		<xsd:annotation>
+			<xsd:documentation/>
+		</xsd:annotation>
+		<xsd:sequence/>
+		<xsd:attribute name="LocationStowawaysJoinedShip" type="ZeroToTwoHundredFiftySixCharType"/>
+	</xsd:complexType>
+	
+	<xsd:complexType name="NCA_MouilRadeType">
+		<xsd:sequence>
+			<xsd:element name="Header" type="NCA_HeaderType"/>
+			<xsd:element name="Body" type="NCA_MouilRadeBodyType"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="NCA_MouilRadeBodyType">
+		<xsd:annotation>
+			<xsd:documentation/>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="VesselIdentification" type="VesselIdentificationMsgPortuaireNCAType"/>
+			<xsd:element name="ShipCallInformation" type="ShipCallInformationMsgPortuaireNCAType" minOccurs="0"/>
+			<xsd:element name="MovementInformation" type="MovementInformationNCAMouilRadeType"/>
+		</xsd:sequence>	
+	</xsd:complexType>
+	<xsd:complexType name="MovementInformationNCAMouilRadeType">
+		<xsd:annotation>
+			<xsd:documentation/>
+		</xsd:annotation>
+		<xsd:sequence/>
+		<xsd:attribute name="ExternalAnchorage" type="xsd:string" use="required"/>
+	</xsd:complexType>
+	
+	<xsd:complexType name="NCA_MouvPorType">
+		<xsd:sequence>
+			<xsd:element name="Header" type="NCA_HeaderType"/>
+			<xsd:element name="Body" type="NCA_MouvPorBodyType"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="NCA_MouvPorBodyType">
+		<xsd:complexContent>
+			<xsd:extension base="NCA_MsgPortuaireBodyType">
+				<xsd:sequence>
+					<xsd:element name="MovementInformation" type="MovementInformationNCAMouvPorType"/>
+				</xsd:sequence>		
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<xsd:complexType name="MovementInformationNCAMouvPorType">
+		<xsd:annotation>
+			<xsd:documentation/>
+		</xsd:annotation>
+		<xsd:sequence/>
+		<xsd:attribute name="CurrentPositionInPortOfCall" type="ZeroToFiftyCharType"/>
+		<xsd:attribute name="MovingStartTime" type="zsdateTime"/>
+		<xsd:attribute name="FuturePositionInPortOfCall" type="ZeroToFiftyCharType"/>
+		<xsd:attribute name="MovingEndTime" type="zsdateTime"/>
+	</xsd:complexType>
+	
+	<xsd:complexType name="VesselIdentificationNCAType">
+		<xsd:annotation>
+			<xsd:documentation/>
+		</xsd:annotation>
+		<xsd:sequence/>
+		<xsd:attribute name="IMONumber" type="IMONumberType"/>
+		<xsd:attribute name="MMSINumber" type="MMSINumberType"/>
+		<xsd:attribute name="CallSign" type="CallSignType"/>
+		<xsd:attribute name="Immatriculation" type="ImmatriculationType"/>
+		<xsd:attribute name="Flag" type="FlagType"/>
+		<xsd:attribute name="MerchantType" type="xsd:string"/>
+		<xsd:attribute name="ShipCategory" type="xsd:string"/>
+		<xsd:attribute name="ShipName" type="ShipNameType"/>
+	</xsd:complexType>
+	<xsd:complexType name="PositionNCAType">
+		<xsd:annotation>
+			<xsd:documentation/>
+		</xsd:annotation>
+		<xsd:sequence/>
+		<xsd:attribute name="Longitude" type="LongitudeType" use="required"/>
+		<xsd:attribute name="Latitude" type="LatitudeType" use="required"/>
+	</xsd:complexType>
+	<xsd:complexType name="BunkerType">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en"/>
+		</xsd:annotation>
+		<xsd:sequence/>
+		<xsd:attribute name="Chars" type="xsd:string" use="required"/>
+	</xsd:complexType>
+	<xsd:complexType name="DiffusionNCAType">
+		<xsd:annotation>
+			<xsd:documentation/>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="To" type="DiffusionDestinataireNCAType" maxOccurs="99"/>
+			<xsd:element name="Info" type="DiffusionDestinataireNCAType" minOccurs="0" maxOccurs="99"/>
+		</xsd:sequence>
+		<xsd:attribute name="Protection" type="xsd:string" use="required"/>
+		<xsd:attribute name="Notification" type="OneCharType" use="required"/>
+		<xsd:attribute name="CheckAuthority" type="OneCharType" use="required"/>
+		<xsd:attribute name="FaxNumber" type="FourCharType"/>
+		<xsd:attribute name="AuthorityName" type="OneToFiftyCharType"/>
+	</xsd:complexType>
+	
+	
+	<xsd:complexType name="LCA_LibreType">
+		<xsd:sequence>
+			<xsd:element name="Header" type="NCA_HeaderType"/>
+			<xsd:element name="Body" type="LCA_LibreBodyType"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="LCA_LibreBodyType">
+		<xsd:annotation>
+			<xsd:documentation/>
+		</xsd:annotation>
+		<xsd:simpleContent>
+			<xsd:extension base="xsd:string">
+				<xsd:attribute name="Object" type="xsd:string" use="required"/>
+				<xsd:attribute name="Text" type="xsd:string" use="required"/>
+			</xsd:extension>
+		</xsd:simpleContent>
+	</xsd:complexType>
+	<xsd:complexType name="NCA_PingType">
+		<xsd:sequence>
+			<xsd:element name="Header" type="NCA_HeaderType"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	
+	<xsd:complexType name="NCA_AnchorType">
+		<xsd:sequence>
+			<xsd:element name="Header" type="NCA_HeaderType"/>
+			<xsd:element name="Body" type="NCA_AnchorBodyType"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="NCA_AnchorBodyType">
+		<xsd:annotation>
+			<xsd:documentation/>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="VesselIdentification" type="VesselIdentificationNCAType"/>
+			<xsd:element name="VoyageInformation" type="VoyageInformationNCAAnchorType"/>
+			<xsd:element name="Position" type="PositionNCAType"/>
+			<xsd:element name="WeatherOnScene" type="WeatherOnSceneType" minOccurs="0"/>
+			<xsd:element name="Bunkers" type="BunkersType" minOccurs="0" maxOccurs="6"/>
+			<xsd:element name="CargoInformation" type="CargoInformationNCAAnchorSurnavType" minOccurs="0"/>
+			<xsd:element name="AnchorDetails" type="AnchorDetailsType"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="VoyageInformationNCAAnchorType">
+		<xsd:annotation>
+			<xsd:documentation/>
+		</xsd:annotation>
+		<xsd:sequence/>
+		<xsd:attribute name="TravelId" type="TravelIdType" />
+		<xsd:attribute name="LastPortOfCall" type="LocodeType" use="required"/>
+		<xsd:attribute name="NextPortOfCall" type="LocodeType" use="required"/>
+		<xsd:attribute name="ETAToNextPortOfCall" type="zsdateTime"/>
+		<xsd:attribute name="TotalPersonOnBoard" type="xsd:integer"/>
+		<xsd:attribute name="TotalPassenger" type="xsd:integer"/>
+		<xsd:attribute name="CrewNumber" type="xsd:integer"/>
+		<xsd:attribute name="TotalClandestine" type="xsd:integer"/>
+		<xsd:attribute name="ReportingDateAndTime" type="zsdateTime" use="required"/>
+		<xsd:attribute name="COG" type="COGType"/>
+		<xsd:attribute name="SOG" type="SOGType"/>
+		<xsd:attribute name="NavigationStatus" type="xsd:string" use="required"/>
+		<xsd:attribute name="Draught" type="DraughtType" use="required"/>
+		<xsd:attribute name="Lane" type="xsd:string"/>
+		<xsd:attribute name="TrackNumber" type="xsd:integer"/>
+		<xsd:attribute name="Observations" type="ZeroToTwoHundredFiftyFiveCharType"/>
+		<xsd:attribute name="Towing" type="TowingType"/>
+		<xsd:attribute name="TowLength" type="xsd:integer"/>
+		<xsd:attribute name="TowCategory" type="xsd:string"/>
+	</xsd:complexType>
+	<xsd:complexType name="WeatherOnSceneType">
+		<xsd:annotation>
+			<xsd:documentation/>
+		</xsd:annotation>
+		<xsd:attribute name="WindSpeed" type="xsd:integer"/>
+		<xsd:attribute name="WindDirection" type="xsd:integer"/>
+		<xsd:attribute name="WindGustSpeed" type="xsd:integer"/>
+		<xsd:attribute name="CurrentSpeed" type="xsd:integer"/>
+		<xsd:attribute name="CurrentDirection" type="xsd:integer"/>
+		<xsd:attribute name="SeaState" type="xsd:string"/>
+		<xsd:attribute name="Visibility" type="xsd:integer"/>
+		<xsd:attribute name="CloudCover" type="xsd:string"/>
+		<xsd:attribute name="Ceiling" type="xsd:integer"/>
+		<xsd:attribute name="SeaTemperature" type="xsd:integer"/>
+		<xsd:attribute name="AirTemperature" type="xsd:integer"/>
+	</xsd:complexType>
+	<xsd:complexType name="AnchorDetailsType">
+		<xsd:annotation>
+			<xsd:documentation/>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="Authorisation">
+				<xsd:complexType>
+					<xsd:attribute name="Authority" type="OneToFiftyCharType" use="required"/>
+					<xsd:attribute name="AuthorisationDateAndTime" type="zsdateTime" use="required"/>
+					<xsd:attribute name="AnchorageZone" type="OneToFiftyCharType" use="required"/>
+					<xsd:attribute name="AnchorageZoneType" type="OneToFiftyCharType" />
+					<xsd:attribute name="AnchoragePoint" type="OneToFiftyCharType" />
+					<xsd:attribute name="AuthorisationStatus" type="xsd:string" use="required"/>
+					<xsd:attribute name="AnchorReason" type="xsd:string" use="required"/>
+					<xsd:attribute name="AnchorDurationRequested" type="xsd:integer"/>
+				</xsd:complexType>
+			</xsd:element>
+			<xsd:element name="MIKE">
+				<xsd:complexType>
+					<xsd:attribute name="RadioVacation" type="ZeroToTwoThousandCharType" use="required"/>
+				</xsd:complexType>
+			</xsd:element>
+			<xsd:element name="ZULU">
+				<xsd:complexType>
+					<xsd:sequence/>
+					<xsd:attribute name="Damage" type="ZeroToTwoThousandCharType" use="required"/>
+					<xsd:attribute name="Remarks" type="ZeroToTwoThousandCharType" use="required"/>
+				</xsd:complexType>
+			</xsd:element>
+		</xsd:sequence>
+		<xsd:attribute name="AnchorType" type="xsd:string" use="required"/>
+	</xsd:complexType>
+	
+	<xsd:complexType name="NCA_EventType">
+		<xsd:sequence>
+			<xsd:element name="Header" type="NCA_HeaderType"/>
+			<xsd:element name="Body" type="NCA_EventBodyType"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="NCA_EventBodyType">
+		<xsd:annotation>
+			<xsd:documentation/>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="VesselIdentification" type="VesselIdentificationNCAType"/>
+		</xsd:sequence>
+		<xsd:attribute name="Operation" type="ZeroToTwentyCharType"/>
+		<xsd:attribute name="Label" type="ZeroToTwentyCharType" use="required"/>
+		<xsd:attribute name="Means" type="xsd:string" use="required"/>
+		<xsd:attribute name="Autority" type="xsd:string" use="required"/>
+		<xsd:attribute name="Public" type="OneCharType" use="required"/>
+	</xsd:complexType>
+	
+	<xsd:complexType name="NCA_ShipType">
+		<xsd:sequence>
+			<xsd:element name="Header" type="NCA_HeaderType"/>
+			<xsd:element name="Body" type="NCA_ShipBodyType"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="NCA_ShipBodyType">
+		<xsd:annotation>
+			<xsd:documentation/>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="VesselIdentification" type="VesselIdentificationNCAType"/>
+			<xsd:element name="VoyageInformation" type="VoyageInformationNCAType"/>
+			<xsd:element name="Position" type="PositionNCAType"/>
+			<xsd:element name="CargoInformation" type="CargoInformationNCAShipType" minOccurs="0"/>
+			<xsd:element name="Bunker" type="BunkerType" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="CargoInformationNCAShipType">
+		<xsd:annotation>
+			<xsd:documentation/>
+		</xsd:annotation>
+		<xsd:complexContent>
+			<xsd:extension base="CargoInformationNCAType">
+				<xsd:sequence>
+					<xsd:element name="DG" type="DGNCAType"/>
+					<xsd:element name="CargoManifest" type="NotificationDetailsType" minOccurs="0"/>
+					<xsd:element name="CargoOfInterest" type="CargoOfInterestNCAType" minOccurs="0" maxOccurs="99"/>
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	
+	<xsd:complexType name="NCA_ShipInfType">
+		<xsd:sequence>
+			<xsd:element name="Header" type="NCA_ShipInfHeaderType"/>
+			<xsd:element name="Body" type="NCA_ShipInfBodyType"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="NCA_ShipInfHeaderType">
+		<xsd:annotation>
+			<xsd:documentation/>
+		</xsd:annotation>
+		<xsd:complexContent>
+			<xsd:extension base="NCA_HeaderType">
+				<xsd:sequence/>
+				<xsd:attribute name="MSRefId" type="xsd:string"/>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<xsd:complexType name="NCA_ShipInfBodyType">
+		<xsd:annotation>
+			<xsd:documentation/>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="VesselIdentification" type="VesselIdentificationNCAType"/>
+			<xsd:element name="VoyageInformation" type="VoyageInformationNCAOptionalType"/>
+			<xsd:element name="Position" type="PositionNCAOptionalType" minOccurs="0"/>
+			<xsd:element name="CargoInformation" type="CargoInformationNCAShipInfType" minOccurs="0"/>
+			<xsd:element name="Bunker" type="BunkerType" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="VoyageInformationNCAOptionalType">
+		<xsd:annotation>
+			<xsd:documentation/>
+		</xsd:annotation>
+		<xsd:sequence/>
+		<xsd:attribute name="PortOfCall" type="LocodeType"/>
+		<xsd:attribute name="NextPortOfCall" type="LocodeType"/>
+		<xsd:attribute name="ETA" type="zsdateTime"/>
+		<xsd:attribute name="TotalPassenger" type="xsd:integer"/>
+		<xsd:attribute name="CrewNumber" type="xsd:integer"/>
+		<xsd:attribute name="TotalClandestine" type="xsd:integer"/>
+		<xsd:attribute name="ReportingDateAndTime" type="zsdateTime" use="required"/>
+		<xsd:attribute name="COG" type="COGType"/>
+		<xsd:attribute name="SOG" type="SOGType"/>
+		<xsd:attribute name="NavigationStatus" type="xsd:string"/>
+		<xsd:attribute name="Draught" type="DraughtType"/>
+		<xsd:attribute name="Lane" type="xsd:string"/>
+		<xsd:attribute name="TrackNumber" type="xsd:integer"/>
+		<xsd:attribute name="Observations" type="ZeroToTwoHundredFiftyFiveCharType"/>
+		<xsd:attribute name="Towing" type="TowingType"/>
+		<xsd:attribute name="TowLength" type="xsd:integer"/>
+		<xsd:attribute name="TowCategory" type="xsd:string"/>
+	</xsd:complexType>
+	<xsd:complexType name="PositionNCAOptionalType">
+		<xsd:annotation>
+			<xsd:documentation/>
+		</xsd:annotation>
+		<xsd:sequence/>
+		<xsd:attribute name="Longitude" type="LongitudeType"/>
+		<xsd:attribute name="Latitude" type="LatitudeType"/>
+	</xsd:complexType>
+	<xsd:complexType name="CargoInformationNCAShipInfType">
+		<xsd:annotation>
+			<xsd:documentation/>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="DG" type="DGNCAShipInfType"/>
+			<xsd:element name="CargoManifest" type="NotificationDetailsInfType" minOccurs="0"/>
+			<xsd:element name="CargoOfInterest" type="CargoOfInterestNCAType" minOccurs="0" maxOccurs="99"/>
+		</xsd:sequence>
+		<xsd:attribute name="TotalQuantity" type="xsd:integer"/>
+		<xsd:attribute name="UnitOfMeasurement" type="xsd:string"/>
+		<xsd:attribute name="Ballast" type="xsd:string"/>
+	</xsd:complexType>
+	<xsd:complexType name="NotificationDetailsInfType">
+		<xsd:annotation>
+			<xsd:documentation/>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:group ref="CargoManifestNCAShipInfType"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:group name="CargoManifestNCAShipInfType">
+		<xsd:annotation>
+			<xsd:documentation/>
+		</xsd:annotation>
+		<xsd:choice>
+			<xsd:element name="URLDetails" type="URLDetailsNCAOptionalType"/>
+			<xsd:element name="ContactDetails" type="ContactDetailsNCAOptionalType"/>
+		</xsd:choice>
+	</xsd:group>
+	<xsd:complexType name="URLDetailsNCAOptionalType">
+		<xsd:annotation>
+			<xsd:documentation/>
+		</xsd:annotation>
+		<xsd:sequence/>
+		<xsd:attribute name="Url" type="ZeroToTwoHundredFiftyFiveCharType"/>
+		<xsd:attribute name="DocType" type="xsd:string"/>
+	</xsd:complexType>
+	<xsd:complexType name="ContactDetailsNCAOptionalType">
+		<xsd:annotation>
+			<xsd:documentation/>
+		</xsd:annotation>
+		<xsd:sequence/>
+		<xsd:attribute name="LastName" type="ZeroToFiftyCharType"/>
+		<xsd:attribute name="FirstName" type="ZeroToFiftyCharType"/>
+		<xsd:attribute name="LoCode" type="LocodeType"/>
+		<xsd:attribute name="Phone" type="OneToTwentyCharType"/>
+		<xsd:attribute name="Fax" type="OneToTwentyCharType"/>
+		<xsd:attribute name="EMail" type="ZeroToFiftyCharType"/>
+	</xsd:complexType>
+	
+	<xsd:complexType name="NCA_ShipAISType">
+		<xsd:sequence>
+			<xsd:element name="Header" type="NCA_HeaderType"/>
+			<xsd:element name="Body" type="NCA_ShipAISBodyType"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="NCA_ShipAISBodyType">
+		<xsd:annotation>
+			<xsd:documentation/>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="VesselIdentification" type="VesselIdentificationNCAType"/>
+			<xsd:element name="VesselInformation" type="VesselInformationAISNCAType"/>
+			<xsd:element name="AISVoyageInformation" type="AISVoyageInformationType"/>
+			<xsd:element name="ShipPosition" type="ShipPositionType"/>
+			<xsd:element name="AISCargoInformation" type="AISCargoInformationType"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="VesselInformationAISNCAType">
+		<xsd:attribute name="LengthAndBeam" type="OneToThirtySixCharType" use="required"/>
+		<xsd:attribute name="ShipDraught" type="ShipDraughtType" use="required"/>
+		<xsd:attribute name="ShipType" type="xsd:string"/>
+		<xsd:attribute name="AntennaLocation" type="xsd:string" use="required"/>
+	</xsd:complexType>
+	<xsd:complexType name="AISVoyageInformationType">
+		<xsd:attribute name="NextPortOfCall" type="LocodeType" use="required"/>
+		<xsd:attribute name="ETA" type="zsdateTime"/>
+		<xsd:attribute name="RoutePlan" type="xsd:string" use="required"/>
+		<xsd:attribute name="ROT" type="ROTType" use="required"/>
+		<xsd:attribute name="COG" type="COGType" use="required"/>
+		<xsd:attribute name="SOG" type="SOGType" use="required"/>
+		<xsd:attribute name="NavigationStatus" type="xsd:string" use="required"/>
+		<xsd:attribute name="Heading" type="HeadingType" use="required"/>
+	</xsd:complexType>
+	<xsd:complexType name="ShipPositionType">
+		<xsd:attribute name="Longitude" type="LongitudeType" use="required"/>
+		<xsd:attribute name="Latitude" type="LatitudeType" use="required"/>
+		<xsd:attribute name="Timestamp" type="zsdateTime" use="required"/>
+	</xsd:complexType>
+	<xsd:complexType name="AISCargoInformationType">
+		<xsd:attribute name="HazardousCargoType" type="xsd:string" use="required"/>
+	</xsd:complexType>
+	
+	<xsd:complexType name="NCA_NoteType">
+		<xsd:sequence>
+			<xsd:element name="Header" type="NCA_HeaderType"/>
+			<xsd:element name="Body" type="NCA_NoteBodyType"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="NCA_NoteBodyType">
+		<xsd:annotation>
+			<xsd:documentation/>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="VesselIdentification" type="VesselIdentificationNCAType"/>
+		</xsd:sequence>
+		<xsd:attribute name="Text" type="ZeroToTwoHundredFiftySixCharType" use="required"/>
+	</xsd:complexType>
+	
+	<xsd:complexType name="NCA_SurnavType">
+		<xsd:sequence>
+			<xsd:element name="Header" type="NCA_HeaderType"/>
+			<xsd:element name="Body" type="NCA_SurnavBodyType"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="NCA_SurnavBodyType">
+		<xsd:annotation>
+			<xsd:documentation/>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="VesselIdentification" type="VesselIdentificationNCAType"/>
+			<xsd:element name="VoyageInformation" type="VoyageInformationNCAType"/>
+			<xsd:element name="Position" type="PositionNCAType"/>
+			<xsd:element name="CargoInformation" type="CargoInformationNCAAnchorSurnavType" minOccurs="0"/>
+			<xsd:element name="Bunker" type="BunkerType" minOccurs="0"/>
+			<xsd:element name="SurnavDetails" type="SurnavDetailsType"/>
+			<xsd:element name="Diffusion" type="DiffusionNCAType" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="SurnavDetailsType">
+		<xsd:annotation>
+			<xsd:documentation/>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="BRAVO">
+				<xsd:complexType>
+					<xsd:attribute name="ReportingDateAndTime" type="zsdateTime" use="required"/>
+				</xsd:complexType>
+			</xsd:element>
+			<xsd:element name="HOTEL">
+				<xsd:complexType>
+					<xsd:attribute name="EntryDetails" type="ZeroToTwoHundredFiftyFiveCharType" use="required"/>
+				</xsd:complexType>
+			</xsd:element>
+			<xsd:element name="KILO">
+				<xsd:complexType>
+					<xsd:attribute name="ExitDetails" type="ZeroToTwoHundredFiftyFiveCharType" use="required"/>
+				</xsd:complexType>
+			</xsd:element>
+			<xsd:element name="MIKE">
+				<xsd:complexType>
+					<xsd:attribute name="RadioVacation" type="ZeroToTwoHundredFiftyFiveCharType" use="required"/>
+				</xsd:complexType>
+			</xsd:element>
+			<xsd:element name="QUEBEC">
+				<xsd:complexType>
+					<xsd:attribute name="Damage" type="ZeroToTwoHundredFiftyFiveCharType" use="required"/>
+				</xsd:complexType>
+			</xsd:element>
+			<xsd:element name="X_RAY">
+				<xsd:complexType>
+					<xsd:attribute name="Remarks" type="ZeroToTwoHundredFiftyFiveCharType" use="required"/>
+				</xsd:complexType>
+			</xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>
+	
+	<xsd:complexType name="NCA_ShipIDCardType">
+		<xsd:sequence>
+			<xsd:element name="Header" type="NCA_HeaderType"/>
+			<xsd:element name="Body" type="NCA_ShipIDCardBodyType"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	
+	
+	<xsd:complexType name="NCA_ShipIDCardReqType">
+		<xsd:sequence>
+			<xsd:element name="Header" type="NCA_ShipIDCardReqHeaderType"/>
+			<xsd:element name="Body" type="NCA_ShipIDCardReqBodyType"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="NCA_ShipIDCardReqHeaderType">
+		<xsd:annotation>
+			<xsd:documentation/>
+		</xsd:annotation>
+		<xsd:complexContent>
+			<xsd:extension base="NCA_HeaderType">
+				<xsd:sequence/>
+				<xsd:attribute name="TimeOut" type="xsd:integer" use="required"/>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<xsd:complexType name="NCA_ShipIDCardReqBodyType">
+		<xsd:annotation>
+			<xsd:documentation/>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="SearchCriteria" type="SearchCriteriaNCAType"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	
+	<xsd:complexType name="NCA_ShipIDCardResType">
+		<xsd:sequence>
+			<xsd:element name="Header" type="NCA_ShipIDCardResHeaderType"/>
+			<xsd:element name="Body" type="NCA_ShipIDCardBodyType"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="NCA_ShipIDCardResHeaderType">
+		<xsd:annotation>
+			<xsd:documentation/>
+		</xsd:annotation>
+		<xsd:complexContent>
+			<xsd:extension base="NCA_HeaderType">
+				<xsd:sequence/>
+				<xsd:attribute name="NCARefId" type="RefIdType" use="required"/>
+				<xsd:attribute name="StatusCode" type="xsd:string" use="required"/>
+				<xsd:attribute name="StatusMessage" type="ZeroToTwoHundredFiftyFiveCharType" use="required"/>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<xsd:complexType name="NCA_ShipIDCardBodyType">
+		<xsd:annotation>
+			<xsd:documentation/>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="ShipDetails" type="ShipDetailsNCAType"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="ShipDetailsNCAType">
+		<xsd:annotation>
+			<xsd:documentation/>
+		</xsd:annotation>
+		<xsd:complexContent>
+			<xsd:extension base="VesselIdentificationNCAType">
+				<xsd:sequence/>
+				<xsd:attribute name="HullCategory" type="xsd:string"/>
+				<xsd:attribute name="Gauge" type="xsd:integer"/>
+				<xsd:attribute name="BuildDate" type="xsd:integer"/>
+				<xsd:attribute name="CarryingCapacity" type="xsd:integer"/>
+				<xsd:attribute name="TotalCarryingCapacity" type="xsd:integer"/>
+				<xsd:attribute name="BilgeVolume" type="xsd:integer"/>
+				<xsd:attribute name="MaxDraught" type="xsd:integer"/>
+				<xsd:attribute name="Power" type="xsd:integer"/>
+				<xsd:attribute name="Length" type="xsd:integer"/>
+				<xsd:attribute name="MaxSpeed" type="xsd:integer"/>
+				<xsd:attribute name="SatPhoneNumber" type="OneToTwentyCharType"/>
+				<xsd:attribute name="SatFaxNumber" type="OneToTwentyCharType"/>
+				<xsd:attribute name="SatTelexNumber" type="OneToTwentyCharType"/>
+				<xsd:attribute name="DistressBeaconId" type="FifteenCharType"/>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	
+	<xsd:annotation>
+		<xsd:documentation>
+							Définition des types de Opérations/Evenements
+							*********************************************
+		</xsd:documentation>
+	</xsd:annotation>
+	
+	<xsd:complexType name="LocationNCAType">
+		<xsd:annotation>
+			<xsd:documentation/>
+		</xsd:annotation>
+		<xsd:sequence/>
+		<xsd:attribute name="Latitude" type="LatitudeType"/>
+		<xsd:attribute name="Longitude" type="LongitudeType"/>
+		<xsd:attribute name="AzimutDistance" type="ZeroToFiftyCharType"/>
+		<xsd:attribute name="Reference" type="ZeroToTwentyCharType"/>
+	</xsd:complexType>
+	<xsd:complexType name="MeteoNCAType">
+		<xsd:annotation>
+			<xsd:documentation/>
+		</xsd:annotation>
+		<xsd:sequence/>
+		<xsd:attribute name="WindSpeed" type="xsd:integer"/>
+		<xsd:attribute name="WindDirection" type="xsd:integer"/>
+		<xsd:attribute name="CurrentSpeed" type="xsd:integer"/>
+		<xsd:attribute name="CurrentDirection" type="xsd:integer"/>
+		<xsd:attribute name="SeaState" type="xsd:string"/>
+		<xsd:attribute name="Visibility" type="xsd:integer"/>
+		<xsd:attribute name="CloudCover" type="xsd:string"/>
+		<xsd:attribute name="Ceiling" type="xsd:integer"/>
+		<xsd:attribute name="SeaTemperature" type="xsd:integer"/>
+		<xsd:attribute name="AirTemperature" type="xsd:integer"/>
+	</xsd:complexType>
+	<xsd:complexType name="VesselIdentificationSitrepCircType">
+		<xsd:annotation>
+			<xsd:documentation/>
+		</xsd:annotation>
+		<xsd:sequence/>
+		<xsd:attribute name="IMONumber" type="IMONumberType"/>
+		<xsd:attribute name="MMSINumber" type="MMSINumberType"/>
+		<xsd:attribute name="CallSign" type="CallSignType"/>
+		<xsd:attribute name="Immatriculation" type="ImmatriculationType"/>
+		<xsd:attribute name="Flag" type="FlagType"/>
+		<xsd:attribute name="MerchantType" type="xsd:string"/>
+		<xsd:attribute name="ShipCategory" type="xsd:string"/>
+		<xsd:attribute name="ShipName" type="ShipNameType"/>
+		<xsd:attribute name="HullCategory" type="xsd:string"/>
+		<xsd:attribute name="Gauge" type="xsd:integer"/>
+		<xsd:attribute name="BuildDate" type="xsd:integer"/>
+		<xsd:attribute name="Length" type="xsd:integer"/>
+		<xsd:attribute name="INMARSATNumber1" type="INMARSATNumberType"/>
+		<xsd:attribute name="INMARSATNumber2" type="INMARSATNumberType"/>
+		<xsd:attribute name="INMARSATNumber3" type="INMARSATNumberType"/>
+		<xsd:attribute name="INMARSATNumber4" type="INMARSATNumberType"/>
+		<xsd:attribute name="TargetedShip" type="OneCharType" use="required"/>
+		<xsd:attribute name="Reason" type="ZeroToTwoHundredFiftyFiveCharType"/>
+	</xsd:complexType>
+	<xsd:complexType name="OperationAssistanceSitrepCircType">
+		<xsd:annotation>
+			<xsd:documentation/>
+		</xsd:annotation>
+		<xsd:sequence/>
+		<xsd:attribute name="Number" type="OneToTwentyCharType" use="required"/>
+		<xsd:attribute name="ReportingDateAndTime" type="zsdateTime" use="required"/>
+		<xsd:attribute name="CMS" type="OneToTwentyCharType" use="required"/>
+		<xsd:attribute name="CQOPS" type="OneToTwentyCharType" use="required"/>
+		<xsd:attribute name="DEFREP" type="zsdateTime"/>
+		<xsd:attribute name="CHANGEREP" type="zsdateTime"/>
+	</xsd:complexType>
+	<xsd:complexType name="MeteoSitrepCircType">
+		<xsd:annotation>
+			<xsd:documentation/>
+		</xsd:annotation>
+		<xsd:sequence/>
+		<xsd:attribute name="WindSpeed" type="xsd:integer"/>
+		<xsd:attribute name="WindGustSpeed" type="xsd:integer"/>
+		<xsd:attribute name="WindDirection" type="xsd:integer"/>
+		<xsd:attribute name="SeaState" type="xsd:string"/>
+		<xsd:attribute name="Visibility" type="xsd:integer"/>
+		<xsd:attribute name="CloudCover" type="xsd:string"/>
+		<xsd:attribute name="Ceiling" type="xsd:integer"/>
+	</xsd:complexType>
+	<xsd:complexType name="CirculationSitrepCircType">
+		<xsd:annotation>
+			<xsd:documentation/>
+		</xsd:annotation>
+		<xsd:sequence/>
+		<xsd:attribute name="DamageCategory" type="xsd:string"/>
+		<xsd:attribute name="DamageDescription" type="ZeroToTwoHundredFiftyFiveCharType"/>
+		<xsd:attribute name="NauticalLimitations" type="ZeroToFiftyCharType"/>
+		<xsd:attribute name="RecoveryDelay" type="xsd:string"/>
+	</xsd:complexType>
+	<xsd:complexType name="VoyageSitrepCircType">
+		<xsd:annotation>
+			<xsd:documentation/>
+		</xsd:annotation>
+		<xsd:sequence/>
+		<xsd:attribute name="PortOfCall" type="LocodeType"/>
+		<xsd:attribute name="NextPortOfCall" type="LocodeType"/>
+		<xsd:attribute name="TotalPersonsOnBoard" type="xsd:integer"/>
+		<xsd:attribute name="Draught" type="xsd:integer"/>
+	</xsd:complexType>
+	<xsd:complexType name="CargoInformationSitrepCircCircType">
+		<xsd:annotation>
+			<xsd:documentation/>
+		</xsd:annotation>
+		<xsd:attribute name="CargoType" type="ZeroToTwoHundredFiftyFiveCharType"/>
+		<xsd:attribute name="TotalQuantity" type="xsd:integer"/>
+		<xsd:attribute name="UnitOfMeasurement" type="xsd:string"/>
+		<xsd:attribute name="DangerousCargoType" type="ZeroToTwoHundredFiftyFiveCharType"/>
+		<xsd:attribute name="DangerousTotalQuantity" type="xsd:string"/>
+		<xsd:attribute name="DangerousUnitOfMeasurement" type="xsd:string"/>
+	</xsd:complexType>
+	<xsd:complexType name="ClassificationSitrepCircType">
+		<xsd:annotation>
+			<xsd:documentation/>
+		</xsd:annotation>
+		<xsd:sequence/>
+		<xsd:attribute name="Company" type="ZeroToFiftyCharType"/>
+		<xsd:attribute name="ShippingOwnerName" type="ZeroToFiftyCharType"/>
+		<xsd:attribute name="ShippingOwnerAddress" type="ZeroToTwoHundredFiftyFiveCharType"/>
+		<xsd:attribute name="ShippingOwnerTelNumber" type="ZeroToTwentyCharType"/>
+		<xsd:attribute name="ShippingOwnerFaxNumber" type="ZeroToTwentyCharType"/>
+		<xsd:attribute name="TargetFactor" type="ZeroToFiftyCharType"/>
+	</xsd:complexType>
+	<xsd:complexType name="PortStateControlsSitrepCircType">
+		<xsd:annotation>
+			<xsd:documentation/>
+		</xsd:annotation>
+		<xsd:sequence/>
+		<xsd:attribute name="ControlDate" type="zsdateTime"/>
+		<xsd:attribute name="ControlPlace" type="ZeroToFiftyCharType"/>
+		<xsd:attribute name="ControlLabel" type="ZeroToTwoHundredFiftyFiveCharType"/>
+	</xsd:complexType>
+	<xsd:complexType name="ObservationsSitrepCircType">
+		<xsd:annotation>
+			<xsd:documentation/>
+		</xsd:annotation>
+		<xsd:sequence/>
+		<xsd:attribute name="ObservationDate" type="zsdateTime" use="required"/>
+		<xsd:attribute name="CommunicationChannel" type="xsd:string"/>
+		<xsd:attribute name="ObservationLabel" type="ZeroToTwoThousandCharType"/>
+	</xsd:complexType>
+	<xsd:complexType name="SITREPSitrepCircType">
+		<xsd:annotation>
+			<xsd:documentation/>
+		</xsd:annotation>
+		<xsd:sequence/>
+		<xsd:attribute name="AdditionalInformation" type="ZeroToTwoThousandCharType"/>
+		<xsd:attribute name="Situation" type="ZeroToTwoThousandCharType"/>
+		<xsd:attribute name="ActionTaken" type="ZeroToTwoThousandCharType"/>
+		<xsd:attribute name="Correction" type="OneCharType"/>
+		<xsd:attribute name="Final" type="OneCharType"/>
+	</xsd:complexType>
+	<xsd:complexType name="PollutionNCAType">
+		<xsd:annotation>
+			<xsd:documentation/>
+		</xsd:annotation>
+		<xsd:sequence/>
+		<xsd:attribute name="Accuracy" type="xsd:string" use="required"/>
+	</xsd:complexType>
+	<xsd:complexType name="POLREPNCAType">
+		<xsd:annotation>
+			<xsd:documentation/>
+		</xsd:annotation>
+		<xsd:sequence/>
+		<xsd:attribute name="Characteristics" type="ZeroToTwoHundredFiftyFiveCharType" use="required"/>
+		<xsd:attribute name="Sources" type="ZeroToTwoHundredFiftyFiveCharType" use="required"/>
+		<xsd:attribute name="NeighboursShipId" type="ZeroToTwoHundredFiftyFiveCharType"/>
+		<xsd:attribute name="Proof" type="ZeroToTwoHundredFiftyFiveCharType"/>
+		<xsd:attribute name="Forecast" type="ZeroToTwoHundredFiftyFiveCharType" use="required"/>
+		<xsd:attribute name="OtherAuthorities" type="ZeroToTwoHundredFiftyFiveCharType"/>
+		<xsd:attribute name="AdditionalInformation" type="ZeroToTwoHundredFiftyFiveCharType" use="required"/>
+		<xsd:attribute name="Final" type="OneCharType"/>
+	</xsd:complexType>
+	<xsd:complexType name="OperationNCAType">
+		<xsd:annotation>
+			<xsd:documentation/>
+		</xsd:annotation>
+		<xsd:sequence/>
+		<xsd:attribute name="Number" type="OneToTwentyCharType" use="required"/>
+		<xsd:attribute name="ReportingDateAndTime" type="zsdateTime" use="required"/>
+		<xsd:attribute name="Label" type="ZeroToTwentyCharType" use="required"/>
+		<xsd:attribute name="CMS" type="OneToTwentyCharType" use="required"/>
+		<xsd:attribute name="CQOPS" type="OneToTwentyCharType" use="required"/>
+		<xsd:attribute name="Category" type="xsd:string" use="required"/>
+		<xsd:attribute name="CategoryDescription" type="OneToFourtyCharType" use="required"/>
+		<xsd:attribute name="Trigger" type="xsd:string" use="required"/>
+		<xsd:attribute name="TriggerDescription" type="OneToFourtyCharType" use="required"/>
+		<xsd:attribute name="AlertSignal" type="xsd:string" use="required"/>
+		<xsd:attribute name="AlertComChannel" type="xsd:string" use="required"/>
+		<xsd:attribute name="TotalPersonsInvolved" type="xsd:integer" use="required"/>
+		<xsd:attribute name="AssistanceDescription" type="ZeroToFiftyCharType" use="required"/>
+		<xsd:attribute name="Situation" type="ZeroToTwoHundredFiftyFiveCharType" use="required"/>
+	</xsd:complexType>
+	<xsd:complexType name="EvenementsNCAType">
+		<xsd:annotation>
+			<xsd:documentation/>
+		</xsd:annotation>
+		<xsd:sequence/>
+		<xsd:attribute name="ActionTaken" type="ZeroToTwoHundredFiftyFiveCharType" use="required"/>
+	</xsd:complexType>
+	<xsd:complexType name="EvenementsNCAPolrepType">
+		<xsd:annotation>
+			<xsd:documentation/>
+		</xsd:annotation>
+		<xsd:sequence/>
+		<xsd:attribute name="ActionTaken" type="ZeroToTwoThousandCharType" use="required"/>
+	</xsd:complexType>
+	<xsd:complexType name="OperationActionNCAType">
+		<xsd:annotation>
+			<xsd:documentation/>
+		</xsd:annotation>
+		<xsd:complexContent>
+			<xsd:extension base="OperationNCAType">
+				<xsd:sequence/>
+				<xsd:attribute name="Action" type="xsd:string" use="required"/>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<xsd:complexType name="OperationResultatNCAType">
+		<xsd:annotation>
+			<xsd:documentation/>
+		</xsd:annotation>
+		<xsd:complexContent>
+			<xsd:extension base="OperationNCAType">
+				<xsd:sequence/>
+				<xsd:attribute name="Result" type="xsd:string" use="required"/>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<xsd:complexType name="SITREPNCAType">
+		<xsd:annotation>
+			<xsd:documentation/>
+		</xsd:annotation>
+		<xsd:sequence/>
+		<xsd:attribute name="AdditionnalInformation" type="ZeroToTwoHundredFiftyFiveCharType" use="required"/>
+		<xsd:attribute name="Final" type="OneCharType"/>
+	</xsd:complexType>
+	<xsd:complexType name="SITREPSarNCAType">
+		<xsd:annotation>
+			<xsd:documentation/>
+		</xsd:annotation>
+		<xsd:sequence/>
+		<xsd:attribute name="SearchArea" type="ZeroToTwoHundredFiftyFiveCharType" use="required"/>
+		<xsd:attribute name="CoordinatingInstruction" type="ZeroToTwoHundredFiftyFiveCharType" use="required"/>
+		<xsd:attribute name="FuturePlans" type="ZeroToTwoHundredFiftyFiveCharType" use="required"/>
+		<xsd:attribute name="CospasSarsat" type="OneCharType" use="required"/>
+		<xsd:attribute name="AdditionalInformation" type="ZeroToTwoHundredFiftyFiveCharType" use="required"/>
+		<xsd:attribute name="Final" type="OneCharType"/>
+	</xsd:complexType>
+	<xsd:complexType name="SauvetageNCAType">
+		<xsd:annotation>
+			<xsd:documentation/>
+		</xsd:annotation>
+		<xsd:sequence/>
+		<xsd:attribute name="CasualtyDescription" type="ZeroToFiftyCharType" use="required"/>
+		<xsd:attribute name="INCERFA" type="ZeroToFiftyCharType"/>
+		<xsd:attribute name="ALERFA" type="ZeroToFiftyCharType"/>
+		<xsd:attribute name="DETRESFA" type="ZeroToFiftyCharType"/>
+	</xsd:complexType>
+	<xsd:complexType name="DGDetailsNCAType">
+		<xsd:annotation>
+			<xsd:documentation/>
+		</xsd:annotation>
+		<xsd:sequence/>
+		<xsd:attribute name="IMOClass" type="xsd:string" use="required"/>
+		<xsd:attribute name="Quantity" type="xsd:string" use="required"/>
+		<xsd:attribute name="Complement" type="ZeroToTwentyFiveCharType" use="required"/>
+		<xsd:attribute name="UnitOfMeasurement" type="xsd:string" use="required"/>
+	</xsd:complexType>
+	<xsd:complexType name="URLDetailsNCAType">
+		<xsd:annotation>
+			<xsd:documentation/>
+		</xsd:annotation>
+		<xsd:sequence/>
+		<xsd:attribute name="Url" type="ZeroToTwoHundredFiftyFiveCharType" use="required"/>
+		<xsd:attribute name="DocType" type="xsd:string" use="required"/>
+	</xsd:complexType>
+	
+	
+	<xsd:complexType name="NCA_OpCircType">
+		<xsd:sequence>
+			<xsd:element name="Header" type="NCA_HeaderType"/>
+			<xsd:element name="Body" type="NCA_OpCircBodyType"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="NCA_OpCircBodyType">
+		<xsd:annotation>
+			<xsd:documentation/>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="VesselIdentification" type="VesselIdentificationNCAType"/>
+			<xsd:element name="Operation" type="OperationAssistanceNCAType" minOccurs="0"/>
+			<xsd:element name="Location" type="LocationNCAType" minOccurs="0"/>
+			<xsd:element name="Meteo" type="MeteoNCAType" minOccurs="0"/>
+			<xsd:element name="CIRC" type="CirculationNCAType" minOccurs="0"/>
+			<xsd:element name="Voyage" type="VoyageNCAType" minOccurs="0"/>
+			<xsd:element name="CargoInformation" type="CargoInformationNCACircType" minOccurs="0"/>
+			<xsd:element name="Classification" type="ClassificationNCAType" minOccurs="0"/>
+			<xsd:element name="Events" type="EvenementsNCAType" minOccurs="0"/>
+			<xsd:element name="SITREP" type="SITREPNCAType" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="OperationAssistanceNCAType">
+		<xsd:annotation>
+			<xsd:documentation/>
+		</xsd:annotation>
+		<xsd:complexContent>
+			<xsd:extension base="OperationNCAType">
+				<xsd:sequence/>
+				<xsd:attribute name="RequiredAssistance" type="xsd:string" use="required"/>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<xsd:complexType name="CirculationNCAType">
+		<xsd:annotation>
+			<xsd:documentation/>
+		</xsd:annotation>
+		<xsd:sequence/>
+		<xsd:attribute name="CIRCCategory" type="xsd:string" use="required"/>
+		<xsd:attribute name="DamageCategory" type="xsd:string" use="required"/>
+		<xsd:attribute name="RecoveryDelay" type="xsd:integer" use="required"/>
+	</xsd:complexType>
+	<xsd:complexType name="VoyageNCAType">
+		<xsd:annotation>
+			<xsd:documentation/>
+		</xsd:annotation>
+		<xsd:sequence/>
+		<xsd:attribute name="PortOfCall" type="LocodeType" use="required"/>
+		<xsd:attribute name="NextPortOfCall" type="LocodeType" use="required"/>
+		<xsd:attribute name="Compartment" type="ZeroToTwoHundredFiftyFiveCharType" use="required"/>
+	</xsd:complexType>
+	<xsd:complexType name="CargoInformationNCACircType">
+		<xsd:annotation>
+			<xsd:documentation/>
+		</xsd:annotation>
+		<xsd:complexContent>
+			<xsd:extension base="CargoInformationNCAType">
+				<xsd:sequence>
+					<xsd:element name="DG" type="DGNCAType"/>
+					<xsd:element name="CargoOfInterest" type="CargoOfInterestNCAType" minOccurs="0" maxOccurs="99"/>
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<xsd:complexType name="ClassificationNCAType">
+		<xsd:annotation>
+			<xsd:documentation/>
+		</xsd:annotation>
+		<xsd:sequence/>
+		<xsd:attribute name="Contact" type="ZeroToFiftyCharType" use="required"/>
+		<xsd:attribute name="Company" type="ZeroToFiftyCharType" use="required"/>
+		<xsd:attribute name="ShippingOwner" type="ZeroToFiftyCharType" use="required"/>
+		<xsd:attribute name="TargetFactor" type="ZeroToFiftyCharType" use="required"/>
+		<xsd:attribute name="DateOfLastVisit" type="zsdateTime" use="required"/>
+		<xsd:attribute name="Observations" type="ZeroToTwoHundredFiftyFiveCharType" use="required"/>
+	</xsd:complexType>
+	
+	<xsd:complexType name="NCA_NavEvtRepType">
+		<xsd:sequence>
+			<xsd:element name="Header" type="NCA_HeaderType"/>
+			<xsd:element name="Body" type="NCA_NavEvtRepBodyType"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="NCA_NavEvtRepBodyType">
+		<xsd:annotation>
+			<xsd:documentation/>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="VesselIdentification" type="VesselIdentificationSitrepCircType"/>
+			<xsd:element name="Operation" type="OperationAssistanceSitrepCircType"/>
+			<xsd:element name="Location" type="LocationNCAType" minOccurs="0"/>
+			<xsd:element name="Meteo" type="MeteoSitrepCircType" minOccurs="0"/>
+			<xsd:element name="CIRC" type="CirculationSitrepCircType" minOccurs="0"/>
+			<xsd:element name="VoyageInformation" type="VoyageSitrepCircType" minOccurs="0"/>
+			<xsd:element name="CargoInformation" type="CargoInformationSitrepCircCircType" minOccurs="0"/>
+			<xsd:element name="Bunker" type="BunkerType" minOccurs="0"/>
+			<xsd:element name="Classification" type="ClassificationSitrepCircType" minOccurs="0"/>
+			<xsd:element name="PortStateControls" type="PortStateControlsSitrepCircType" minOccurs="0" maxOccurs="3"/>
+			<xsd:element name="Observations" type="ObservationsSitrepCircType" minOccurs="0" maxOccurs="99"/>
+			<xsd:element name="SITREP" type="SITREPSitrepCircType" minOccurs="0"/>
+			<xsd:element name="Diffusion" type="DiffusionNCAType" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	
+	<xsd:complexType name="NCA_OpPolType">
+		<xsd:sequence>
+			<xsd:element name="Header" type="NCA_HeaderType"/>
+			<xsd:element name="Body" type="NCA_OpPolBodyType"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="NCA_OpPolBodyType">
+		<xsd:annotation>
+			<xsd:documentation/>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="VesselIdentification" type="VesselIdentificationNCAType"/>
+			<xsd:element name="Operation" type="OperationActionNCAType" minOccurs="0"/>
+			<xsd:element name="Location" type="LocationNCAType" minOccurs="0"/>
+			<xsd:element name="Meteo" type="MeteoNCAType" minOccurs="0"/>
+			<xsd:element name="Pollution" type="PollutionNCAType" minOccurs="0"/>
+			<xsd:element name="Events" type="EvenementsNCAType" minOccurs="0"/>
+			<xsd:element name="POLREP" type="POLREPNCAType" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	
+	<xsd:complexType name="NCA_OpSarType">
+		<xsd:sequence>
+			<xsd:element name="Header" type="NCA_HeaderType"/>
+			<xsd:element name="Body" type="NCA_OpSarBodyType"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="NCA_OpSarBodyType">
+		<xsd:annotation>
+			<xsd:documentation/>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="VesselIdentification" type="VesselIdentificationNCAType"/>
+			<xsd:element name="Operation" type="OperationResultatNCAType" minOccurs="0"/>
+			<xsd:element name="Location" type="LocationNCAType" minOccurs="0"/>
+			<xsd:element name="Meteo" type="MeteoNCAType" minOccurs="0"/>
+			<xsd:element name="SAR" type="SauvetageNCAType" minOccurs="0"/>
+			<xsd:element name="Events" type="EvenementsNCAType" minOccurs="0"/>
+			<xsd:element name="SITREP" type="SITREPSarNCAType" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	
+	<xsd:complexType name="NCA_PolrepType">
+		<xsd:sequence>
+			<xsd:element name="Header" type="NCA_HeaderType"/>
+			<xsd:element name="Body" type="NCA_PolrepBodyType"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="NCA_PolrepBodyType">
+		<xsd:annotation>
+			<xsd:documentation/>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="VesselIdentification" type="VesselIdentificationNCAType"/>
+			<xsd:element name="Operation" type="OperationActionNCAType" minOccurs="0"/>
+			<xsd:element name="Location" type="LocationNCAType" minOccurs="0"/>
+			<xsd:element name="Meteo" type="MeteoNCAType" minOccurs="0"/>
+			<xsd:element name="Pollution" type="PollutionNCAType" minOccurs="0"/>
+			<xsd:element name="Events" type="EvenementsNCAPolrepType" minOccurs="0"/>
+			<xsd:element name="POLREP" type="POLREPNCAType" minOccurs="0"/>
+			<xsd:element name="Diffusion" type="DiffusionNCAType" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	
+	<xsd:complexType name="NCA_SitrepCircType">
+		<xsd:sequence>
+			<xsd:element name="Header" type="NCA_HeaderType"/>
+			<xsd:element name="Body" type="NCA_SitrepCircBodyType"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="NCA_SitrepCircBodyType">
+		<xsd:annotation>
+			<xsd:documentation/>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="VesselIdentification" type="VesselIdentificationSitrepCircType"/>
+			<xsd:element name="Operation" type="OperationAssistanceSitrepCircType"/>
+			<xsd:element name="Location" type="LocationNCAType" minOccurs="0"/>
+			<xsd:element name="Meteo" type="MeteoSitrepCircType" minOccurs="0"/>
+			<xsd:element name="CIRC" type="CirculationSitrepCircType" minOccurs="0"/>
+			<xsd:element name="VoyageInformation" type="VoyageSitrepCircType" minOccurs="0"/>
+			<xsd:element name="CargoInformation" type="CargoInformationSitrepCircCircType" minOccurs="0"/>
+			<xsd:element name="Bunker" type="BunkerType" minOccurs="0"/>
+			<xsd:element name="Classification" type="ClassificationSitrepCircType" minOccurs="0"/>
+			<xsd:element name="PortStateControls" type="PortStateControlsSitrepCircType" minOccurs="0" maxOccurs="3"/>
+			<xsd:element name="Observations" type="ObservationsSitrepCircType" minOccurs="0" maxOccurs="99"/>
+			<xsd:element name="SITREP" type="SITREPSitrepCircType" minOccurs="0"/>
+			<xsd:element name="Diffusion" type="DiffusionNCAType" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	
+	<xsd:complexType name="NCA_SitrepSarType">
+		<xsd:sequence>
+			<xsd:element name="Header" type="NCA_HeaderType"/>
+			<xsd:element name="Body" type="NCA_SitrepSarBodyType"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="NCA_SitrepSarBodyType">
+		<xsd:annotation>
+			<xsd:documentation/>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="VesselIdentification" type="VesselIdentificationNCAType"/>
+			<xsd:element name="Operation" type="OperationResultatNCAType" minOccurs="0"/>
+			<xsd:element name="Location" type="LocationNCAType" minOccurs="0"/>
+			<xsd:element name="Meteo" type="MeteoNCAType" minOccurs="0"/>
+			<xsd:element name="SAR" type="SauvetageNCAType" minOccurs="0"/>
+			<xsd:element name="Events" type="EvenementsNCAType" minOccurs="0"/>
+			<xsd:element name="SITREP" type="SITREPSarNCAType" minOccurs="0"/>
+			<xsd:element name="Diffusion" type="DiffusionNCAType" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	
+	<xsd:complexType name="NCA_WetrepType">
+		<xsd:sequence>
+			<xsd:element name="Header" type="NCA_HeaderType"/>
+			<xsd:element name="Body" type="NCA_WetrepBodyType"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="NCA_WetrepBodyType">
+		<xsd:annotation>
+			<xsd:documentation/>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="MessageType">
+				<xsd:complexType>
+					<xsd:attribute name="WetrepType" type="xsd:string" use="required"/>
+				</xsd:complexType>
+			</xsd:element>
+			<xsd:element name="VesselIdentification" type="VesselIdentificationNCAType"/>
+			<xsd:element name="VoyageInformation" type="VoyageInformationNCAWetrepType"/>
+			<xsd:element name="Position" type="PositionNCAType"/>
+			<xsd:element name="Combustible" type="CombustibleNCAWetrepType" minOccurs="0"/>
+			<xsd:element name="CargoInformation" type="CargoInformationWetrepNCAType" minOccurs="0"/>
+			<xsd:element name="Bunker" type="BunkerType" minOccurs="0"/>
+			<xsd:element name="QUEBEC">
+				<xsd:complexType>
+					<xsd:attribute name="Dammage" type="ZeroToTwoHundredFiftyFiveCharType" use="required"/>
+				</xsd:complexType>
+			</xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="VoyageInformationNCAWetrepType">
+		<xsd:annotation>
+			<xsd:documentation/>
+		</xsd:annotation>
+		<xsd:sequence/>
+		<xsd:attribute name="ReportingDateAndTime" type="zsdateTime" use="required"/>
+		<xsd:attribute name="COG" type="COGType" use="required"/>
+		<xsd:attribute name="SOG" type="SOGType" use="required"/>
+		<xsd:attribute name="PortOfCall" type="LocodeType" use="required"/>
+		<xsd:attribute name="NextPortOfCall" type="LocodeType" use="required"/>
+		<xsd:attribute name="ETA" type="zsdateTime"/>
+		<xsd:attribute name="NavigationStatus" type="xsd:string"/>
+		<xsd:attribute name="TotalPersonsOnBoard" type="xsd:integer"/>
+	</xsd:complexType>
+	<xsd:complexType name="CombustibleNCAWetrepType">
+		<xsd:annotation>
+			<xsd:documentation/>
+		</xsd:annotation>
+		<xsd:sequence/>
+		<xsd:attribute name="Characteristics" type="ZeroToTwoHundredFiftyFiveCharType"/>
+		<xsd:attribute name="Quantity" type="xsd:integer"/>
+		<xsd:attribute name="UnitOfMeasurement" type="xsd:string"/>
+	</xsd:complexType>
+	<xsd:complexType name="CargoInformationWetrepNCAType">
+		<xsd:sequence>
+			<xsd:element name="HydroDetails" type="HydroDetailsNCAType" minOccurs="0" maxOccurs="99"/>
+			<xsd:element name="DGDetails" type="DGDetailsNCAType" minOccurs="0" maxOccurs="99"/>
+			<xsd:element name="CargoManifest" type="NotificationDetailsWetrepType" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="HydroDetailsNCAType">
+		<xsd:annotation>
+			<xsd:documentation/>
+		</xsd:annotation>
+		<xsd:sequence/>
+		<xsd:attribute name="HydroType" type="xsd:string"/>
+		<xsd:attribute name="Description" type="xsd:string"/>
+		<xsd:attribute name="Quantity" type="xsd:string" use="required"/>
+		<xsd:attribute name="Grade" type="xsd:string"/>
+		<xsd:attribute name="Density" type="xsd:string"/>
+	</xsd:complexType>
+	<xsd:complexType name="NotificationDetailsWetrepType">
+		<xsd:annotation>
+			<xsd:documentation/>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:group ref="CargoManifestNCAWetrepType"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:group name="CargoManifestNCAWetrepType">
+		<xsd:annotation>
+			<xsd:documentation/>
+		</xsd:annotation>
+		<xsd:choice>
+			<xsd:element name="URLDetails" type="URLDetailsNCAType" minOccurs="0"/>
+			<xsd:element name="ContactDetails" type="ContactDetailsNCAWetrepType" minOccurs="0"/>
+		</xsd:choice>
+	</xsd:group>
+	<xsd:complexType name="ContactDetailsNCAWetrepType">
+		<xsd:annotation>
+			<xsd:documentation/>
+		</xsd:annotation>
+		<xsd:sequence/>
+		<xsd:attribute name="LastName" type="ZeroToFiftyCharType" use="required"/>
+		<xsd:attribute name="FirstName" type="ZeroToFiftyCharType"/>
+		<xsd:attribute name="LoCode" type="LocodeType"/>
+		<xsd:attribute name="Phone" type="OneToTwentyCharType" use="required"/>
+		<xsd:attribute name="Fax" type="OneToTwentyCharType"/>
+		<xsd:attribute name="EMail" type="ZeroToFiftyCharType"/>
+	</xsd:complexType>
+	
+	<xsd:complexType name="NCA_VesselListType">
+		<xsd:sequence>
+			<xsd:element name="Header" type="NCA_HeaderType"/>
+			<xsd:element name="Body" type="NCA_VesselListBodyType"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="NCA_VesselListBodyType">
+		<xsd:annotation>
+			<xsd:documentation/>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="VesselList" type="VesselListType"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="VesselListType">
+		<xsd:annotation>
+			<xsd:documentation/>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="VesselItem" type="VesselItemType" minOccurs="0" maxOccurs="unbounded"/>
+		</xsd:sequence>
+		<xsd:attribute name="ListType" type="ZeroToTwoHundredFiftyFiveCharType" use="required"/>
+		<xsd:attribute name="Name" type="ZeroToTwoHundredFiftyFiveCharType"/>
+	</xsd:complexType>
+	<xsd:complexType name="VesselItemType">
+		<xsd:annotation>
+			<xsd:documentation/>
+		</xsd:annotation>
+		<xsd:sequence/>
+		<xsd:attribute name="IMONumber" type="IMONumberType" use="required"/>
+		<xsd:attribute name="Comments" type="ZeroToTwoHundredFiftyFiveCharType"/>
+	</xsd:complexType>
+
+	<xsd:complexType name="NCA_SupprNotType">
+		<xsd:sequence>
+			<xsd:element name="Header" type="NCA_HeaderType"/>
+			<xsd:element name="Body" type="NCA_SupprNotBodyType"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="NCA_SupprNotBodyType">
+		<xsd:annotation>
+			<xsd:documentation/>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="Notification" type="NotificationNCAType"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="NotificationNCAType">
+		<xsd:annotation>
+			<xsd:documentation/>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="LARefIdToDelete" type="RefIdType" maxOccurs="99"/>
+		</xsd:sequence>
+		<xsd:attribute name="Reason" type="ZeroToTwoHundredFiftyFiveCharType"/>
+	</xsd:complexType>
+		
+	<xsd:complexType name="NCA_ReceiptType">
+		<xsd:sequence>
+			<xsd:element name="Header">
+				<xsd:complexType>
+					<xsd:attribute name="Version" type="xsd:string" use="required" fixed="5.0"/>
+					<xsd:attribute name="TestId" type="TestIdType" use="optional"/>
+					<xsd:attribute name="LARefId" type="RefIdType"/>
+					<xsd:attribute name="SentAt" type="zsdateTime" use="required"/>
+					<xsd:attribute name="From" type="FromType" use="required"/>
+					<xsd:attribute name="To" type="ToType" use="required"/>
+					<xsd:attribute name="StatusCode" type="xsd:string" use="required"/>
+					<xsd:attribute name="StatusMessage" type="xsd:string"/>
+				</xsd:complexType>
+			</xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>
+	
+
+	
+	<xsd:annotation>
+		<xsd:documentation>
+							Définition des types Voyages
+							****************************
+		</xsd:documentation>
+	</xsd:annotation>
+	
+	<xsd:complexType name="VoyageDocumentType">
+		<xsd:attribute name="Url" type="ZeroToTwoHundredFiftyFiveCharType" use="required"/>
+		<xsd:attribute name="DocType" type="xsd:string" use="required"/>
+	</xsd:complexType>
+	<xsd:complexType name="VoyageVesselIdentificationType">
+		<xsd:complexContent>
+			<xsd:extension base="SearchCriteriaNCAType">
+				<xsd:attribute name="CallSign" type="CallSignType"/>
+				<xsd:attribute name="Immatriculation" type="ImmatriculationType"/>
+				<xsd:attribute name="ShipName" type="ShipNameType"/>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+		<xsd:complexType name="VoyageInformationType">
+		<xsd:attribute name="TravelId" type="TravelIdType" use="required"/>
+		<xsd:attribute name="TravelStatus" type="xsd:string" use="required"/>
+		<xsd:attribute name="LastPortOfCall" type="LocodeType"/>
+		<xsd:attribute name="RTDFromLastPort" type="zsdateTime"/>
+		<xsd:attribute name="PortOfCall" type="LocodeType"/>
+		<xsd:attribute name="ETAToPortOfCall" type="zsdateTime"/>
+		<xsd:attribute name="RTAPortOfCall" type="zsdateTime"/>
+		<xsd:attribute name="ETDFromPortOfCall" type="zsdateTime"/>
+		<xsd:attribute name="TotalPersonOnBoard" type="xsd:integer"/>
+		<xsd:attribute name="TotalPassenger" type="xsd:integer"/>
+		<xsd:attribute name="CrewNumber" type="xsd:integer"/>
+		<xsd:attribute name="TotalClandestine" type="xsd:integer"/>
+		<xsd:attribute name="Observations" type="ZeroToTwoHundredFiftyFiveCharType"/>
+		<xsd:attribute name="Towing" type="ZeroToTwentyCharType"/>
+		<xsd:attribute name="TowLength" type="xsd:integer"/>
+		<xsd:attribute name="TowCategory" type="xsd:string"/>
+		<xsd:attribute name="VoyageUpdateDateAndTime" type="zsdateTime" use="required"/>
+	</xsd:complexType>
+	<xsd:complexType name="VoyageDynamicInformationType">
+		<xsd:attribute name="Longitude" type="LongitudeType" use="required"/>
+		<xsd:attribute name="Latitude" type="LatitudeType" use="required"/>
+		<xsd:attribute name="COG" type="COGType"/>
+		<xsd:attribute name="SOG" type="SOGType"/>
+		<xsd:attribute name="NavigationStatus" type="xsd:string"/>
+		<xsd:attribute name="Lane" type="xsd:string"/>
+		<xsd:attribute name="TrackNumber" type="xsd:integer"/>
+		<xsd:attribute name="ReportingDateAndTime" type="zsdateTime" use="required"/>
+	</xsd:complexType>
+	<xsd:complexType name="VoyageCargoInformationType">
+		<xsd:sequence>
+			<xsd:element name="DG" type="VoyageDGType" minOccurs="0"/>
+			<xsd:element name="CargoManifest" type="VoyageCargoManifestType" minOccurs="0"/>
+			<xsd:element name="Bunkers" type="BunkersType" minOccurs="0" maxOccurs="6"/>
+			<xsd:element name="CargoOfInterest" type="CargoOfInterest255NCAType" minOccurs="0" maxOccurs="999"/>
+		</xsd:sequence>
+		<xsd:attribute name="CargoType" type="ZeroToTwoHundredFiftyFiveCharType"/>
+		<xsd:attribute name="TotalQuantity" type="xsd:integer"/>
+		<xsd:attribute name="UnitOfMeasurement" type="xsd:string"/>
+		<xsd:attribute name="Ballast" type="xsd:string"/>
+	</xsd:complexType>
+	<xsd:complexType name="VoyageDGType">
+		<xsd:sequence>
+			<xsd:element name="HydroDetails" type="VoyageHydroDetailsType" minOccurs="0" maxOccurs="99"/>
+			<xsd:element name="DGDetails" type="VoyageDGDetailsType" minOccurs="0" maxOccurs="999"/>
+			<xsd:element name="DGTotal" type="VoyageDGTotalType" minOccurs="0"/>
+			<xsd:element name="HazmatNotificationDetails" type="VoyageDGHazmatType" minOccurs="0"/>
+		</xsd:sequence>
+		<xsd:attribute name="AnyDG" type="xsd:boolean" use="required"/>
+	</xsd:complexType>
+	<xsd:complexType name="VoyageHydroDetailsType">
+		<xsd:attribute name="HydroType" type="xsd:string" use="required"/>
+		<xsd:attribute name="Description" type="ZeroToTwoHundredFiftyFiveCharType"/>
+		<xsd:attribute name="Quantity" type="ZeroToEighteenCharType" use="required"/>
+		<xsd:attribute name="Grade" type="ZeroToEighteenCharType"/>
+		<xsd:attribute name="Density" type="ZeroToEighteenCharType"/>
+	</xsd:complexType>
+	<xsd:complexType name="VoyageDGDetailsType">
+		<xsd:attribute name="IMOClass" type="xsd:string" use="required"/>
+		<xsd:attribute name="Quantity" type="xsd:string" use="required"/>
+		<xsd:attribute name="UnitOfMeasurement" type="xsd:string" use="required"/>
+	</xsd:complexType>
+	<xsd:complexType name="VoyageDGTotalType">
+		<xsd:attribute name="DangerousCargoType" type="ZeroToTwoHundredFiftyFiveCharType"/>
+		<xsd:attribute name="DangerousTotalQuantity" type="xsd:string"/>
+		<xsd:attribute name="DangerousUnitOfMeasurement" type="xsd:string"/>
+	</xsd:complexType>
+	<xsd:complexType name="VoyageDGHazmatType">
+		<xsd:sequence>
+			<xsd:element name="Contact" type="VoyageHazmatContactType" minOccurs="0"/>
+			<xsd:element name="Document" type="VoyageDocumentType" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="VoyageHazmatContactType">
+		<xsd:attribute name="Name" type="ZeroToFiftyCharType"/>
+		<xsd:attribute name="FirstName" type="ZeroToFiftyCharType"/>
+		<xsd:attribute name="Locode" type="xsd:string"/>
+		<xsd:attribute name="Phone" type="ZeroToTwentyCharType"/>
+		<xsd:attribute name="Fax" type="ZeroToTwentyCharType"/>
+		<xsd:attribute name="Email" type="ZeroToFiftyCharType"/>
+	</xsd:complexType>
+		<xsd:complexType name="VoyageCargoManifestType">
+		<xsd:sequence>
+			<xsd:element name="Contact" type="VoyageContactType" minOccurs="0"/>
+			<xsd:element name="Document" type="VoyageDocumentType" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="VoyageContactType">
+		<xsd:attribute name="Name" type="ZeroToFiftyCharType"/>
+		<xsd:attribute name="Phone" type="ZeroToTwentyCharType"/>
+		<xsd:attribute name="Fax" type="ZeroToTwentyCharType"/>
+	</xsd:complexType>
+	<xsd:complexType name="CargoOfInterest255NCAType">
+		<xsd:annotation>
+			<xsd:documentation/>
+		</xsd:annotation>
+		<xsd:sequence/>
+		<xsd:attribute name="CargoOfInterestCategory" type="ZeroToTwoHundredFiftyFiveCharType" use="required"/>
+		<xsd:attribute name="Quantity" type="xsd:string" use="required"/>
+		<xsd:attribute name="UnitOfMeasurement" type="OneToTenCharType" use="required"/>
+	</xsd:complexType>
+	
+	
+	<xsd:complexType name="NCA_VoyageType">
+		<xsd:sequence>
+			<xsd:element name="Header" type="NCA_HeaderType"/>
+			<xsd:element name="Body" type="NCA_VoyageBodyType"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="NCA_VoyageBodyType">
+		<xsd:sequence>
+			<xsd:element name="VesselIdentification" type="VesselIdentificationNCAType"/>
+			<xsd:element name="VoyageInformation" type="VoyageInformationType" minOccurs="0"/>
+			<xsd:element name="DynamicInformation" type="VoyageDynamicInformationType" minOccurs="0"/>
+			<xsd:element name="CargoInformation" type="VoyageCargoInformationType" minOccurs="0"/>
+			<xsd:element name="IncidentInformation" type="VoyageIncidentInformationType" minOccurs="0" maxOccurs="999"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="VoyageIncidentInformationType">
+		<xsd:attribute name="IncidentType" type="xsd:string" use="required"/>
+		<xsd:attribute name="ReportNumber" type="RefIdType" use="required"/>
+		<xsd:attribute name="ReportingDateAndTime" type="zsdateTime" use="required"/>
+		<xsd:attribute name="Situation" type="ZeroToTwoThousandCharType" use="required"/>
+	</xsd:complexType>
+	
+	<xsd:complexType name="NCA_Voyage_ReqType">
+		<xsd:sequence>
+			<xsd:element name="Header" type="NCA_VoyageReqHeaderType"/>
+			<xsd:element name="Body" type="NCA_Voyage_ReqBodyType"/>
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:complexType name="NCA_VoyForm_ReqType">
+		<xsd:sequence>
+			<xsd:element name="Header" type="NCA_HeaderType"/>
+			<xsd:element name="Body" type="NCA_VoyForm_ReqBodyType"/>
+		</xsd:sequence>
+	</xsd:complexType>
+
+    <xsd:complexType name="NCA_VoyForm_ReqBodyType">
+        <xsd:sequence>
+           <xsd:element name="VesselIdentification" type="VesselIdentificationType"/>    
+           <xsd:element name="SearchCriteria" type="SearchCriteriaVoyFormReqType"/>        
+        </xsd:sequence>
+    </xsd:complexType>
+    
+	<xsd:complexType name="NCA_VoyageReqHeaderType">
+		<xsd:complexContent>
+			<xsd:extension base="NCA_HeaderType">
+				<xsd:sequence/>
+				<xsd:attribute name="TimeoutValue" type="xsd:integer"/>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<xsd:complexType name="NCA_Voyage_ReqBodyType">
+		<xsd:sequence>
+			<xsd:element name="SearchCriteria" type="VoyageVesselIdentificationType"/>
+		</xsd:sequence>
+	</xsd:complexType>
+		
+	<xsd:complexType name="NCA_VoyageResType">
+		<xsd:sequence>
+			<xsd:element name="Header" type="NCA_HeaderType"/>
+			<xsd:element name="Body" type="NCA_VoyageResBodyType"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="NCA_VoyageResBodyType">
+		<xsd:sequence>
+			<xsd:element name="SearchCriteria" type="SearchCriteriaVoyageResType"/>
+			<xsd:element name="QueryResults" type="QueryResultsVoyageResType" minOccurs="0" maxOccurs="99"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="SearchCriteriaVoyageResType">
+		<xsd:complexContent>
+			<xsd:extension base="VoyageVesselIdentificationType">
+				<xsd:attribute name="StatusCode" type="xsd:string" use="required"/>
+				<xsd:attribute name="StatusMessage" type="ZeroToTwoHundredFiftyFiveCharType" use="required"/>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	
+	
+	<xsd:complexType name="SearchCriteriaVoyFormReqType">
+        <xsd:attribute name="SearchType" type="SearchTypeVoyFormReqType" use="required"/>
+        <xsd:attribute name="ShipCallId" type="ShipCallIdType" use="optional"/>
+	</xsd:complexType>
+	
+	
+	<xsd:complexType name="QueryResultsVoyageResType">
+		<xsd:sequence>
+			<xsd:element name="VesselIdentification" type="VoyageVesselIdentificationType"/>
+			<xsd:element name="VoyageInformation" type="VoyageInformationType" minOccurs="0"/>
+			<xsd:element name="DynamicInformation" type="VoyageDynamicInformationType" minOccurs="0"/>
+			<xsd:element name="CargoInformation" type="VoyageCargoInformationType" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	
+	<xsd:complexType name="NCA_SitrepType">
+		<xsd:sequence>
+			<xsd:element name="Header" type="NCA_HeaderType"/>
+			<xsd:element name="Body" type="NCA_SitrepBodyType"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="NCA_SitrepBodyType">
+		<xsd:annotation>
+			<xsd:documentation/>
+		</xsd:annotation>
+		<xsd:sequence>
+		    <xsd:element name="VesselIdentification" type="VesselIdentificationType"  maxOccurs="99"/> 
+		    <xsd:element name="IncidentIdentification" type="IncidentIdentificationSitrepNCAType" />
+		    <xsd:element name="IRDistributionDetails" type="IRDistributionDetailsSitrepNCAType" />
+	        <xsd:element name="PositionAtTimeOfIncident" type="PositionType" />
+		    <xsd:element name="SITREPInformation" type="SITREPInformationType" />		       
+		</xsd:sequence>
+	</xsd:complexType>
+	
+	<xsd:complexType name="IncidentIdentificationSitrepNCAType">
+	    <xsd:attribute name="IncidentID" type="OneToTwentyCharType" use="required"/>
+	    <xsd:attribute name="ReportSequence" type="xsd:integer" use="optional"/>
+		<xsd:attribute name="TextualReference" type="xsd:string" use="required"/>
+	</xsd:complexType>
+	
+	<xsd:complexType name="IRDistributionDetailsSitrepNCAType">
+	     <xsd:attribute name="DistributionIR_yes_no" type="YesNoType" use="required"/>
+	     <xsd:attribute name="NextPortOfCall" type="LocodeType" use="optional"/>
+	</xsd:complexType>
+	
+	
+	<xsd:complexType name="PositionType">
+		<xsd:attribute name="Longitude" type="LongitudeType" use="required"/>
+		<xsd:attribute name="Latitude" type="LatitudeType" use="required"/>
+	</xsd:complexType>
+	
+	<xsd:complexType name="SITREPInformationType">
+        <xsd:sequence>
+			<xsd:element name="C_Situation" type="C_SituationNCASitrepType" />
+        </xsd:sequence>	
+		<xsd:attribute name="D_NumberOfPersonsAtRisk" type="xsd:integer"/>
+		<xsd:attribute name="E_AssistanceRequired" type="OneToTwentyCharType"/>
+		<xsd:attribute name="F_CoordinatingAuthority" type="OneToEightyCharType"/>
+		<xsd:attribute name="G_CasualtyDescription" type="OneToTwoHundredFiftySixCharType"/>
+		<xsd:attribute name="H_WeatherOnScene" type="OneToTwoHundredFiftySixCharType"/>
+		<xsd:attribute name="J_InitialActionTaken" type="OneToTwoHundredFiftySixCharType" use="required"/>
+		<xsd:attribute name="K_SearchArea" type="OneToEightyCharType"/>
+		<xsd:attribute name="L_CoordinatingInstructions" type="OneToTwoHundredFiftySixCharType"/>
+		<xsd:attribute name="M_FuturePlans" type="OneToTwoHundredFiftySixCharType"/>
+		<xsd:attribute name="N_AdditionalInformation" type="OneToTwoHundredFiftySixCharType"/>
+	</xsd:complexType>
+	
+	<xsd:complexType name="C_SituationNCASitrepType">
+	    <xsd:attribute name="MessageType" type="MessageTypeNcaSitrepType" use="required"/>
+	    <xsd:attribute name="NotifiedAt" type="zsdateTime" use="required"/>
+	    <xsd:attribute name="Nature" type="NatureEnumType" use="required"/>
+	</xsd:complexType>
+	
+	
+	<xsd:simpleType name="NatureEnumType">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en"/>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:NMTOKEN">
+			<xsd:enumeration value="Fire"/>
+			<xsd:enumeration value="Collision"/>
+			<xsd:enumeration value="Medico"/>
+			<xsd:enumeration value="Grounding"/>
+			<xsd:enumeration value="Flooding"/>
+			<xsd:enumeration value="List"/>
+			<xsd:enumeration value="Capsizing"/>
+			<xsd:enumeration value="EngineFailure"/>
+			<xsd:enumeration value="StructuralFailure"/>
+			<xsd:enumeration value="SteeringGearFailure"/>
+			<xsd:enumeration value="ElectricalGeneratingSystemFailure"/>
+			<xsd:enumeration value="NavigationEquipmentFailure"/>
+			<xsd:enumeration value="CommunicationEquipmentFailure"/>
+			<xsd:enumeration value="AbandonShip"/>
+			<xsd:enumeration value="ShiftingOfCargo"/>
+			<xsd:enumeration value="Sinking"/>
+			<xsd:enumeration value="Other"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	
+	
+	<xsd:complexType name="OperationSitrepNCAType">
+		<xsd:annotation>
+			<xsd:documentation/>
+		</xsd:annotation>
+		<xsd:sequence/>
+		<xsd:attribute name="TypeSITREP" type="xsd:string" use="required"/>
+		<xsd:attribute name="OperationNumber" type="ZeroTo9999IntType" use="required"/>
+		<xsd:attribute name="SITREPNumber" type="ZeroTo99IntType" use="required"/>
+		<xsd:attribute name="Final" type="BooleanType" use="required"/>
+	</xsd:complexType>
+	<xsd:complexType name="DiffusionSitrepNCAType">
+		<xsd:annotation>
+			<xsd:documentation/>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="To" type="DiffusionDestinataireNCAType" maxOccurs="99"/>
+		</xsd:sequence>
+		<xsd:attribute name="From" type="OneToFiftyCharType" use="required"/>
+	</xsd:complexType>
+	<xsd:complexType name="A-VesselImpliedNCAType">
+		<xsd:annotation>
+			<xsd:documentation/>
+		</xsd:annotation>
+		<xsd:sequence/>
+		<xsd:attribute name="IMONumber" type="IMONumberType"/>
+		<xsd:attribute name="MMSINumber" type="MMSINumberType"/>
+		<xsd:attribute name="ShipName" type="ZeroToThirtyFiveCharType"/>
+		<xsd:attribute name="CallSign" type="ZeroToSevenCharType"/>
+		<xsd:attribute name="Immatriculation" type="ZeroToTwentyCharType"/>
+		<xsd:attribute name="Flag" type="FlagType"/>
+		<xsd:attribute name="RegistrationPort" type="LocodeType"/>
+	</xsd:complexType>
+	<xsd:complexType name="B-LocationNCAType">
+		<xsd:annotation>
+			<xsd:documentation/>
+		</xsd:annotation>
+		<xsd:sequence/>
+		<xsd:attribute name="Latitude" type="LatitudeType"/>
+		<xsd:attribute name="Longitude" type="LongitudeType"/>
+		<xsd:attribute name="Azimut" type="ThreeIntType"/>
+		<xsd:attribute name="Distance" type="ThreeIntType"/>
+		<xsd:attribute name="Reference" type="ZeroToTwentyCharType"/>
+		<xsd:attribute name="CasualtyArea" type="ZeroToFiftyCharType"/>
+		<xsd:attribute name="CompetentZone" type="xsd:string"/>
+	</xsd:complexType>
+	<xsd:complexType name="C-SituationNCAType">
+		<xsd:annotation>
+			<xsd:documentation/>
+		</xsd:annotation>
+		<xsd:sequence/>
+		<xsd:attribute name="ReportingDateAndTime" type="zsdateTime"/>
+		<xsd:attribute name="AlertedBy" type="xsd:string"/>
+		<xsd:attribute name="AlertComChannel" type="xsd:string"/>
+		<xsd:attribute name="EventType" type="xsd:string"/>
+	</xsd:complexType>
+	<xsd:complexType name="D-PersonsInvolvedNCAType">
+		<xsd:annotation>
+			<xsd:documentation/>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="DetailedCasualties" type="DetailedCasualtiesNCAType" minOccurs="0" maxOccurs="7"/>
+		</xsd:sequence>
+		<xsd:attribute name="TotalPersonsInvolved" type="ZeroTo99999IntType" />
+		<xsd:attribute name="TotalPersonsInjured" type="ZeroTo99999IntType" />
+	</xsd:complexType>
+	<xsd:complexType name="DetailedCasualtiesNCAType">
+		<xsd:annotation>
+			<xsd:documentation/>
+		</xsd:annotation>
+		<xsd:attribute name="CasualtyStatus" type="xsd:string" use="required"/>
+		<xsd:attribute name="CasualtyNumber" type="xsd:integer" use="required"/>
+		<xsd:attribute name="NumberPersonInjured" type="xsd:integer" />
+	</xsd:complexType>
+	<xsd:complexType name="E-AssistanceRequiredNCAType">
+		<xsd:annotation>
+			<xsd:documentation/>
+		</xsd:annotation>
+		<xsd:sequence/>
+		<xsd:attribute name="AssistanceDescription" type="ZeroToTwoThousandCharType"/>
+	</xsd:complexType>
+	<xsd:complexType name="F-CoordinationRCCNCAType">
+		<xsd:annotation>
+			<xsd:documentation/>
+		</xsd:annotation>
+		<xsd:sequence/>
+		<xsd:attribute name="CoordinationCenter" type="ZeroToTwoHundredFiftyFiveCharType"/>
+	</xsd:complexType>
+	<xsd:complexType name="G-CasualtiesDescriptionNCAType">
+		<xsd:annotation>
+			<xsd:documentation/>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="VesselOrAircraftInvolved" type="VesselOrAircraftInvolvedNCAType" minOccurs="0" maxOccurs="99"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="VesselOrAircraftInvolvedNCAType">
+		<xsd:annotation>
+			<xsd:documentation/>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="CargoInformation" type="CargoInformationSitrepNCAType" minOccurs="0"/>
+			<xsd:element name="Bunkers" type="BunkersType" minOccurs="0" maxOccurs="6"/>
+		</xsd:sequence>
+		<xsd:attribute name="ShipCategory" type="xsd:string" use="required"/>
+		<xsd:attribute name="MerchantType" type="xsd:string"/>
+		<xsd:attribute name="TypeComplement" type="ZeroToTwoHundredFiftyFiveCharType"/>
+		<xsd:attribute name="BuildDate" type="xsd:integer" />
+		<xsd:attribute name="Length" type="xsd:integer" />
+		<xsd:attribute name="Draught" type="xsd:integer" />
+		<xsd:attribute name="Gauge" type="xsd:integer" />
+		<xsd:attribute name="Colors" type="ZeroToTwoHundredFiftyFiveCharType"/>
+		<xsd:attribute name="LastPortOfCall" type="LocodeType"/>
+		<xsd:attribute name="NextPortOfCall" type="LocodeType"/>
+		<xsd:attribute name="TravelId" type="TravelIdType"/>
+	</xsd:complexType>
+	<xsd:complexType name="CargoInformationSitrepNCAType">
+		<xsd:annotation>
+			<xsd:documentation/>
+		</xsd:annotation>
+		<xsd:sequence/>
+		<xsd:attribute name="CargoType" type="ZeroToTwoHundredFiftyFiveCharType"/>
+		<xsd:attribute name="TotalQuantity" type="xsd:integer"/>
+		<xsd:attribute name="UnitOfMeasurement" type="xsd:string"/>
+		<xsd:attribute name="DangerousCargoType" type="ZeroToTwoHundredFiftyFiveCharType"/>
+		<xsd:attribute name="DangerousTotalQuantity" type="xsd:string"/>
+		<xsd:attribute name="DangerousUnitOfMeasurement" type="xsd:string"/>
+	</xsd:complexType>
+	<xsd:complexType name="H-WeatherOnSceneNCAType">
+		<xsd:annotation>
+			<xsd:documentation/>
+		</xsd:annotation>
+		<xsd:sequence/>
+		<xsd:attribute name="WindDirection" type="xsd:integer" />
+		<xsd:attribute name="WindSpeed" type="xsd:integer" />
+		<xsd:attribute name="SeaState" type="xsd:string" />
+		<xsd:attribute name="Visibility" type="xsd:integer" />
+		<xsd:attribute name="CloudCover" type="xsd:string" />
+		<xsd:attribute name="Ceiling" type="xsd:integer" />
+		<xsd:attribute name="SeaTemperature" type="xsd:integer" />
+		<xsd:attribute name="AirTemperature" type="xsd:integer" />
+	</xsd:complexType>
+	<xsd:complexType name="J-InitialActionTakenNCAType">
+		<xsd:annotation>
+			<xsd:documentation/>
+		</xsd:annotation>
+		<xsd:sequence/>
+		<xsd:attribute name="InitialActionTaken" type="ZeroToThreeThousandCharType" use="required"/>
+	</xsd:complexType>
+	<xsd:complexType name="K-SearchAreaNCAType">
+		<xsd:annotation>
+			<xsd:documentation/>
+		</xsd:annotation>
+		<xsd:sequence/>
+		<xsd:attribute name="SearchArea" type="ZeroToThreeThousandCharType" use="required"/>
+	</xsd:complexType>
+	<xsd:complexType name="L-CoordinatingInstructionNCAType">
+		<xsd:annotation>
+			<xsd:documentation/>
+		</xsd:annotation>
+		<xsd:sequence/>
+		<xsd:attribute name="CoordinatingInstruction" type="ZeroToThreeThousandCharType" use="required"/>
+	</xsd:complexType>
+	<xsd:complexType name="M-FuturePlansNCAType">
+		<xsd:annotation>
+			<xsd:documentation/>
+		</xsd:annotation>
+		<xsd:sequence/>
+		<xsd:attribute name="FuturePlans" type="ZeroToThreeThousandCharType" use="required"/>
+	</xsd:complexType>
+	<xsd:complexType name="N-AdditionalInformationNCAType">
+		<xsd:annotation>
+			<xsd:documentation/>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="T-OwnerInformation" type="T-OwnerInformationNCAType" minOccurs="0"/>
+			<xsd:element name="U-ClassInformation" type="U-ClassInformationNCAType" minOccurs="0"/>
+		</xsd:sequence>
+		<xsd:attribute name="AdditionalInformation" type="ZeroToThreeThousandCharType"/>
+	</xsd:complexType>
+	<xsd:complexType name="T-OwnerInformationNCAType">
+		<xsd:annotation>
+			<xsd:documentation/>
+		</xsd:annotation>
+		<xsd:sequence/>
+		<xsd:attribute name="ShippingOwnerName" type="ZeroToFiftyCharType"/>
+		<xsd:attribute name="ShippingOwnerAddress" type="ZeroToTwoHundredFiftyFiveCharType"/>
+		<xsd:attribute name="ShippingOwnerTelNumber" type="ZeroToTwentyCharType"/>
+		<xsd:attribute name="ShippingOwnerFaxNumber" type="ZeroToTwentyCharType"/>
+	</xsd:complexType>
+	<xsd:complexType name="U-ClassInformationNCAType">
+		<xsd:annotation>
+			<xsd:documentation/>
+		</xsd:annotation>
+		<xsd:sequence/>
+		<xsd:attribute name="Company" type="ZeroToFiftyCharType" use="required"/>
+		<xsd:attribute name="CompanyAddress" type="ZeroToTwoHundredFiftyFiveCharType"/>
+		<xsd:attribute name="CompanyTelNumber" type="ZeroToTwentyCharType"/>
+		<xsd:attribute name="CompanyFaxNumber" type="ZeroToTwentyCharType"/>
+	</xsd:complexType>
+	
+	<xsd:complexType name="NCA_InfractionType">
+		<xsd:sequence>
+			<xsd:element name="Header" type="NCA_HeaderType"/>
+			<xsd:element name="Body" type="NCA_InfractionBodyType"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="NCA_InfractionBodyType">
+		<xsd:annotation>
+			<xsd:documentation/>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="VesselIdentification" type="VesselIdentificationNCAType"/>
+			<xsd:element name="VoyageInformation" type="VoyageInformationNavireARisqueType" minOccurs="0"/>
+			<xsd:element name="Localization" type="LocalizationType" minOccurs="0"/>
+			<xsd:element name="Report" type="ReportType"/>
+			<xsd:element name="InfractionInformation" type="InfractionInformationType" maxOccurs="99"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="VoyageInformationNavireARisqueType">
+		<xsd:attribute name="LastPortOfCall" type="LocodeType"/>
+		<xsd:attribute name="ATD" type="zsdateTime"/>
+		<xsd:attribute name="NextPortOfCall" type="LocodeType"/>
+		<xsd:attribute name="ETA" type="zsdateTime"/>
+		<xsd:attribute name="ETD" type="zsdateTime"/>
+		<xsd:attribute name="TotalPersonsOnBoard" type="xsd:integer"/>
+	</xsd:complexType>
+	<xsd:complexType name="LocalizationType">
+		<xsd:attribute name="Latitude" type="LatitudeType"/>
+		<xsd:attribute name="Longitude" type="LongitudeType"/>
+		<xsd:attribute name="AzimutDistance" type="ZeroToFiftyCharType"/>
+		<xsd:attribute name="Reference" type="ZeroToTwentyCharType"/>
+		<xsd:attribute name="Complement" type="ZeroToHundredCharType"/>
+	</xsd:complexType>
+	<xsd:complexType name="ReportType">
+		<xsd:attribute name="ReportDate" type="zsdateTime" use="required"/>
+		<xsd:attribute name="Officer" type="ZeroToFiftyCharType" use="required"/>
+		<xsd:attribute name="Operator" type="ZeroToFiftyCharType" use="required"/>
+		<xsd:attribute name="ActionsTaken" type="ZeroToTwoHundredFiftyFiveCharType"/>
+		<xsd:attribute name="Remarks" type="ZeroToTwoHundredFiftyFiveCharType"/>
+	</xsd:complexType>
+	<xsd:complexType name="InfractionInformationType">
+		<xsd:attribute name="Infraction" type="xsd:string"/>
+	</xsd:complexType>
+	
+	<xsd:complexType name="NCA_AnoPortuaireType">
+		<xsd:sequence>
+			<xsd:element name="Header" type="NCA_HeaderType"/>
+			<xsd:element name="Body" type="NCA_AnoPortuaireBodyType"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="NCA_AnoPortuaireBodyType">
+		<xsd:annotation>
+			<xsd:documentation/>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="VesselIdentification" type="VesselIdentificationNCAType"/>
+			<xsd:element name="VoyageInformation" type="VoyageInformationNavireARisqueType" minOccurs="0"/>
+			<xsd:element name="Report" type="AnoPortuaireReportType"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="AnoPortuaireReportType">
+		<xsd:complexContent>
+			<xsd:extension base="ReportType">
+				<xsd:attribute name="PortOfDetection" type="LocodeType" use="required"/>
+				<xsd:attribute name="ReportedBy" type="ZeroToFiftyCharType" use="required"/>
+				<xsd:attribute name="AnomalyDescription" type="ZeroToTwoHundredFiftyFiveCharType" use="required"/>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>		
+	
+	<xsd:complexType name="NCA_NavireBanniType">
+		<xsd:sequence>
+			<xsd:element name="Header" type="NCA_HeaderType"/>
+			<xsd:element name="Body" type="NCA_NavireBanniBodyType"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="NCA_NavireBanniBodyType">
+		<xsd:annotation>
+			<xsd:documentation/>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="VesselIdentification" type="VesselIdentificationNCAType"/>
+			<xsd:element name="VoyageInformation" type="VoyageInformationNavireARisqueType" minOccurs="0"/>
+			<xsd:element name="Localization" type="LocalizationType" minOccurs="0"/>
+			<xsd:element name="Report" type="ReportType"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	
+	
+	
+	
+	<xsd:annotation>
+		<xsd:documentation>
+							Définition du type SPN2NCA_Observation
+							**************************************
+		</xsd:documentation>
+	</xsd:annotation>
+	<xsd:complexType name="SPN2NCA_ObservationType">
+		<xsd:sequence>
+			<xsd:element name="Header" type="NCA_HeaderType"/>
+			<xsd:element name="Body" type="SPN2NCA_ObservationBodyType"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="SPN2NCA_ObservationBodyType">
+		<xsd:sequence>
+			<xsd:element name="MessageOrigin" type="MessageOriginType"/>
+			<xsd:element name="VesselIdentification" type="VesselIdentificationSPN2NCAType"/>
+			<xsd:element name="TrackNotification" type="TrackNotificationSPN2NCAType" minOccurs="0"/>
+			<xsd:element name="AISNotification" type="AISNotificationSPN2NCAType" minOccurs="0"/>
+			<xsd:element name="VoyageNotification" type="VoyageNotificationSPN2NCAType" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="MessageOriginType">
+		<xsd:sequence/>
+		<xsd:attribute name="Participant" type="ParticipantType" use="required"/>
+		<xsd:attribute name="MessageType" type="MessageTypeType" use="required"/>
+	</xsd:complexType>
+	<xsd:complexType name="VesselIdentificationSPN2NCAType">
+		<xsd:attribute name="IMONumber" type="IMONumberType"/>
+		<xsd:attribute name="MMSINumber" type="MMSINumberType"/>
+		<xsd:attribute name="CallSign" type="CallSignType"/>
+		<xsd:attribute name="Immatriculation" type="ImmatriculationType"/>
+		<xsd:attribute name="ShipName" type="OneToThirtyFiveCharType"/>
+	</xsd:complexType>
+	<xsd:complexType name="VesselIdentificationType">
+		<xsd:attribute name="IMONumber" type="IMONumberType" use="required"/>
+		<xsd:attribute name="MMSINumber" type="MMSINumberType"/>
+	</xsd:complexType>
+	
+	<xsd:complexType name="TrackNotificationSPN2NCAType">
+		<xsd:sequence/>
+		<xsd:attribute name="TrackTriggerType" type="TrackTriggerTypeType" use="required"/>
+		<xsd:attribute name="TrackNumber" type="xsd:integer" use="required"/>
+		<xsd:attribute name="ReportingDateAndTime" type="zsdateTime" use="required"/>
+		<xsd:attribute name="Longitude" type="LongitudeType" use="required"/>
+		<xsd:attribute name="Latitude" type="LatitudeType" use="required"/>
+		<xsd:attribute name="COG" type="COGType" use="required"/>
+		<xsd:attribute name="SOG" type="SOGType" use="required"/>
+	</xsd:complexType>
+	<xsd:complexType name="AISNotificationSPN2NCAType">
+		<xsd:sequence>
+			<xsd:element name="AISVesselInformation" type="AISVesselInformationSPN2NCAType" minOccurs="0"/>
+			<xsd:element name="AISVoyageInformation" type="AISVoyageInformationSPN2NCAType"/>
+			<xsd:element name="AISDynamicInformation" type="AISDynamicInformationSPN2NCAType"/>
+			<xsd:element name="AISCargoInformation" type="AISCargoInformationSPN2NCAType" minOccurs="0"/>
+		</xsd:sequence>
+		<xsd:attribute name="AISTriggerType" type="TrackTriggerTypeType" use="required"/>
+		<xsd:attribute name="TrackNumber" type="xsd:integer" use="required"/>
+	</xsd:complexType>
+	<xsd:complexType name="AISVesselInformationSPN2NCAType">
+		<xsd:sequence>
+			<xsd:element name="DimRefForPosition" type="DimRefForPositionSPN2NCAType" minOccurs="0"/>
+		</xsd:sequence>
+		<xsd:attribute name="CallSign" type="CallSignType" use="required"/>
+		<xsd:attribute name="IMONumber" type="IMONumberType"/>
+		<xsd:attribute name="MMSINumber" type="MMSINumberType" use="required"/>
+		<xsd:attribute name="ShipName" type="ShipNameType" use="required"/>
+		<xsd:attribute name="ShipLength" type="xsd:integer"/>
+		<xsd:attribute name="ShipBeam" type="xsd:integer"/>
+		<xsd:attribute name="ShipType" type="xsd:string" use="required"/>
+		<xsd:attribute name="ShipDraught" type="ShipDraughtType" use="required"/>
+		<xsd:attribute name="AntennaType" type="xsd:string" use="required"/>
+	</xsd:complexType>
+	<xsd:complexType name="DimRefForPositionSPN2NCAType">
+		<xsd:sequence/>
+		<xsd:attribute name="PosRefD" type="ZeroTo63IntType" use="required"/>
+		<xsd:attribute name="PosRefC" type="ZeroTo63IntType" use="required"/>
+		<xsd:attribute name="PosRefB" type="ZeroTo511IntType" use="required"/>
+		<xsd:attribute name="PosRefA" type="ZeroTo511IntType" use="required"/>
+	</xsd:complexType>
+	<xsd:complexType name="AISVoyageInformationSPN2NCAType">
+		<xsd:sequence/>
+		<xsd:attribute name="ETA" type="ZeroToTwentyCharType"/>
+		<xsd:attribute name="TotalPersonsOnBoard" type="xsd:integer" use="required"/>
+		<xsd:attribute name="NextPortOfCall" type="ZeroToTwoHundredFiftyFiveCharType"/>
+		<!-- Suppresssion de l'ancien champ obligatoire NextPortOfCall qui n'est jamais en locode. S'il existe dans le message -->
+		<!-- il est recopié in-extenso dans l'item NextPortOfCall -->
+		<!-- L'ETA est mis en mode texte tel que les marins l'ont entré sur le transpondeur AIS du bord -->
+	</xsd:complexType>
+	<xsd:complexType name="AISDynamicInformationSPN2NCAType">
+		<xsd:sequence>
+			<xsd:element name="RoutePlan" type="RoutePlanSPN2NCAType" minOccurs="0" maxOccurs="14"/>
+		</xsd:sequence>
+		<xsd:attribute name="Longitude" type="LongitudeType" use="required"/>
+		<xsd:attribute name="Latitude" type="LatitudeType" use="required"/>
+		<xsd:attribute name="Timestamp" type="zsdateTime" use="required"/>
+		<xsd:attribute name="ROT" type="ROTType" use="required"/>
+		<xsd:attribute name="COG" type="COGType" use="required"/>
+		<xsd:attribute name="SOG" type="SOGType" use="required"/>
+		<xsd:attribute name="TrueHeading" type="HeadingType" use="required"/>
+		<xsd:attribute name="NavigationalStatus" type="xsd:string" />
+		<xsd:attribute name="RouteTextualDescription" type="ZeroToTwentyCharType"/>
+	</xsd:complexType>
+	<xsd:complexType name="RoutePlanSPN2NCAType">
+		<xsd:sequence/>
+		<xsd:attribute name="NWP" type="xsd:integer" use="required"/>
+		<xsd:attribute name="WPiLon" type="LongitudeType"/>
+		<xsd:attribute name="WPiLat" type="LatitudeType"/>
+	</xsd:complexType>
+	<xsd:complexType name="AISCargoInformationSPN2NCAType">
+		<xsd:attribute name="HazardousCargoType" type="xsd:string"/>
+	</xsd:complexType>
+	<xsd:complexType name="VoyageNotificationSPN2NCAType">
+		<xsd:sequence>
+			<xsd:element name="VoyageInformation" type="VoyageInformationSPN2NCAType"/>
+			<xsd:element name="Bunkers" type="BunkersType" minOccurs="0" maxOccurs="6"/>
+			<xsd:element name="CargoInformation" type="CargoInformationSPN2NCAType" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="VoyageInformationSPN2NCAType">
+		<xsd:sequence/>
+		<xsd:attribute name="PortOfCall" type="LocodeType" use="required"/>
+		<xsd:attribute name="NextPortOfCall" type="LocodeType" use="required"/>
+		<xsd:attribute name="ETA" type="zsdateTime"/>
+		<xsd:attribute name="TotalPassenger" type="xsd:integer"/>
+		<xsd:attribute name="CrewNumber" type="xsd:integer"/>
+		<xsd:attribute name="TotalClandestine" type="xsd:integer"/>
+		<xsd:attribute name="NavigationStatus" type="NavigationStatusType"/>
+		<xsd:attribute name="Draught" type="DraughtType"/>
+		<xsd:attribute name="Lane" type="xsd:string"/>
+		<xsd:attribute name="Observations" type="ZeroToTwoHundredFiftyFiveCharType"/>
+		<xsd:attribute name="Towing" type="TowingType"/>
+		<xsd:attribute name="TowLength" type="xsd:integer"/>
+		<xsd:attribute name="TowCategory" type="xsd:string"/>
+	</xsd:complexType>
+	<xsd:complexType name="CargoInformationSPN2NCAType">
+		<xsd:complexContent>
+			<xsd:extension base="CargoInformationNCAType">
+				<xsd:sequence>
+					<xsd:element name="DG" type="DGNCAShipInfType" minOccurs="0"/>
+					<xsd:element name="CargoManifest" type="NotificationDetailsType" minOccurs="0"/>
+					<xsd:element name="CargoOfInterest" type="CargoOfInterestNCAType" minOccurs="0" maxOccurs="99"/>
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	
+	<xsd:complexType name="NCA_ListeVoyage_ResType">
+		<xsd:sequence>
+			<xsd:element name="Header" type="NCA_HeaderType"/>
+			<xsd:element name="Body" type="NCA_ListeVoyage_ResBodyType"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	
+	<xsd:complexType name="NCA_Form_ResType">
+		<xsd:sequence>
+			<xsd:element name="Header" type="NCA_HeaderType"/>
+			<xsd:element name="Body" type="NCA_Form_ResTypeBodyType"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	
+	<xsd:complexType name="NCA_ListeVoyage_ResBodyType">
+        <xsd:sequence>
+           <xsd:element name="VesselIdentification" type="VesselIdentificationType" />    
+           <xsd:element name="VoyageInformation" type="VoyageInformationListeVoyageResType" minOccurs="0" maxOccurs="unbounded"/>                  
+        </xsd:sequence>
+		<xsd:attribute name="StatusCodeT2K" type="StatusCodeT2KType" use="required"/>        
+		<xsd:attribute name="StatusCodeSSNShipMRS" type="StatusCodeSSNType" use="required"/>        
+		<xsd:attribute name="StatusCodeSSNShipCall" type="StatusCodeSSNType" use="required"/>    
+		<xsd:attribute name="RecentIncident" type="YesNoType" use="required"/>        
+	</xsd:complexType>
+	
+	<xsd:complexType name="NCA_Form_ResTypeBodyType">
+	    <xsd:sequence>
+            <xsd:element name="VesselIdentification" type="VesselIdentificationType" />    
+            <xsd:element name="FAL5" type="NCA_Form_Res_FAL5Type" minOccurs="0"/>   
+            <xsd:element name="FAL6" type="NCA_Form_Res_FAL6Type" minOccurs="0"/>   
+            <xsd:element name="DMS" type="NCA_Form_Res_DMSType" minOccurs="0"/>   
+	    </xsd:sequence>
+		<xsd:attribute name="ShipCallId" type="ShipCallIdType" use="required"/>
+		<xsd:attribute name="StatusCode" type="StatusCodeT2KType" use="required"/>    
+	</xsd:complexType>
+		
+	<xsd:complexType name="VoyageInformationListeVoyageResType">
+	    <xsd:sequence>
+	         <xsd:element name="SourceOfInformation" type="SourceOfInformationType"/>
+	         <xsd:element name="VoyageDetails" type="VoyageDetailsType"/>
+	         <xsd:element name="ShippingContactDetails" type="ShippingContactDetailsType" minOccurs="0"/>
+	         <xsd:element name="CargoInformation" type="CargoInformationType" minOccurs="0"/>
+	         <xsd:element name="Bunkers" type="Bunkers1Type" minOccurs="0"/>
+	         <xsd:element name="DG" type="DGNCAListeVoyageType" minOccurs="0"/>
+	    </xsd:sequence>
+	</xsd:complexType>
+	
+	<xsd:complexType name="SourceOfInformationType">
+	   <xsd:attribute name="SourceId" type="ParticipantType" use="required"/>
+	   <xsd:attribute name="SourceName" type="OneToFiftyCharType" use="required"/>
+	   <xsd:attribute name="LastUpdateReceivedAt" type="zsdateTime" use="required"/>
+	   <xsd:attribute name="ShipCallId" type="OneToThirtySixCharType"/>
+	   <xsd:attribute name="NatureMessage" type="Nature1EnumType"/>
+	   <xsd:attribute name="ProviderId" type="ThreeToThirtyTwoCharType"/>	   
+	</xsd:complexType>
+	
+	<xsd:complexType name="VoyageDetailsType">
+		<xsd:attribute name="LastPort" type="LocodeType"/>
+		<xsd:attribute name="ETDFromLastPort" type="zsdateTime"/>
+		<xsd:attribute name="PortOfCall" type="LocodeType"/>
+		<xsd:attribute name="ETAToPortOfCall" type="zsdateTime"/>
+		<xsd:attribute name="ETDFromPortOfCall" type="zsdateTime"/>
+		<xsd:attribute name="ATAPortOfCall" type="zsdateTime"/>
+		<xsd:attribute name="ATDPortOfCall" type="zsdateTime"/>
+		<xsd:attribute name="NextPort" type="LocodeType"/>
+		<xsd:attribute name="ETAToNextPort" type="zsdateTime"/>
+		<xsd:attribute name="TotalPersonOnBoard" type="xsd:integer"/>
+		<xsd:attribute name="TotalPassenger" type="xsd:integer"/>
+		<xsd:attribute name="CrewNumber" type="xsd:integer"/>
+		<xsd:attribute name="TotalClandestine" type="xsd:integer"/>
+		<xsd:attribute name="Draught" type="DecimalOneFractionDigitType"/>
+		<xsd:attribute name="Observations" type="ZeroToTwoHundredFiftyFiveCharType"/>
+		<xsd:attribute name="Comments" type="xsd:string"/>
+		<xsd:attribute name="NavigationalStatus" type="NavigationStatusType"/>   
+	</xsd:complexType>
+	
+	<xsd:complexType name="ShippingContactDetailsType">
+	   <xsd:attribute name="NameOfAgent" type="OneToFiftyCharType" />
+	   <xsd:attribute name="Phone" type="OneToTwentyCharType" />
+	   <xsd:attribute name="Fax" type="OneToTwentyCharType" />
+	   <xsd:attribute name="Email" type="ZeroToFiftyCharType" />
+	</xsd:complexType>
+	
+	<xsd:complexType name="CargoInformationType">
+	   <xsd:attribute name="CargoDescription" type="xsd:string" />
+	   <xsd:attribute name="Ballast" type="xsd:string" />
+	</xsd:complexType>
+	
+	<xsd:complexType name="Bunkers1Type">
+	  <xsd:attribute name="CharsDescription" type="xsd:string" use="required" />
+	</xsd:complexType>
+	
+	<xsd:complexType name="DGNCAListeVoyageType">
+	    <xsd:sequence>
+	       <xsd:element name="DGDetails" type="DGDetailsNCAListeVoyageType" minOccurs="0" maxOccurs="unbounded"/>
+	       <xsd:element name="DPGContactDetails" type="DPGContactDetailsType" minOccurs="0" />	       
+	    </xsd:sequence>
+	    <xsd:attribute name="AnyDG" type="YesNoType" use="required"/>
+	    <xsd:attribute name="HydroDescription" type="xsd:string"/>
+	</xsd:complexType>
+	
+	<xsd:complexType name="DGDetailsNCAListeVoyageType">
+	    <xsd:attribute name="HazardClass" type="OneToSevenCharType" use="required" />
+	    <xsd:attribute name="Quantity" type="xsd:string" use="required" />
+	</xsd:complexType>
+	
+	<xsd:complexType name="DPGContactDetailsType">
+	   <xsd:attribute name="Name" type="OneToFiftyCharType" />
+	   <xsd:attribute name="Phone" type="OneToTwentyCharType" />
+	   <xsd:attribute name="Fax" type="OneToTwentyCharType" />
+	   <xsd:attribute name="Mail" type="ZeroToFiftyCharType" />
+	</xsd:complexType>
+	
+	<xsd:complexType name="NCA_Form_Res_FAL5Type">
+		<xsd:sequence>
+			<xsd:element name="CrewMember" type="CrewMemberNCAFAL5Type" maxOccurs="unbounded"/>
+		</xsd:sequence>
+		<xsd:attribute name="EntryOrExit" type="EntryExitType" use="required"/> 
+	</xsd:complexType>
+	
+	<xsd:complexType name="NCA_Form_Res_FAL6Type">
+	   <xsd:sequence>
+	       <xsd:element name="Passenger" type="PassengerNCAFAL6Type" maxOccurs="unbounded"/>
+	   </xsd:sequence>
+		<xsd:attribute name="EntryOrExit" type="EntryExitType" use="required"/> 
+	</xsd:complexType> 
+	
+	<xsd:complexType name="NCA_Form_Res_DMSType">
+	    <xsd:sequence>
+	        <xsd:element name="GlobalInformations" type="GlobalInformationsType" minOccurs="0" />
+	        <xsd:element name="HealthQuestions" type="HealthQuestionsType" minOccurs="0" />	        
+	    </xsd:sequence>
+	</xsd:complexType> 
+	 
+	<xsd:complexType name="GlobalInformationsType">
+	    <xsd:sequence>
+	        <xsd:element name="ValidSanitationControlExemptionOrControlCertificate" type="IssueType" minOccurs="0"/>
+	        <xsd:element name="LastShipCalls" type="LastShipCallType" minOccurs="0"/>
+	    </xsd:sequence>
+	    <xsd:attribute name="ReInspectionRequired" type="YesNoType"/>
+	    <xsd:attribute name="VisitedInfectedArea" type="YesNoType"/>
+	    <xsd:attribute name="PortOfCallInInfectedArea" type="LocodeType"/>
+	    <xsd:attribute name="DateOfCallInInfectedArea" type="zsdate"/>
+	</xsd:complexType> 
+	
+	<xsd:complexType name="HealthQuestionsType">
+	    <xsd:sequence>
+	        <xsd:element name="AnyPersonDied" type="AnyPersonDiedType" minOccurs="0"/>
+	        <xsd:element name="DiseaseOnBoard" minOccurs="0"/>
+	        <xsd:element name="IllPersonsGreaterThanExpected" type="IllPersonsGreaterThanExpectedType" minOccurs="0"/>
+	        <xsd:element name="IllPersonsNow" minOccurs="0"/>
+	        <xsd:element name="MedicalConsulted" minOccurs="0"/>
+	        <xsd:element name="InfectionConditionOnBoard" minOccurs="0"/>
+	        <xsd:element name="SanitaryMeasure" type="SanitaryMeasureType" minOccurs="0"/>
+	        <xsd:element name="SickAnimal" minOccurs="0"/>
+	        <xsd:element name="StowawaysDiscovered" type="StowawaysDiscoveredType" minOccurs="0"/>
+	    </xsd:sequence>
+	</xsd:complexType>
+	
+	<xsd:complexType name="IssueType">
+	    <xsd:attribute name="PlaceOfIssue" type="ZeroToFiftyCharType" />
+	    <xsd:attribute name="DateOfIssue" type="zsdate" />
+	</xsd:complexType>
+	<xsd:complexType name="LastShipCallType">
+	    <xsd:sequence>
+	        <xsd:element name="ShipCall" type="ShipCallType" minOccurs="0" maxOccurs="unbounded"/>
+	    </xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="ShipCallType">
+	    <xsd:attribute name="Locode" type="LocodeType" />
+	    <xsd:attribute name="ATD" type="zsdate" />
+	</xsd:complexType>
+	<xsd:complexType name="AnyPersonDiedType">
+	     <xsd:attribute name="NumberOfDeaths" type="xsd:integer"/>
+	</xsd:complexType>
+	<xsd:complexType name="IllPersonsGreaterThanExpectedType">
+	     <xsd:attribute name="NumberOfIllPerson" type="ZeroTo9999IntType"/>
+	</xsd:complexType>
+	<xsd:complexType name="SanitaryMeasureType">
+	     <xsd:attribute name="Type" type="ZeroToHundredCharType" />
+	     <xsd:attribute name="Place" type="ZeroToFiftyCharType" />
+	     <xsd:attribute name="Date" type="zsdate" />
+	</xsd:complexType>
+	<xsd:complexType name="StowawaysDiscoveredType">
+	     <xsd:attribute name="LocationStowawaysJoinedShip" type="ZeroToTwoHundredFiftySixCharType" />
+	</xsd:complexType>
+
+	 
+	<xsd:annotation>
+		<xsd:documentation>
+							Définition des types simples
+							****************************
+		</xsd:documentation>
+	</xsd:annotation>
+	<xsd:simpleType name="ParticipantType">
+		<xsd:restriction base="xsd:string">
+			<xsd:minLength value="5"/>
+			<xsd:maxLength value="8"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="FromType">
+		<xsd:restriction base="xsd:string">
+			<xsd:minLength value="5"/>
+			<xsd:maxLength value="8"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="ToType">
+		<xsd:restriction base="xsd:string">
+			<xsd:minLength value="5"/>
+			<xsd:maxLength value="8"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="MessageTypeType">
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="1"/>
+			<xsd:enumeration value="2"/>
+			<xsd:enumeration value="3"/>
+			<xsd:enumeration value="4"/>
+			<xsd:enumeration value="5"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="TrackTriggerTypeType">
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="0"/>
+			<xsd:enumeration value="1"/>
+			<xsd:enumeration value="2"/>
+			<xsd:enumeration value="3"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="NavigationStatusType">
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="0"/>
+			<xsd:enumeration value="1"/>
+			<xsd:enumeration value="2"/>
+			<xsd:enumeration value="3"/>
+			<xsd:enumeration value="4"/>
+			<xsd:enumeration value="5"/>
+			<xsd:enumeration value="6"/>
+			<xsd:enumeration value="7"/>
+			<xsd:enumeration value="8"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="TestIdType">
+		<xsd:restriction base="xsd:string">
+			<xsd:minLength value="1"/>
+			<xsd:maxLength value="8"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="RefIdType">
+		<xsd:restriction base="xsd:string">
+			<xsd:minLength value="1"/>
+			<xsd:maxLength value="36"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="IMONumberType">
+		<xsd:restriction base="xsd:integer">
+			<xsd:minInclusive value="0"/>
+			<xsd:maxInclusive value="9999999"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="MMSINumberType">
+		<xsd:restriction base="xsd:integer">
+			<xsd:minInclusive value="0"/>
+			<xsd:maxInclusive value="999999999"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="CallSignType">
+		<xsd:restriction base="xsd:string">
+			<xsd:minLength value="1"/>
+			<xsd:maxLength value="7"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="ImmatriculationType">
+		<xsd:restriction base="xsd:string">
+			<xsd:minLength value="1"/>
+			<xsd:maxLength value="20"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="INMARSATNumberType">
+		<xsd:restriction base="xsd:string">
+			<xsd:minLength value="0"/>
+			<xsd:maxLength value="20"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="ShipNameType">
+		<xsd:restriction base="xsd:string">
+			<xsd:minLength value="1"/>
+			<xsd:maxLength value="35"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="LocodeType">
+		<xsd:restriction base="xsd:string">
+			<xsd:length value="5"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="ShipCallIdType">
+		<xsd:restriction base="xsd:string">
+			<xsd:minLength value="1"/>
+			<xsd:maxLength value="36"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="YesNoType">
+		<xsd:restriction base="xsd:NMTOKEN">
+			<xsd:enumeration value="Y"/>
+			<xsd:enumeration value="N"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="BooleanType">
+		<xsd:restriction base="xsd:NMTOKEN">
+			<xsd:enumeration value="0"/>
+			<xsd:enumeration value="1"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="TowingType">
+		<xsd:restriction base="xsd:string">
+			<xsd:minLength value="0"/>
+			<xsd:maxLength value="20"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="FlagType">
+		<xsd:restriction base="xsd:string">
+			<xsd:length value="2"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="LatitudeType">
+		<xsd:restriction base="xsd:integer">
+			<xsd:minInclusive value="-54000000"/>
+			<xsd:maxInclusive value="54000000"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="LongitudeType">
+		<xsd:restriction base="xsd:integer">
+			<xsd:minInclusive value="-108000000"/>
+			<xsd:maxInclusive value="108000000"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="SOGType">
+		<xsd:restriction base="xsd:integer">
+			<xsd:minInclusive value="0"/>
+			<xsd:maxInclusive value="1022"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="ROTType">
+		<xsd:restriction base="xsd:integer">
+			<xsd:minInclusive value="-128"/>
+			<xsd:maxInclusive value="127"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="COGType">
+		<xsd:restriction base="xsd:integer">
+			<xsd:minInclusive value="0"/>
+			<xsd:maxInclusive value="3600"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	
+	<xsd:simpleType name="ZeroTo9IntType">
+		<xsd:restriction base="xsd:integer">
+			<xsd:minInclusive value="0"/>
+      		<xsd:maxInclusive value="9"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="ZeroTo63IntType">
+		<xsd:restriction base="xsd:integer">
+			<xsd:minInclusive value="0"/>
+      		<xsd:maxInclusive value="63"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="ZeroTo99IntType">
+		<xsd:restriction base="xsd:integer">
+			<xsd:minInclusive value="0"/>
+			<xsd:maxInclusive value="99"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="ZeroTo511IntType">
+		<xsd:restriction base="xsd:integer">
+			<xsd:minInclusive value="0"/>
+      		<xsd:maxInclusive value="511"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="ZeroTo9999IntType">
+		<xsd:restriction base="xsd:integer">
+			<xsd:minInclusive value="0"/>
+			<xsd:maxInclusive value="9999"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="ZeroTo99999IntType">
+		<xsd:restriction base="xsd:integer">
+			<xsd:minInclusive value="0" />
+			<xsd:maxInclusive value="99999" />
+		</xsd:restriction>
+	</xsd:simpleType>
+	
+	<xsd:simpleType name="ZeroToSevenCharType">
+		<xsd:restriction base="xsd:string">
+			<xsd:minLength value="0"/>
+			<xsd:maxLength value="7"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="ZeroToEighteenCharType">
+		<xsd:restriction base="xsd:string">
+			<xsd:minLength value="0"/>
+			<xsd:maxLength value="18"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="ZeroToTwentyCharType">
+		<xsd:restriction base="xsd:string">
+			<xsd:minLength value="0"/>
+			<xsd:maxLength value="20"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="ZeroToTwentyFiveCharType">
+		<xsd:restriction base="xsd:string">
+			<xsd:minLength value="0"/>
+			<xsd:maxLength value="25"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="ZeroToThirtyFiveCharType">
+		<xsd:restriction base="xsd:string">
+			<xsd:minLength value="0"/>
+			<xsd:maxLength value="35"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="ZeroToFiftyCharType">
+		<xsd:restriction base="xsd:string">
+			<xsd:minLength value="0"/>
+			<xsd:maxLength value="50"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="ZeroToHundredCharType">
+		<xsd:restriction base="xsd:string">
+			<xsd:minLength value="0"/>
+			<xsd:maxLength value="100"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="ZeroToTwoHundredFiftyFiveCharType">
+		<xsd:restriction base="xsd:string">
+			<xsd:minLength value="0"/>
+			<xsd:maxLength value="255"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="ZeroToTwoHundredFiftySixCharType">
+		<xsd:restriction base="xsd:string">
+			<xsd:minLength value="0"/>
+			<xsd:maxLength value="256"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="ZeroToTwoThousandCharType">
+		<xsd:restriction base="xsd:string">
+			<xsd:minLength value="0"/>
+			<xsd:maxLength value="2000"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="ZeroToThreeThousandCharType">
+		<xsd:restriction base="xsd:string">
+			<xsd:minLength value="0"/>
+			<xsd:maxLength value="3000"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	
+	<xsd:simpleType name="OneCharType">
+		<xsd:restriction base="xsd:string">
+			<xsd:length value="1"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="OneToThreeIntType">
+		<xsd:restriction base="xsd:integer">
+			<xsd:minInclusive value="0"/>
+			<xsd:maxInclusive value="999"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="OneToFiveIntType">
+		<xsd:restriction base="xsd:integer">
+			<xsd:minInclusive value="0"/>
+			<xsd:maxInclusive value="99999"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="OneToFourCharType">
+		<xsd:restriction base="xsd:string">
+			<xsd:minLength value="1"/>
+			<xsd:maxLength value="4"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="OneToSevenCharType">
+		<xsd:restriction base="xsd:string">
+			<xsd:minLength value="1"/>
+			<xsd:maxLength value="7"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="OneToTenCharType">
+		<xsd:restriction base="xsd:string">
+			<xsd:minLength value="1"/>
+			<xsd:maxLength value="10"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="OneToSeventeenCharType">
+		<xsd:restriction base="xsd:string">
+			<xsd:minLength value="1"/>
+			<xsd:maxLength value="17"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="OneToEighteenCharType">
+		<xsd:restriction base="xsd:string">
+			<xsd:minLength value="1"/>
+			<xsd:maxLength value="18"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="OneToTwentyCharType">
+		<xsd:restriction base="xsd:string">
+			<xsd:minLength value="1"/>
+			<xsd:maxLength value="20"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="OneToTwentyFiveCharType">
+		<xsd:restriction base="xsd:string">
+			<xsd:minLength value="1"/>
+			<xsd:maxLength value="25"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="OneToThirtyFiveCharType">
+		<xsd:restriction base="xsd:string">
+			<xsd:minLength value="1"/>
+			<xsd:maxLength value="35"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="OneToThirtySixCharType">
+		<xsd:restriction base="xsd:string">
+			<xsd:minLength value="1"/>
+			<xsd:maxLength value="36"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="OneToFourtyCharType">
+		<xsd:restriction base="xsd:string">
+			<xsd:minLength value="1"/>
+			<xsd:maxLength value="40"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="OneToFiftyCharType">
+		<xsd:restriction base="xsd:string">
+			<xsd:minLength value="1"/>
+			<xsd:maxLength value="50"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="OneToSeventyCharType">
+		<xsd:restriction base="xsd:string">
+			<xsd:minLength value="1"/>
+			<xsd:maxLength value="70"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+		<xsd:simpleType name="OneToEightyCharType">
+		<xsd:restriction base="xsd:string">
+			<xsd:minLength value="1"/>
+			<xsd:maxLength value="80"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="OneToTwoHundredFiftySixCharType">
+		<xsd:restriction base="xsd:string">
+			<xsd:minLength value="1"/>
+			<xsd:maxLength value="256"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="OneToThreeHundredFiftyCharType">
+		<xsd:restriction base="xsd:string">
+			<xsd:minLength value="1"/>
+			<xsd:maxLength value="350"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="ThreeIntType">
+		<xsd:restriction base="xsd:integer">
+			<xsd:minInclusive value="-999" />
+			<xsd:maxInclusive value="999" />
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="FourCharType">
+		<xsd:restriction base="xsd:string">
+			<xsd:length value="4"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="FourToSevenCharType">
+		<xsd:restriction base="xsd:string">
+			<xsd:minLength value="4"/>
+			<xsd:maxLength value="7"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="FiveIntType">
+		<xsd:restriction base="xsd:integer">
+			<xsd:minInclusive value="0" />
+			<xsd:maxInclusive value="99999" />
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="FifteenCharType">
+		<xsd:restriction base="xsd:string">
+			<xsd:length value="15"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	
+	<xsd:simpleType name="DecimalOneFractionDigitType">
+		<xsd:restriction base="xsd:decimal">
+			<xsd:fractionDigits value="1" />
+		</xsd:restriction>
+	</xsd:simpleType>
+
+	<xsd:simpleType name="DecimalTwoFractionDigitType">
+		<xsd:restriction base="xsd:decimal">
+			<xsd:fractionDigits value="2" />
+		</xsd:restriction>
+	</xsd:simpleType>
+	
+	
+	<xsd:simpleType name="DecimalThreeFractionDigitType">
+		<xsd:restriction base="xsd:decimal">
+			<xsd:fractionDigits value="3" />
+		</xsd:restriction>
+	</xsd:simpleType>
+	
+	<xsd:simpleType name="StringTwoDecimalType">
+		<xsd:restriction base="xsd:string">
+			<xsd:pattern value="[0-9]*\.?[0-9]{0,2}"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	
+	<xsd:simpleType name="HeadingType">
+		<xsd:restriction base="xsd:integer">
+			<xsd:minInclusive value="0"/>
+			<xsd:maxInclusive value="511"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="DraughtType">
+		<xsd:restriction base="xsd:integer">
+			<xsd:minInclusive value="0"/>
+			<xsd:maxInclusive value="9999"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="ShipDraughtType">
+		<xsd:restriction base="xsd:integer">
+			<xsd:minInclusive value="0"/>
+			<xsd:maxInclusive value="9999"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="TravelIdType">
+		<xsd:restriction base="xsd:string">
+			<xsd:minLength value="1"/>
+			<xsd:maxLength value="36"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+    <xsd:simpleType name="SearchTypeVoyFormReqType">
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="Voyage"/>
+			<xsd:enumeration value="Forms"/>
+		</xsd:restriction>
+    </xsd:simpleType>
+    <xsd:simpleType name="MessageTypeNcaSitrepType">
+       <xsd:restriction base="xsd:string">
+			<xsd:enumeration value="Distress"/>
+			<xsd:enumeration value="Urgency"/>
+       </xsd:restriction>
+    </xsd:simpleType>
+    <xsd:simpleType name="Nature1EnumType">
+       <xsd:restriction base="xsd:string">
+           <xsd:enumeration value="CRO"/>
+           <xsd:enumeration value="MOUV_INF"/>
+           <xsd:enumeration value="SURNAV"/>
+           <xsd:enumeration value="WETREP"/>
+           <xsd:enumeration value="MOUILLAGE"/>
+           <xsd:enumeration value="MRS"/>
+           <xsd:enumeration value="ShipCall"/>
+       </xsd:restriction>
+    </xsd:simpleType>
+    <xsd:simpleType name="CountryOfBirthEnumType">
+       <xsd:restriction base="xsd:string">
+			<xsd:length value="2"/>
+		</xsd:restriction>
+    </xsd:simpleType>
+	<xsd:simpleType name="NatureOfIdentityDocumentEnumType">
+       <xsd:restriction base="xsd:string">
+           <xsd:enumeration value="MusterBook"/>
+           <xsd:enumeration value="Passport"/>
+           <xsd:enumeration value="ResidentialPermit"/>
+           <xsd:enumeration value="Pictureld"/>
+           <xsd:enumeration value="Other"/>
+       </xsd:restriction>
+    </xsd:simpleType>
+    <xsd:simpleType name="NationalityEnumType">
+       <xsd:restriction base="xsd:string">
+			<xsd:length value="2"/>
+		</xsd:restriction>
+    </xsd:simpleType>
+    <xsd:simpleType name="LengthEightType">
+		<xsd:restriction base="xsd:string">
+			<xsd:length value="8"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+    <xsd:simpleType name="ThreeToThirtyTwoCharType">
+        <xsd:restriction base="xsd:string">
+            <xsd:minLength value="3"/>
+            <xsd:maxLength value="32"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+    <xsd:simpleType name="BallastType">
+       <xsd:restriction base="xsd:string">
+			<xsd:enumeration value="1"/>
+			<xsd:enumeration value="2"/>
+			<xsd:enumeration value="3"/>
+			<xsd:enumeration value="4"/>
+       </xsd:restriction>
+    </xsd:simpleType>
+      
+    <xsd:simpleType name="UnitOfMeasurementType">
+       <xsd:restriction base="xsd:string">
+           <xsd:enumeration value="KGM"/>
+           <xsd:enumeration value="TNE"/>
+           <xsd:enumeration value="M3"/>
+       </xsd:restriction>
+    </xsd:simpleType>
+
+	<xsd:simpleType name="StatusCodeT2KType">
+	    <xsd:restriction base="xsd:string">
+	        <xsd:enumeration value="OK"/>
+	        <xsd:enumeration value="NotFound"/>
+	        <xsd:enumeration value="ServerError"/>
+	        <xsd:enumeration value="Timeout"/>
+	    </xsd:restriction>
+	</xsd:simpleType>
+    
+    <xsd:simpleType name="StatusCodeSSNType">
+	    <xsd:restriction base="xsd:string">
+	        <xsd:enumeration value="OK"/>
+	        <xsd:enumeration value="NotFound"/>
+	        <xsd:enumeration value="ServerError"/>
+	        <xsd:enumeration value="Timeout"/>
+	        <xsd:enumeration value="NotAvailable"/>
+	        <xsd:enumeration value="InvalidFormat"/>
+	        <xsd:enumeration value="AccessDenied"/>
+	    </xsd:restriction>
+    </xsd:simpleType>
+    
+    <xsd:simpleType name="EntryExitType">
+       <xsd:restriction base="xsd:string">
+            <xsd:enumeration value="Entry"/>
+            <xsd:enumeration value="Exit"/>
+       </xsd:restriction>
+    </xsd:simpleType>
+    
+    <xsd:simpleType name="zsdate">
+        <xsd:restriction base="xsd:date">
+            <xsd:pattern value="[1-2][0-9]{3}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+    <xsd:simpleType name="zsdateTime">
+        <xsd:restriction base="xsd:dateTime">
+   			<xsd:pattern value="[1-2][0-9]{3}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])T[0-2][0-9]:[0-5][0-9]:[0-5][0-9](([.][0-9]{3})*)(([Z])*)"/>
+		</xsd:restriction>
+    </xsd:simpleType>
+
+</xsd:schema>
+
+
+
