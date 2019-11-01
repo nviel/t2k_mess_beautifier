@@ -42,16 +42,6 @@ function getViewFAL6(mess) {
         <td>
           1.2 IMO number<br/>
         </td>
-      </tr>
-      <tr>
-        <td >
-          ${mess.Body.FormInformation.ShipInformation.ShipName}
-        </td>
-        <td>
-          ${mess.Body.VesselIdentification.IMONumber}
-        </td>
-      </tr>
-      <tr>
         <td >
           1.3 Callsign<br/>
         </td>
@@ -60,6 +50,12 @@ function getViewFAL6(mess) {
         </td>
       </tr>
       <tr>
+        <td >
+          ${mess.Body.FormInformation.ShipInformation.ShipName}
+        </td>
+        <td>
+          ${mess.Body.VesselIdentification.IMONumber}
+        </td>
         <td >
           ${mess.Body.FormInformation.ShipInformation.CallSign||' '}
         </td>
@@ -74,16 +70,6 @@ function getViewFAL6(mess) {
         <td>
           3. Date and time of ${mess.Body.FormInformation.entryOrExit}<br/>
         </td>
-      </tr>
-      <tr>
-        <td >
-          ${mess.Body.ShipCallInformation.PortOfCall}
-        </td>
-        <td>
-          ${mess.Body.FormInformation.VoyageInformation.ETDFromPortOfCall||''}${mess.Body.FormInformation.VoyageInformation.ETAToPortOfCall||''}
-        </td>
-      </tr>
-      <tr>
         <td>
           4. Flag State of ship<br/>
         </td>
@@ -92,22 +78,28 @@ function getViewFAL6(mess) {
         <td>
           ${mess.Body.FormInformation.ShipInformation.FlagStateOfShip||' '}
         </td>
+        <td >
+          ${mess.Body.ShipCallInformation.PortOfCall}
+        </td>
+        <td>
+          ${mess.Body.FormInformation.VoyageInformation.ETDFromPortOfCall||''}${mess.Body.FormInformation.VoyageInformation.ETAToPortOfCall||''}
+        </td>
       </tr>
       </table>
       <br/>
       <table class="PassengerList listTable">
       <thead><tr>
         <th>5.  Family name</th>
-        <th>given names</th>
-        <th>6.  Nationality</th>
-        <th>7.  Date of birth</th>
-        <th>7.  Place of birth</th>
-        <th>7.  Country of birth</th>
-        <th>8.  Type of identity or travel document</th>
-        <th>9.  Serial number of identity or travel document</th>
-        <th>10.  Port of embarkation</th>
-        <th>11.  Port of disembarkation</th>
-        <th>12.  Transit passenger or not</th>
+        <th>6. given names</th>
+        <th>7.  Nationality</th>
+        <th>8.  Date of birth</th>
+        <th>9.1  Place of birth</th>
+        <th>9.2  Country of birth</th>
+        <th>11.  Type of identity or travel document</th>
+        <th>12.  Serial number of identity or travel document</th>
+        <th>15.  Port of embarkation</th>
+        <th>17.  Port of disembarkation</th>
+        <th>18.  Transit passenger or not</th>
   
       </tr></thead>
       <tbody>

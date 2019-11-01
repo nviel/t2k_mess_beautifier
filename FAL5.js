@@ -41,16 +41,6 @@ function getViewFAL5(mess) {
         <td>
           1.2 IMO number<br/>
         </td>
-      </tr>
-      <tr>
-        <td >
-          ${mess.Body.FormInformation.ShipInformation.ShipName}
-        </td>
-        <td>
-          ${mess.Body.VesselIdentification.IMONumber}
-        </td>
-      </tr>
-      <tr>
         <td>
           1.3 Callsign<br/>
         </td>
@@ -59,6 +49,12 @@ function getViewFAL5(mess) {
         </td>
       </tr>
       <tr>
+        <td >
+          ${mess.Body.FormInformation.ShipInformation.ShipName}
+        </td>
+        <td>
+          ${mess.Body.VesselIdentification.IMONumber}
+        </td>
         <td >
           ${mess.Body.FormInformation.ShipInformation.CallSign||'&nbsp;'}
         </td>
@@ -73,6 +69,12 @@ function getViewFAL5(mess) {
         <td>
           3. Date and time of ${mess.Body.FormInformation.entryOrExit}<br/>
         </td>
+        <td>
+          4. Flag State of ship<br/>
+        </td>
+        <td>
+          5. Last port of call<br/>
+        </td>
       </tr>
       <tr>
         <td >
@@ -81,16 +83,6 @@ function getViewFAL5(mess) {
         <td>
           ${mess.Body.FormInformation.VoyageInformation.ETDFromPortOfCall||''}${mess.Body.FormInformation.VoyageInformation.ETAToPortOfCall||''}
         </td>
-      </tr>
-      <tr>
-        <td>
-          4. Flag State of ship<br/>
-        </td>
-        <td>
-          5. Last port of call<br/>
-        </th>
-      </tr>
-      <tr>
         <td>
           ${mess.Body.FormInformation.ShipInformation.FlagStateOfShip||' '}
         </td>
@@ -102,14 +94,14 @@ function getViewFAL5(mess) {
       <table class="CrewList listTable">
       <thead><tr>
         <th>7.  Family name</th>
-        <th>given names</th>
-        <th>8.  Rank or rating</th>
-        <th>9.  Nationality</th>
-        <th>10.  Date of birth</th>
-        <th>Place of birth</th>
-        <th>Country of birth</th>
-        <th>11. Nature of identity document </th>
-        <th>number of identity document </th>
+        <th>8.  given names</th>
+        <th>9.  Rank or rating</th>
+        <th>10.  Nationality</th>
+        <th>11.  Date of birth</th>
+        <th>12. Place of birth</th>
+        <th>12. Country of birth</th>
+        <th>14. Nature of identity document </th>
+        <th>15. number of identity document </th>
         <th>Visa or residence permit number</th>
       </tr></thead>
       <tbody>
