@@ -10,8 +10,18 @@
 <div id="drop-area">
   <form class="my-form">
     <input type="file" id="fileElem" multiple accept="text/xml" onchange="handleFiles(this.files)">
-    <p><label class="button" for="fileElem">Sélectionnez un fichier</label>
-    Sélectionner un fichier avec l'explorateur de fichier, en le glissant dans la page ou bien en y copiant/collant le contenu xml.</p>
+    <label class="button" for="fileElem">Sélectionnez un fichier</label>
+      <div class="infotip">
+        <img id="infologo" src="img/info_icone_40px.png"/>
+        <span class="infotext">
+          Cet outil permet de consulter les messages Trafic2000 sans connaître le XML.<br/><br/>
+          Sélectionner un fichier avec l'explorateur de fichier <br/>
+          ou en le glissant dans la page <br/>
+          ou bien encore en faisant un copier/coller du contenu xml.<br/><br/>
+          A noter que la mise en page est faite dans votre navigateur et qu'aucune information n'est transmise à notre serveur.<br/><br/>
+          Cet outil n'est pas officiel. Les auteurs n'ont pas de lien avec l'équipe de trafic2000 mais ou espérons qu'il sera utile pour vous.
+        </span>
+      </div>
   </form>
   <div id="content"></div>
 </div>
@@ -20,8 +30,8 @@
 <script type="text/javascript" src="FAL5.js"></script>
 <script type="text/javascript" src="FAL6.js"></script>
 <script type="text/javascript" src="FAL7.js"></script>
-<script type="text/javascript" src="xmlTools.js"></script>
 <script type="text/javascript" src="formalite.js"></script>
+<script type="text/javascript" src="xmlTools.js"></script>
 <script type="text/javascript" src="main.js"></script>
 
 </body>

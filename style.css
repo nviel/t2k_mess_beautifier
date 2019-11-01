@@ -57,6 +57,37 @@ td {
     vertical-align: top;
 }
 
+#infologo {
+    vertical-align: middle;
+}
+/* Tooltip container */
+
+.infotip {
+    position: relative;
+    display: inline-block;
+}
+
+/* infotip text */
+.infotip .infotext {
+    visibility: hidden;
+    width: 800px;
+    background-color: rgb(49, 89, 136);
+    color: #fff;
+    text-align: left;
+    padding: 5px 5px;
+    border-radius: 6px;
+    /* Position the tooltip text - see examples below! */
+    position: absolute;
+    z-index: 1;
+    top: -5px;
+    left: 105%;
+}
+
+/* Show the infobox text when you mouse over the infotip container */
+.infotip:hover .infotext {
+    visibility: visible;
+}
+
 
 /* Tooltip container */
 
