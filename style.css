@@ -89,12 +89,19 @@ td {
 }
 
 
+.escaleinfo {
+    border-radius: 5px 5px 0 0;
+    border: 1px solid #AAA;
+    padding:5px;
+    display: block;
+}
+
 /* Tooltip container */
 
 .tooltip {
     position: relative;
     display: inline-block;
-    border-bottom: 1px dotted black;
+    /* border-bottom: 1px dotted black; */
     /* If you want dots under the hoverable text */
 }
 

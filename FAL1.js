@@ -3,18 +3,19 @@
 function getViewFAL1(mess) {
     //retourne le code HTML à afficher
     return `
-      Port: ${mess.Body.ShipCallInformation.PortOfCall}<br/> 
-      Numéro d'escale: ${mess.Body.ShipCallInformation.ShipCallId}<br/>
-  
+      <div class="escaleinfo">
+        Port: ${mess.Body.ShipCallInformation.PortOfCall}<br/> 
+        N° escale: ${mess.Body.ShipCallInformation.ShipCallId}<br/>
+      </div>
       <div class="tooltip">
-      <h2>IMO FAL Form 1 (general declaration)</h2>
+      <h2>FAL1</h2>
       <span class="tooltiptext">
         Numéro de message: ${mess.Header.LARefId}<br/>
         Date d'envoi: ${mess.Header.SentAt}<br/>
         Port émetteur: ${mess.Header.From}
       </span>
       </div><br/>
-      <h3>${mess.Body.FormInformation.entryOrExit}</h3>
+      <h3>IMO FAL Form 1 (general declaration) : ${mess.Body.FormInformation.entryOrExit}</h3>
       <table class="infoTable">
       <tr>
         <td colspan="2">
