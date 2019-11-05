@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="ISO-8859-1" standalone="yes"?>
+<NCA_FAL7MD>
+    <Header Version="5.2" LARefId="YTLON201900000000000000000000068157" SentAt="2019-09-11T03:00:00Z" From="YTLONPOR" To="TRA2K"/>
+    <Body>
+        <VesselIdentification IMONumber="9642394"/>
+        <ShipCallInformation ShipCallId="YTLON2019000898" PortOfCall="YTLON"/>
+        <FormInformation EntryOrExit="0" VoyageNumber="41-INDIEN 03/2019">
+            <ShippingContactDetails NameOfAgent="QUELQUUN" Phone="+33123456789" Email="email@truc.com"/>
+        </FormInformation>
+        <HazmatInformation ConfirmDPGListOnBoard="Y" INFShipClass="INF1">
+            <DPGContactDetails LastName="QUELQUUN" FirstName="QUELQUUN" Phone="+33123456789"/>
+        </HazmatInformation>
+        <HazmatDetails>
+            <Consignment TransportDocumentId="MANIFESTE" PortOfLoading="FRLPE" PortOfDischarge="YTLON">
+                <DPGItem DGClassification="IMDG" TextualReference="heptanes" IMOHazardClass="3" UNNumber="1133" TotalNrOfPackages="0">
+                    <TotalQuantityNet UnitOfMeasurement="KGM" NetQuantity="1.27"/>
+                </DPGItem>
+            </Consignment>
+            <Consignment TransportDocumentId="MANIFESTE" PortOfLoading="FRLPE" PortOfDischarge="YTLON">
+                <DPGItem DGClassification="IMDG" TextualReference="hexamethylenetetramine" IMOHazardClass="4" UNNumber="1328" TotalNrOfPackages="0">
+                    <TotalQuantityNet UnitOfMeasurement="TNE" NetQuantity="182.7"/>
+                </DPGItem>
+                <DPGItem DGClassification="IMDG" TextualReference="allulmettes" IMOHazardClass="4" UNNumber="1944" TotalNrOfPackages="0">
+                    <TotalQuantityNet UnitOfMeasurement="KGM" NetQuantity="475"/>
+                </DPGItem>
+                <DPGItem DGClassification="IMDG" TextualReference="dispositifs eclairants" IMOHazardClass="1" UNNumber="0404" TotalNrOfPackages="0">
+                    <TotalQuantityNet UnitOfMeasurement="TNE" NetQuantity="8.5"/>
+                </DPGItem>
+                <DPGItem DGClassification="IMDG" TextualReference="cartouches pour arme petit calibre" IMOHazardClass="1" UNNumber="0012" TotalNrOfPackages="0">
+                    <TotalQuantityNet UnitOfMeasurement="TNE" NetQuantity="1.002"/>
+                </DPGItem>
+                <DPGItem DGClassification="IMDG" TextualReference="munitions lacrymogenes" IMOHazardClass="1" UNNumber="0301" TotalNrOfPackages="0">
+                    <TotalQuantityNet UnitOfMeasurement="TNE" NetQuantity="1.026"/>
+                </DPGItem>
+                <DPGItem DGClassification="IMDG" TextualReference="grenades d'exercice à main" IMOHazardClass="1" UNNumber="0452" TotalNrOfPackages="0">
+                    <TotalQuantityNet UnitOfMeasurement="TNE" NetQuantity="14.4"/>
+                </DPGItem>
+                <DPGItem DGClassification="IMDG" TextualReference="fusees allumeurs" IMOHazardClass="1" UNNumber="0368" TotalNrOfPackages="0">
+                    <TotalQuantityNet UnitOfMeasurement="TNE" NetQuantity="3.07"/>
+                </DPGItem>
+                <DPGItem DGClassification="IMDG" TextualReference="piles au lithium metal" IMOHazardClass="9" UNNumber="3090" TotalNrOfPackages="0">
+                    <TotalQuantityNet UnitOfMeasurement="KGM" NetQuantity="8.6"/>
+                </DPGItem>
+                <DPGItem DGClassification="IMDG" TextualReference="AEROSOLS" IMOHazardClass="2" UNNumber="1951" TotalNrOfPackages="0">
+                    <TotalQuantityNet UnitOfMeasurement="KGM" NetQuantity="2.35"/>
+                </DPGItem>
+                <DPGItem DGClassification="IMDG" TextualReference="EXTINCTEUR" IMOHazardClass="2" UNNumber="1044" TotalNrOfPackages="0">
+                    <TotalQuantityNet UnitOfMeasurement="KGM" NetQuantity="6"/>
+                </DPGItem>
+                <DPGItem DGClassification="IMDG" TextualReference="RTIFICES DE SIGNALISATION" IMOHazardClass="1" UNNumber="0191" TotalNrOfPackages="0">
+                    <TotalQuantityNet UnitOfMeasurement="TNE" NetQuantity="6.24"/>
+                </DPGItem>
+                <DPGItem DGClassification="IMDG" TextualReference="MOTEUR A COMBUSTION" IMOHazardClass="3" UNNumber="2758" TotalNrOfPackages="0">
+                    <TotalQuantityNet UnitOfMeasurement="TNE" NetQuantity="1"/>
+                </DPGItem>
+                <DPGItem DGClassification="IMDG" TextualReference="CARTOUCHES" IMOHazardClass="1" UNNumber="0012" TotalNrOfPackages="0">
+                    <TotalQuantityNet UnitOfMeasurement="TNE" NetQuantity="1.228"/>
+                </DPGItem>
+            </Consignment>
+            <Consignment TransportDocumentId="MANIFESTE" PortOfLoading="FRLPE" PortOfDischarge="YTLON">
+                <DPGItem DGClassification="IMDG" TextualReference="piles au lithium ionique" IMOHazardClass="9" UNNumber="3090" TotalNrOfPackages="0">
+                    <TotalQuantityNet UnitOfMeasurement="KGM" NetQuantity="9.69"/>
+                </DPGItem>
+                <DPGItem DGClassification="IMDG" TextualReference="aerosols" IMOHazardClass="2" UNNumber="3340" PackageType="AE" TotalNrOfPackages="0">
+                    <TotalQuantityNet UnitOfMeasurement="KGM" NetQuantity="1.5"/>
+                </DPGItem>
+                <DPGItem DGClassification="IMDG" TextualReference="cartouches" IMOHazardClass="1" UNNumber="0012" TotalNrOfPackages="0">
+                    <TotalQuantityNet UnitOfMeasurement="KGM" NetQuantity="227"/>
+                </DPGItem>
+                <DPGItem DGClassification="IMDG" TextualReference="extincteurs" IMOHazardClass="2" UNNumber="1044" TotalNrOfPackages="0">
+                    <TotalQuantityNet UnitOfMeasurement="KGM" NetQuantity="135"/>
+                </DPGItem>
+                <DPGItem DGClassification="IMDG" TextualReference="aerosol" IMOHazardClass="2" UNNumber="1950" PackageType="AE" TotalNrOfPackages="0">
+                    <TotalQuantityNet UnitOfMeasurement="KGM" NetQuantity="5"/>
+                </DPGItem>
+                <DPGItem DGClassification="IMDG" TextualReference="peintures" IMOHazardClass="3" UNNumber="1263" TotalNrOfPackages="0">
+                    <TotalQuantityNet UnitOfMeasurement="KGM" NetQuantity="1.5"/>
+                </DPGItem>
+            </Consignment>
+            <Consignment TransportDocumentId="MANIFESTE" PortOfLoading="FRLPE" PortOfDischarge="YTLON">
+                <DPGItem DGClassification="IMDG" TextualReference="adhesifs" IMOHazardClass="3" UNNumber="1153" TotalNrOfPackages="0">
+                    <TotalQuantityNet UnitOfMeasurement="KGM" NetQuantity="1.25"/>
+                </DPGItem>
+            </Consignment>
+            <Consignment TransportDocumentId="MANIFESTE" PortOfLoading="FRLPE" PortOfDischarge="YTLON">
+                <DPGItem DGClassification="IMDG" TextualReference="matiere dangereuse du point de vue de l'environnement" IMOHazardClass="9" UNNumber="3082" TotalNrOfPackages="0">
+                    <TotalQuantityNet UnitOfMeasurement="KGM" NetQuantity="0.23"/>
+                </DPGItem>
+            </Consignment>
+            <Consignment TransportDocumentId="MANIFESTE" PortOfLoading="FRLPE" PortOfDischarge="YTLON">
+                <DPGItem DGClassification="IMDG" TextualReference="amines liquides corrosives" IMOHazardClass="8" UNNumber="2735" TotalNrOfPackages="0">
+                    <TotalQuantityNet UnitOfMeasurement="KGM" NetQuantity="0.15"/>
+                </DPGItem>
+            </Consignment>
+            <Consignment TransportDocumentId="MANIFESTE" PortOfLoading="FRLPE" PortOfDischarge="YTLON">
+                <DPGItem DGClassification="IMDG" TextualReference="cartouches" IMOHazardClass="1" UNNumber="0012" TotalNrOfPackages="0">
+                    <TotalQuantityNet UnitOfMeasurement="KGM" NetQuantity="227"/>
+                </DPGItem>
+                <DPGItem DGClassification="IMDG" TextualReference="extincteurs" IMOHazardClass="9" UNNumber="1044" PackingGroup="2" PackageType="AE" TotalNrOfPackages="0">
+                    <TotalQuantityNet UnitOfMeasurement="KGM" NetQuantity="135"/>
+                </DPGItem>
+            </Consignment>
+        </HazmatDetails>
+    </Body>
+</NCA_FAL7MD>

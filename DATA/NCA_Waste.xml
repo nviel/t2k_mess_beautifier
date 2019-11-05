@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="ISO-8859-1" standalone="yes"?>
+<NCA_Waste>
+    <Header Version="5.2" LARefId="REPDG201900000000000000000000069437" SentAt="2019-09-06T05:58:29Z" To="TRA2K" From="REPDGPOR"/>
+    <Body>
+        <VesselIdentification IMONumber="9565340"/>
+        <ShipCallInformation ShipCallId="REPDG2019000848" PortOfCall="REPDG"/>
+        <WasteInformation>
+            <WasteSummary LastPortDelivered="SGSIN" LastPortDeliveredDate="2019-09-01" WasteDeliveryStatus="None"/>
+            <WasteDetails>
+                <WasteItem PortDeliveryRemainingWaste="SGSIN">
+                    <WasteType WasteCode="1100"/>
+                    <ToBeDelivered Quantity="0,0"/>
+                    <MaxStorage Quantity="130,0"/>
+                    <RetainedOnBoard Quantity="25,85"/>
+                    <EstimateGenerated Quantity="4,0"/>
+                    <DeliveredAtLastPort Quantity="1,0"/>
+                </WasteItem>
+                <WasteItem PortDeliveryRemainingWaste="SGSIN">
+                    <WasteType WasteCode="1200"/>
+                    <ToBeDelivered Quantity="0,0"/>
+                    <MaxStorage Quantity="42,1"/>
+                    <RetainedOnBoard Quantity="18,0"/>
+                    <EstimateGenerated Quantity="2,5"/>
+                    <DeliveredAtLastPort Quantity="1,0"/>
+                </WasteItem>
+                <WasteItem PortDeliveryRemainingWaste="MZMPM">
+                    <WasteType WasteCode="2200"/>
+                    <ToBeDelivered Quantity="0,0"/>
+                    <MaxStorage Quantity="1,85"/>
+                    <RetainedOnBoard Quantity="0,3"/>
+                    <EstimateGenerated Quantity="0,05"/>
+                    <DeliveredAtLastPort Quantity="0,01"/>
+                </WasteItem>
+                <WasteItem PortDeliveryRemainingWaste="MZMPM">
+                    <WasteType WasteCode="2100"/>
+                    <ToBeDelivered Quantity="0,0"/>
+                    <MaxStorage Quantity="0,4"/>
+                    <RetainedOnBoard Quantity="0,1"/>
+                    <EstimateGenerated Quantity="0,05"/>
+                    <DeliveredAtLastPort Quantity="0,01"/>
+                </WasteItem>
+                <WasteItem PortDeliveryRemainingWaste="MZMPM">
+                    <WasteType WasteCode="2300"/>
+                    <ToBeDelivered Quantity="0,0"/>
+                    <MaxStorage Quantity="0,9"/>
+                    <RetainedOnBoard Quantity="0,3"/>
+                    <EstimateGenerated Quantity="0,05"/>
+                    <DeliveredAtLastPort Quantity="0,0"/>
+                </WasteItem>
+            </WasteDetails>
+        </WasteInformation>
+    </Body>
+</NCA_Waste>

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<NCA_Departure>
+    <Header Version="3.0" LARefId="FRTLN201200000000000000000000003105" SentAt="2012-01-29T20:22:54" To="TRA2K" From="FRTLNPOR"/>
+    <Body>
+        <VesselIdentification IMONumber="9203186" ShipName="MEGA EXPRESS TWO"/>
+        <VoyageInformation ShipCallId="FRTLN2011003338" PortOfCall="FRTLN" RTD="2012-01-29T20:00:00" NextPortOfCall="FRBIA" ETA="2012-01-30T06:00:00" TotalPersonsOnBoard="498"/>
+        <AgentInformation ShippingAgent="QUELQUUN" Name="QUELQUUN"/>
+    </Body>
+</NCA_Departure>

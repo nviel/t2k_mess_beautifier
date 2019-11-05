@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<NCA_Alert>
+    <Header Version="3.0" LARefId="FRFEC201200000000000000000000003174" SentAt="2012-01-30T13:22:09" To="TRA2K" From="FRFECPOR"/>
+    <Body>
+        <VesselIdentification IMONumber="9001667" ShipName="BRITANNIA BEAVER"/>
+        <NonComplianceInformation WasteDeliveryDuePort="FRFEC" ETD="2012-01-28T23:45:00" ShipCallId="FRFEC2012000010" InspectionReason=""/>
+        <AuthoritiesNotified NextPortOfCall="FRFEC" OtherAuthorities=""/>
+    </Body>
+</NCA_Alert>
