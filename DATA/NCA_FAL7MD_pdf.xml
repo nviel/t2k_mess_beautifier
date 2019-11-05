@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="ISO-8859-1" standalone="yes"?>
+<NCA_FAL7MD>
+    <Header Version="5.2" LARefId="FRCFR201900000000000000000000067135" SentAt="2019-08-29T19:28:04Z" From="FRCFRPOR" To="TRA2K"/>
+    <Body>
+        <VesselIdentification IMONumber="9238337"/>
+        <ShipCallInformation ShipCallId="FRCFR2019001509" PortOfCall="FRCFR"/>
+        <FormInformation EntryOrExit="0">
+            <ShippingContactDetails NameOfAgent="QUELQUUN" Phone="+33123456789" Email="email@truc.com"/>
+        </FormInformation>
+    </Body>
+</NCA_FAL7MD>

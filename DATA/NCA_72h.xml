@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<NCA_72h>
+    <Header Version="3.0" LARefId="FRRCO201200000000000000000000002093" SentAt="2012-01-20T09:15:29" To="TRA2K" From="FRRCOPOR"/>
+    <Body>
+        <VesselIdentification IMONumber="9115925" ShipName="WOLTHUSEN"/>
+        <VoyageInformation ShipCallId="FRRCO2012000016" LastPortOfCall="ESBIO" NextPortOfCall="FRRCO" ETA="2012-01-20T12:00:00" ETD="2012-01-23T14:00:00" PossibleAnchorage="0"/>
+    </Body>
+</NCA_72h>

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="ISO-8859-1" standalone="yes"?>
+<NCA_ISPS>
+    <Header Version="5.0" LARefId="REPDG201800000000000000000000087696" SentAt="2018-11-26T06:23:26Z" From="REPDGPOR" To="TRA2K"/>
+    <Body>
+        <VesselIdentification IMONumber="9305881"/>
+        <ShipCallInformation ShipCallId="REPDG2018001365" PortOfCall="REPDG"/>
+        <FormInformation>
+            <ShipParticulars ShipName="MERATUS JAYAWIJAYA" GrossTonnage="25674" FlagStateOfShip="ID" NameOfCompany="PT. MERATUS LINE">
+                <InmarsatCallNumberList InmarsatCallNumber="+870773244153"/>
+            </ShipParticulars>
+            <ReportingPerson Title="1"/>
+            <VoyageInformation PortFacility="0000">
+                <PurposeOfCall CallPurposeCode="1"/>
+            </VoyageInformation>
+            <SecurityInformation>
+                <SecuritySummary CurrentSecurityLevel="SL1">
+                    <AgentInPortAtArrival AgentName="QUELQUUN" Phone="+33123456789" Fax="+33123456789" EMail="email@truc.com"/>
+                </SecuritySummary>
+                <SecurityDetails ValidISSC="Y" ApprovedSecurityPlan="Y">
+                    <CSO FirstName="QUELQUUN" LastName="QUELQUUN" Phone="+33123456789" Fax="+33123456789" EMail="email@truc.com"/>
+                    <ISSC ISSCType="Full" IssuerType="RSO" Issuer="null" ExpiryDate="2022-09-05"/>
+                    <PreviousCallAtPortFacility Port="MGTMM" DateOfArrival="2018-11-09" DateOfDeparture="2018-11-10" PortFacility="0000" SecurityLevel="SL1"/>
+                    <PreviousCallAtPortFacility Port="MGTMM" DateOfArrival="2018-10-13" DateOfDeparture="2018-10-14" PortFacility="0000" SecurityLevel="SL1"/>
+                    <PreviousCallAtPortFacility Port="MUPLU" DateOfArrival="2018-11-01" DateOfDeparture="2018-11-03" PortFacility="0000" SecurityLevel="SL1"/>
+                    <PreviousCallAtPortFacility Port="MUPLU" DateOfArrival="2018-10-04" DateOfDeparture="2018-10-06" PortFacility="0000" SecurityLevel="SL1"/>
+                    <PreviousCallAtPortFacility Port="OMSLL" DateOfArrival="2018-11-20" DateOfDeparture="2018-11-21" PortFacility="0000" SecurityLevel="SL1"/>
+                    <PreviousCallAtPortFacility Port="OMSLL" DateOfArrival="2018-10-24" DateOfDeparture="2018-10-24" PortFacility="0000" SecurityLevel="SL1"/>
+                    <PreviousCallAtPortFacility Port="REPDG" DateOfArrival="2018-10-31" DateOfDeparture="2018-10-31" PortFacility="0000" SecurityLevel="SL1"/>
+                    <PreviousCallAtPortFacility Port="REPDG" DateOfArrival="2018-10-03" DateOfDeparture="2018-10-03" PortFacility="0000" SecurityLevel="SL1"/>
+                    <PreviousCallAtPortFacility Port="SCPOV" DateOfArrival="2018-11-14" DateOfDeparture="2018-11-17" PortFacility="0000" SecurityLevel="SL1"/>
+                    <PreviousCallAtPortFacility Port="SCPOV" DateOfArrival="2018-10-17" DateOfDeparture="2018-10-21" PortFacility="0000" SecurityLevel="SL1"/>
+                </SecurityDetails>
+            </SecurityInformation>
+        </FormInformation>
+    </Body>
+</NCA_ISPS>

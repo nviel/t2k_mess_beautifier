@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="ISO-8859-1" standalone="yes"?>
+<NCA_DMS>
+    <Header Version="5.2" LARefId="FRCEQ201900000000000000000000070249" SentAt="2019-09-09T09:37:40Z" To="TRA2K" From="FRCEQPOR"/>
+    <Body>
+        <VesselIdentification IMONumber="9783576"/>
+        <ShipCallInformation ShipCallId="FRCEQ2019000318" PortOfCall="FRCEQ"/>
+        <FormInformation>
+            <GlobalInformations ReInspectionRequired="N" VisitedInfectedArea="N" PortOfCallInInfectedArea="ZZUKN">
+                <ValidSanitationControlExemptionOrControlCertificate PlaceOfIssue="ITSPE" DateOfIssue="2019-05-24"/>
+                <LastShipCalls>
+                    <ShipCall Locode="ITCVV" ATD="2019-09-08"/>
+                    <ShipCall Locode="ITCVV" ATD="2019-09-08"/>
+                    <ShipCall Locode="ITCVV" ATD="2019-09-08"/>
+                    <ShipCall Locode="ITCVV" ATD="2019-09-08"/>
+                </LastShipCalls>
+            </GlobalInformations>
+            <HealthQuestions>
+                <AnyPersonDied/>
+                <DiseaseOnBoard/>
+                <IllPersonsGreaterThanExpected/>
+                <IllPersonsNow/>
+                <MedicalConsulted/>
+                <InfectionConditionOnBoard/>
+                <SanitaryMeasure Type="GASTRO" Place="RECOVERED" Date="2019-09-06"/>
+                <SickAnimal/>
+                <StowawaysDiscovered/>
+            </HealthQuestions>
+        </FormInformation>
+    </Body>
+</NCA_DMS>

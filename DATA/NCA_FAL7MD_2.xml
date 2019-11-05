@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="ISO-8859-1" standalone="yes"?>
+<NCA_FAL7MD>
+    <Header Version="5.2" LARefId="YTLON201900000000000000000000070299" SentAt="2019-09-09T12:09:59Z" From="YTLONPOR" To="TRA2K"/>
+    <Body>
+        <VesselIdentification IMONumber="9393503"/>
+        <ShipCallInformation ShipCallId="YTLON2019001021" PortOfCall="YTLON"/>
+        <FormInformation EntryOrExit="0" VoyageNumber="0JF0QR1MA">
+            <ShippingContactDetails NameOfAgent="QUELQUUN" Phone="+33123456789" Email="email.truc.com"/>
+        </FormInformation>
+        <HazmatInformation ConfirmDPGListOnBoard="Y">
+            <DPGContactDetails LastName="QUELQUUN" FirstName="QUELQUUN" Location="YTLON" Phone="+33639692539"/>
+        </HazmatInformation>
+        <HazmatDetails>
+            <Consignment TransportDocumentId="CARGO MANIFESTE" PortOfLoading="KMMUT" PortOfDischarge="YTLON">
+                <DPGItem DGClassification="IMDG" TextualReference="BUTANE" IMOHazardClass="2" UNNumber="1011" TotalNrOfPackages="0">
+                    <TotalQuantityGross UnitOfMeasurement="TNE" GrossQuantity="6017"/>
+                    <TotalQuantityNet UnitOfMeasurement="TNE" NetQuantity="1"/>
+                </DPGItem>
+            </Consignment>
+        </HazmatDetails>
+    </Body>
+</NCA_FAL7MD>

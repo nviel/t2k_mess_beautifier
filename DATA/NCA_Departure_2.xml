@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<NCA_Departure>
+    <Header Version="3.0" LARefId="FRTLN201200000000000000000000003104" SentAt="2012-01-29T19:16:27" To="TRA2K" From="FRTLNPOR"/>
+    <Body>
+        <VesselIdentification IMONumber="9457189" ShipName="WESSEX"/>
+        <VoyageInformation ShipCallId="FRTLN2012000281" PortOfCall="FRTLN" RTD="2012-01-29T18:48:00" NextPortOfCall="TRAMB" ETA="2012-02-01T18:00:00" TotalPersonsOnBoard="31"/>
+        <AgentInformation ShippingAgent="BROUILLARD" Name="BROUILLARD"/>
+        <CargoInformation>
+            <DG AnyDG="1">
+                <DGDetails IMOClass="2" Complement="2.3" Quantity="0.00" UnitOfMeasurement="TNE"/>
+                <DGDetails IMOClass="3" Complement="3" Quantity="0.00" UnitOfMeasurement="TNE"/>
+                <DGDetails IMOClass="3" Complement="3" Quantity="0.00" UnitOfMeasurement="TNE"/>
+                <DGDetails IMOClass="3" Complement="3" Quantity="0.00" UnitOfMeasurement="TNE"/>
+                <DGDetails IMOClass="4" Complement="4.1" Quantity="0.00" UnitOfMeasurement="TNE"/>
+                <DGDetails IMOClass="9" Complement="9" Quantity="0.00" UnitOfMeasurement="TNE"/>
+                <DGDetails IMOClass="3" Complement="3" Quantity="0.00" UnitOfMeasurement="TNE"/>
+                <DGDetails IMOClass="8" Complement="8" Quantity="0.00" UnitOfMeasurement="TNE"/>
+                <DGDetails IMOClass="3" Complement="3" Quantity="0.00" UnitOfMeasurement="TNE"/>
+                <DGDetails IMOClass="9" Complement="9" Quantity="0.00" UnitOfMeasurement="TNE"/>
+                <DGDetails IMOClass="6" Complement="6.1" Quantity="0.00" UnitOfMeasurement="TNE"/>
+                <DGDetails IMOClass="3" Complement="3" Quantity="0.00" UnitOfMeasurement="TNE"/>
+                <DGDetails IMOClass="8" Complement="8" Quantity="0.00" UnitOfMeasurement="TNE"/>
+                <DGDetails IMOClass="8" Complement="8" Quantity="0.00" UnitOfMeasurement="TNE"/>
+                <DGDetails IMOClass="6" Complement="6.1" Quantity="0.00" UnitOfMeasurement="TNE"/>
+                <DGDetails IMOClass="6" Complement="6.1" Quantity="0.00" UnitOfMeasurement="TNE"/>
+                <DGDetails IMOClass="3" Complement="3" Quantity="0.00" UnitOfMeasurement="TNE"/>
+                <DGDetails IMOClass="3" Complement="3" Quantity="0.00" UnitOfMeasurement="TNE"/>
+            </DG>
+            <ContactDetails Name="QUELQUN" Phone="01 23 45 67 89"/>
+        </CargoInformation>
+    </Body>
+</NCA_Departure>

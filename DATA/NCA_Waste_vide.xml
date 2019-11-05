@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="ISO-8859-1" standalone="yes"?>
+<NCA_Waste>
+    <Header Version="5.2" LARefId="FRCER201900000000000000000000066960" SentAt="2019-08-29T11:46:47Z" To="TRA2K" From="FRCERPOR"/>
+    <Body>
+        <VesselIdentification IMONumber="9839117"/>
+        <ShipCallInformation ShipCallId="FRCER2019001717" PortOfCall="FRCER"/>
+        <WasteInformation>
+            <WasteSummary LastPortDelivered="FRCFR" LastPortDeliveredDate="2019-08-28" WasteDeliveryStatus="None"/>
+            <WasteDetails/>
+        </WasteInformation>
+    </Body>
+</NCA_Waste>

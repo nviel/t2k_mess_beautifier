@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<NCA_Departure>
+    <Header Version="3.0" LARefId="FRCER201200000000000000000000003100" SentAt="2012-01-29T18:03:26" To="TRA2K" From="FRCERPOR"/>
+    <Body>
+        <VesselIdentification IMONumber="9332559" ShipName="CELTIC HORIZON"/>
+        <VoyageInformation ShipCallId="FRCER2012000110" PortOfCall="FRCER" RTD="2012-01-29T17:45:00" NextPortOfCall="IEROS" ETA="2012-01-30T11:00:00" TotalPersonsOnBoard="137"/>
+        <AgentInformation ShippingAgent="QUELQUUN" Name="QUELQUUN"/>
+        <CargoInformation>
+            <DG AnyDG="1">
+            </DG>
+            <ContactDetails Name="CAPITAINERIE CHERBOURG" Phone="+33123456789"/>
+        </CargoInformation>
+    </Body>
+</NCA_Departure>

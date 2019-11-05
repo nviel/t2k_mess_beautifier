@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="ISO-8859-1" standalone="yes"?>
+<NCA_Arrival>
+    <Header Version="5.2" LARefId="FRCQF201900000000000000000000070422" SentAt="2019-09-09T15:55:20Z" To="TRA2K" From="FRCQFPOR"/>
+    <Body>
+        <VesselIdentification IMONumber="9007295"/>
+        <ShipCallInformation ShipCallId="FRCQF2019020092" PortOfCall="FRCQF"/>
+        <VoyageInformation OffShore="N" ATAToPortOfCall="2019-09-09T15:55:00Z" Anchorage="N" PositionInPortOfCall="P5 - 1205"/>
+    </Body>
+</NCA_Arrival>
