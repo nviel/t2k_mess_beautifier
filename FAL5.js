@@ -1,6 +1,6 @@
 "use strict";
 
-function getViewFAL5(mess) {
+function getView_NCA_FAL5(mess) {
     //retourne le code HTML à afficher
     let crew_rows = '';
     for (let i = 0; i < mess.Body.FormInformation.CrewList.CrewMember.length; i++) {

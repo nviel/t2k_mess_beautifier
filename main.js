@@ -64,5 +64,9 @@ function afficheXml(mess_xml_str) {
     let messNode = messXml.firstChild;
     let messType = messNode.nodeName;
     let messObj = xmlToJson(messNode);
-    afficheFormalite(messObj, messType);
+    let formalityRenderer = rendererSelector(messType);
+    messObj = enhanceMess(messObj);
+    let formalityElemStr = formalityRenderer(messObj);
+    let contentElem = document.getElementById("content");
+    contentElem.innerHTML = formalityElemStr;
 }

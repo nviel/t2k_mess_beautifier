@@ -1,6 +1,6 @@
 "use strict";
 
-function getViewFAL6(mess) {
+function getView_NCA_FAL6(mess) {
     //retourne le code HTML à afficher
     let passenger_rows = '';
     for (let i = 0; i < mess.Body.FormInformation.PassengerList.Passenger.length; i++) {

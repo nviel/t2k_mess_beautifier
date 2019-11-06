@@ -1,9 +1,22 @@
 <?xml version="1.0" encoding="ISO-8859-1" standalone="yes"?>
 <NCA_Port>
-    <Header Version="5.2" LARefId="REPDG201900000000000000000000058205" SentAt="2022-02-06T02:00:00Z" To="TRA2K" From="REPDGPOR"/>
+    <Header 
+        Version="5.2" 
+        LARefId="REPDG201900000000000000000000058205" 
+        SentAt="2022-02-06T02:00:00Z" 
+        To="TRA2K" 
+        From="REPDGPOR"/>
     <Body>
-        <VesselIdentification IMONumber="7304314"/>
-        <ShipCallInformation ShipCallId="REPDG2019000917" PortOfCall="REPDG"/>
-        <VoyageInformation LastPort="MUPLU" ETAToPortOfCall="2022-02-13T02:00:00Z" ETDFromPortOfCall="2022-02-13T14:00:00Z" TotalPersonsOnBoard="880" PositionInPortOfCall="0015 - P15"/>
+        <VesselIdentification 
+            IMONumber="7304314"/>
+        <ShipCallInformation 
+            ShipCallId="REPDG2019000917" 
+            PortOfCall="REPDG"/>
+        <VoyageInformation 
+            LastPort="MUPLU" 
+            ETAToPortOfCall="2022-02-13T02:00:00Z" 
+            ETDFromPortOfCall="2022-02-13T14:00:00Z" 
+            TotalPersonsOnBoard="880" 
+            PositionInPortOfCall="0015 - P15"/>
     </Body>
 </NCA_Port>
