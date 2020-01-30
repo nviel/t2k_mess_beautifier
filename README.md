@@ -13,7 +13,7 @@ Le rendu est entièrement fait par le navigateur en javascript.
 
 ## Installation locale:
 Vous pouvez installer t2k_mess_beautifier sur votre poste très simplement en téléchargeant le code à l'adresse suivante:
-https://github.com/nviel/t2k_mess_beautifier/archive/master.zip
+https://github.com/tools4ports/t2k_mess_beautifier/archive/master.zip
 
 Dézippez dans un répertoire de votre choix. Par exemple ```c:/mon/repertoire/t2k_mess_beautifier-master```
 
